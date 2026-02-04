@@ -1,1 +1,2 @@
 componente empezado
+componente terminado 
