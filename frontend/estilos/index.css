@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Sin scroll vertical ni horizontal */
+}
+
+/* Encabezado */
+.header {
+    width: 2000px;
+    background: linear-gradient(135deg, #191970, #000000);
+    padding: 12px 0;
+    color: #F5F5F5;
+    box-sizing: border-box;
+    margin-left: -12px;
+    margin-top: -10px;
+}
+
+/* Contenedor interno del header */
+.header-contenido {
+    width: 95%;                 /* Más ancho para que no quede tan pegado */
+    max-width: 1300px;          /* Más espacio para pantallas grandes */
+    margin: 0 auto;             /* Centrado perfecto */
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;                  /* Evita que se junten los elementos */
+}
+
+/* Logo */
+.header-logo {
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-logo img {
+    margin-left: -300px;
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+/* Buscador */
+.buscador {
+    flex: 1;                    /* Se adapta al espacio disponible */
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* Usuario + botón */
+.header-usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;        /* Evita que se rompa en dos líneas */
+}
+
+/* Botón de cerrar sesión con imagen */
+.btn-sesion {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;                /* Tamaño máximo */
+    height: 40px;
+}
+
+.btn-sesion img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
+    filter: brightness(0) invert(1); /* Icono blanco */
+    transition: 0.2s;
+}
+
+.btn-sesion img:hover {
+    transform: scale(1.1);
+    filter: brightness(0.8) invert(1);
+}
+
+.btn-sesion2 {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;                /* Tamaño máximo */
+    height: 40px;
+}
+
+.btn-sesion2 img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
+    filter: brightness(0) invert(1); /* Icono blanco */
+    transition: 0.2s;
+}
+
+.btn-sesion2 img:hover {
+    transform: scale(1.1);
+    filter: brightness(0.8) invert(1);
+}
+
+.contador {
+    color: #191970;
+    font-weight: bold;
+}
+
+.categoria-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 2px solid  #191970;
+    background: #F5F5F5;
+    color:  #191970;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.categoria-btn.activo,
+.categoria-btn:hover {
+    background:  #191970;
+    color: #F5F5F5;
+    transform: translateY(-2px);
+}
+
+/* Títulos principales */
+.titulo-seccion {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #191970;
+    margin: 20px 0 10px 0;
+}

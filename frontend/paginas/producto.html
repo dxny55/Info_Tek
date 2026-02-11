@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - InfoTek</title>
+    <link rel="stylesheet" href="../estilos/estilos.css">
+</head>
+
+<body>
+
+    <!-- Encabezado -->
+    <header id="encabezado"></header>
+
+    <main class="contenedor producto-detalle">
+
+        <!-- Columna izquierda: Imagen -->
+        <section class="producto-imagen">
+            <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
+        </section>
+
+        <!-- Columna derecha: Información -->
+        <section class="producto-info">
+
+            <h1 id="producto-nombre" class="producto-titulo">
+                Nombre del producto
+            </h1>
+
+            <div class="producto-precio">
+                <span id="producto-precio-actual" class="precio-actual">0€</span>
+                <span id="producto-precio-anterior" class="precio-anterior">0€</span>
+                <span id="producto-descuento" class="descuento">-0%</span>
+            </div>
+
+            <div class="producto-rating">
+                ⭐ <span id="producto-rating">0.0</span> / 5
+            </div>
+
+            <p id="producto-stock" class="producto-stock">
+                Stock disponible: 0 unidades
+            </p>
+
+            <h3>Especificaciones</h3>
+            <ul id="producto-especificaciones" class="producto-especificaciones">
+                <!-- Se rellenará con JS -->
+            </ul>
+
+            <button id="btn-carrito" class="btn">
+                Añadir al carrito
+            </button>
+
+        </section>
+
+    </main>
+
+    <!-- Sección de gráfica de precios -->
+    <section class="contenedor grafica-precio">
+        <h2>Tendencia de precio</h2>
+
+        <!-- Aquí irá tu gráfica -->
+        <div id="contenedor-grafica" class="grafica-placeholder">
+            <p>La gráfica de precios aparecerá aquí.</p>
+        </div>
+
+        <div class="estadisticas-precio">
+            <p>Mínimo histórico: <span id="precio-min">-</span></p>
+            <p>Máximo histórico: <span id="precio-max">-</span></p>
+            <p>Precio medio: <span id="precio-media">-</span></p>
+        </div>
+    </section>
+
+    <script src="../scripts/producto.js"></script>
+</body>
+</html>

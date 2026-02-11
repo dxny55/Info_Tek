@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoTek - Tienda</title>
+    <link rel="stylesheet" href="../estilos/index.css">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="header">
+        <div class="header-contenido">
+
+            <div class="header-logo">
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </div>
+
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+
+            <div class="header-usuario">
+                <button class="btn-sesion2">
+                    <img src="../recursos/imagenes/usuario.png" alt="Cerrar sesión">
+                </button>
+                <button class="btn-sesion">
+                    <img src="../recursos/imagenes/cerrar_sesion.png" alt="Cerrar sesión">
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenedor">
+
+        <!-- CATEGORÍAS -->
+        <h2 class="titulo-seccion">Categorías</h2>
+
+        <div class="categorias">
+            <button class="categoria-btn activo" data-cat="Todos">Todos</button>
+            <button class="categoria-btn" data-cat="CPU">CPU</button>
+            <button class="categoria-btn" data-cat="GPU">GPU</button>
+            <button class="categoria-btn" data-cat="RAM">RAM</button>
+            <button class="categoria-btn" data-cat="Motherboard">Motherboard</button>
+            <button class="categoria-btn" data-cat="Storage">Storage</button>
+            <button class="categoria-btn" data-cat="PSU">PSU</button>
+        </div>
+
+        <!-- LISTA DE PRODUCTOS -->
+        <div class="productos-header">
+            <h2 class="titulo-seccion">Todos los productos</h2>
+            <p class="contador" id="contador-productos">0 productos</p>
+        </div>
+
+        <section class="grid-productos" id="lista-productos">
+            <!-- AQUÍ SE INSERTAN LOS PRODUCTOS DESDE MONGODB -->
+        </section>
+
+    </main>
+
+    <script src="../scripts/cargarProductos.js"></script>
+</body>
+</html>
