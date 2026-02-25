@@ -13,15 +13,13 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
-            <button class="btn-ver">Ver más</button>
-            <button class="btn-carrito">Añadir al carrito</button>
-            <button class="btn-comparar">Comparar</button>
+            
+            <button class="btn-comparar"><img src="../../../recursos/imagenes/comparar.png" alt="cerrar_sesion"></button>
         </div>
     `;
 
     // Eventos
-    card.querySelector(".btn-ver").addEventListener("click", () => onVer(producto));
-    card.querySelector(".btn-carrito").addEventListener("click", () => onCarrito(producto));
+    
     card.querySelector(".btn-comparar").addEventListener("click", (e) => onComparar(producto, e.target));
 
     return card;
