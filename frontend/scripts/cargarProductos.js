@@ -1,3 +1,5 @@
+import { createProductCard } from "../src/components/productCard/productCard.js";
+
 const contenedor = document.getElementById("lista-productos");
 let productos = [];
 let seleccionados = []; // Para el comparador
@@ -12,36 +14,23 @@ fetch("http://localhost:3000/api/productos")
     .catch(err => console.error("Error cargando productos:", err));
 
 // Mostrar productos en la tienda
+
+
 function mostrarProductos(lista) {
+    const contenedor = document.getElementById("lista-productos");
     contenedor.innerHTML = "";
 
     lista.forEach(p => {
-        const div = document.createElement("div");
-        div.classList.add("producto-card");
-
-        // IMPORTANTE: aquí usamos la ruta EXACTA que guardas en MongoDB
-        const imagenPrincipal = p.imagenes?.[0] 
-            ? `/${p.imagenes[0]}` 
-            : "/frontend/recursos/imagenes/default.jpg";
-
-        div.innerHTML = `
-            <img src="${imagenPrincipal}" class="producto-img">
-
-            <h3 class="producto-nombre">${p.nombre}</h3>
-            <p class="producto-precio">${p.precio ? p.precio + " €" : "Precio no disponible"}</p>
-
-            <div class="botones-producto">
-                <button class="btn-ver" onclick="verDetalle('${p._id}')">Ver más</button>
-                <button class="btn-carrito" onclick="añadirCarrito('${p._id}')">Añadir al carrito</button>
-                <button class="btn-comparar" onclick="toggleComparar('${p._id}', this)">Comparar</button>
-            </div>
-        `;
-
-        contenedor.appendChild(div);
+        const card = createProductCard(
+            p,
+            verDetalle,
+            añadirCarrito,
+            toggleComparar
+        );
+        contenedor.appendChild(card);
     });
-
-    document.getElementById("contador-productos").textContent = `${lista.length} productos`;
 }
+
 
 // Botón "Ver más"
 function verDetalle(id) {
