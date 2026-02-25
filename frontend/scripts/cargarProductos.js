@@ -1,10 +1,25 @@
 import { createProductCard } from "../src/components/productCard/productCard.js";
 
 const contenedor = document.getElementById("lista-productos");
+const contador = document.getElementById("contador-productos");
+const botonesCategorias = document.querySelectorAll(".categoria-btn");
+
 let productos = [];
 let seleccionados = []; // Para el comparador
 
+// Mapa entre botones y categorías de MongoDB
+const mapaCategorias = {
+    CPU: "Procesador",
+    GPU: "Tarjeta Gráfica",
+    RAM: "RAM",
+    Motherboard: "Placa Base",
+    Storage: "Almacenamiento",
+    PSU: "PSU"
+};
+
+// ===============================
 // Cargar productos desde el backend
+// ===============================
 fetch("http://localhost:3000/api/productos")
     .then(res => res.json())
     .then(data => {
@@ -13,11 +28,11 @@ fetch("http://localhost:3000/api/productos")
     })
     .catch(err => console.error("Error cargando productos:", err));
 
-// Mostrar productos en la tienda
 
-
+// ===============================
+// Mostrar productos en pantalla
+// ===============================
 function mostrarProductos(lista) {
-    const contenedor = document.getElementById("lista-productos");
     contenedor.innerHTML = "";
 
     lista.forEach(p => {
@@ -29,20 +44,56 @@ function mostrarProductos(lista) {
         );
         contenedor.appendChild(card);
     });
+
+    if (contador) {
+        contador.textContent = `${lista.length} productos`;
+    }
 }
 
 
-// Botón "Ver más"
+// ===============================
+// Filtro por categorías
+// ===============================
+botonesCategorias.forEach(btn => {
+    btn.addEventListener("click", () => {
+        // Quitar clase activa a todos
+        botonesCategorias.forEach(b => b.classList.remove("activo"));
+
+        // Activar el botón pulsado
+        btn.classList.add("activo");
+
+        const catBoton = btn.dataset.cat; // ej: "CPU", "GPU", "Todos"
+
+        if (catBoton === "Todos") {
+            mostrarProductos(productos);
+            return;
+        }
+
+        const categoriaMongo = mapaCategorias[catBoton];
+
+        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+        mostrarProductos(filtrados);
+    });
+});
+
+
+// ===============================
+// Botón "Ver más" (aunque no lo uses ahora)
+// ===============================
 function verDetalle(id) {
     window.location.href = `producto.html?id=${id}`;
 }
 
-// Botón "Añadir al carrito"
+// ===============================
+// Botón "Añadir al carrito" (aunque no lo uses)
+// ===============================
 function añadirCarrito(id) {
     alert("Producto añadido al carrito (luego lo haremos real)");
 }
 
+// ===============================
 // Botón "Comparar"
+// ===============================
 function toggleComparar(id, boton) {
     const producto = productos.find(p => p._id === id);
 
