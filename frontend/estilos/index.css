@@ -5,12 +5,26 @@
     box-sizing: border-box;
 }
 
+/* Color dinámico del usuario */
+:root {
+    --color-fondo: linear-gradient(to bottom, #f5f6fa, #000000);
+}
+
+body {
+    background: var(--color-fondo);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
 html, body {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
-    background: #F5F5F5;
 }
 
 /* ------------------------------

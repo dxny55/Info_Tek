@@ -5,7 +5,8 @@ const contenedor = document.getElementById("lista-productos");
 const contador = document.getElementById("contador-productos");
 const botonesCategorias = document.querySelectorAll(".categoria-btn");
 const btnCompararFinal = document.getElementById("btn-comparar-final");
-
+const btnCuenta = document.getElementById("btn-cuenta");
+const selectorColor = document.getElementById("selector-color");
 const compareModal = initCompareModal();
 
 let productos = [];
@@ -104,3 +105,25 @@ function verDetalle(producto) {
 function añadirCarrito(producto) {
     console.log("Añadir al carrito:", producto);
 }
+
+
+//CUENTA------------------
+
+
+btnCuenta.addEventListener("click", () => {
+    window.location.href = "./account.html"; 
+});
+
+// Cargar color guardado
+const colorGuardado = localStorage.getItem("colorFondo");
+if (colorGuardado) {
+    document.documentElement.style.setProperty("--color-fondo", colorGuardado);
+    selectorColor.value = colorGuardado;
+}
+
+// Cambiar color al seleccionar
+selectorColor.addEventListener("input", (e) => {
+    const nuevoColor = e.target.value;
+    document.documentElement.style.setProperty("--color-fondo", nuevoColor);
+    localStorage.setItem("colorFondo", nuevoColor);
+});
