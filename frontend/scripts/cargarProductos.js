@@ -1,9 +1,20 @@
 import { createProductCard } from "../src/components/productCard/productCard.js";
+import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
+// ===============================
+// Referencias del DOM
+// ===============================
 const contenedor = document.getElementById("lista-productos");
 const contador = document.getElementById("contador-productos");
 const botonesCategorias = document.querySelectorAll(".categoria-btn");
+const btnCompararFinal = document.getElementById("btn-comparar-final");
 
+// Inicializar modal de comparativa
+const compareModal = initCompareModal();
+
+// ===============================
+// Variables globales
+// ===============================
 let productos = [];
 let seleccionados = []; // Para el comparador
 
@@ -56,13 +67,10 @@ function mostrarProductos(lista) {
 // ===============================
 botonesCategorias.forEach(btn => {
     btn.addEventListener("click", () => {
-        // Quitar clase activa a todos
         botonesCategorias.forEach(b => b.classList.remove("activo"));
-
-        // Activar el botón pulsado
         btn.classList.add("activo");
 
-        const catBoton = btn.dataset.cat; // ej: "CPU", "GPU", "Todos"
+        const catBoton = btn.dataset.cat;
 
         if (catBoton === "Todos") {
             mostrarProductos(productos);
@@ -70,29 +78,15 @@ botonesCategorias.forEach(btn => {
         }
 
         const categoriaMongo = mapaCategorias[catBoton];
-
         const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+
         mostrarProductos(filtrados);
     });
 });
 
 
 // ===============================
-// Botón "Ver más" (aunque no lo uses ahora)
-// ===============================
-function verDetalle(id) {
-    window.location.href = `producto.html?id=${id}`;
-}
-
-// ===============================
-// Botón "Añadir al carrito" (aunque no lo uses)
-// ===============================
-function añadirCarrito(id) {
-    alert("Producto añadido al carrito (luego lo haremos real)");
-}
-
-// ===============================
-// Botón "Comparar"
+// Botón "Comparar" en cada tarjeta
 // ===============================
 function toggleComparar(id, boton) {
     const producto = productos.find(p => p._id === id);
@@ -121,4 +115,29 @@ function toggleComparar(id, boton) {
     // Si no estaba → añadirlo
     seleccionados.push(producto);
     boton.classList.add("seleccionado");
+}
+
+
+// ===============================
+// Botón global "Comparar seleccionados"
+// ===============================
+btnCompararFinal.addEventListener("click", () => {
+    if (seleccionados.length < 2) {
+        alert("Selecciona al menos 2 productos para comparar.");
+        return;
+    }
+
+    compareModal.abrir(seleccionados);
+});
+
+
+// ===============================
+// Funciones placeholder (si aún no existen)
+// ===============================
+function verDetalle(producto) {
+    console.log("Ver detalle:", producto);
+}
+
+function añadirCarrito(producto) {
+    console.log("Añadir al carrito:", producto);
 }
