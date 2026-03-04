@@ -1,73 +1,135 @@
 /* ================================
-   ESTILOS PARA LA PÁGINA PRODUCTO
+   CONTENEDOR GENERAL CENTRADO
 ================================ */
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto; /* CENTRA TODO */
+    padding: 20px;
+}
 
-/* Contenedor principal */
+/* ================================
+   CONTENEDOR PRINCIPAL DEL PRODUCTO
+================================ */
 .producto-detalle {
     display: flex;
     gap: 40px;
     margin-top: 40px;
+    align-items: flex-start;
+    justify-content: center; /* CENTRA LAS DOS COLUMNAS */
+    padding-bottom: 40px;
 }
 
-/* Imagen del producto */
-.producto-imagen img {
+/* ================================
+   GALERÍA DE IMÁGENES
+================================ */
+.producto-imagen {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 420px;
+   align-items: flex-start;/* CENTRA LA IMAGEN Y MINIATURAS */
+}
+
+/* Imagen principal */
+#producto-imagen {
     width: 420px;
     height: auto;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s ease;
 }
 
-/* Información del producto */
+#producto-imagen:hover {
+    transform: scale(1.02);
+}
+
+/* Miniaturas */
+#miniaturas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* CENTRA LAS MINIATURAS */
+}
+
+.miniatura {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: 0.2s ease;
+    object-fit: cover;
+}
+
+.miniatura:hover {
+    transform: scale(1.08);
+    border-color: #0d69a7;
+}
+
+/* ================================
+   INFORMACIÓN DEL PRODUCTO
+================================ */
 .producto-info {
     flex: 1;
+    padding-right: 20px;
+    max-width: 500px;
+    text-align: left;
 }
 
 .producto-titulo {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 10px;
+    font-weight: 700;
+    text-align: center; /* CENTRA EL TÍTULO */
 }
 
-/* Precios */
+/* PRECIOS */
 .producto-precio {
     display: flex;
     align-items: center;
     gap: 15px;
     margin: 15px 0;
+    justify-content: center; /* CENTRA LOS PRECIOS */
 }
 
 .precio-actual {
     font-size: 2rem;
     font-weight: bold;
-    color: #2ecc71;
+    color: #2f7920;
 }
 
 .precio-anterior {
     text-decoration: line-through;
     color: #888;
+    font-size: 1.1rem;
 }
 
 .descuento {
-    background: #e74c3c;
+    background: #61c71e;
     color: white;
     padding: 4px 8px;
     border-radius: 5px;
     font-size: 0.9rem;
+    font-weight: bold;
 }
 
-/* Rating */
+/* RATING */
 .producto-rating {
     font-size: 1.2rem;
     margin-bottom: 10px;
+    text-align: center; /* CENTRA EL RATING */
 }
 
-/* Stock */
+/* STOCK */
 .producto-stock {
     font-size: 1rem;
     margin-bottom: 20px;
     color: #555;
+    text-align: center; /* CENTRA EL STOCK */
 }
 
-/* Especificaciones */
+/* ESPECIFICACIONES */
 .producto-especificaciones {
     list-style: none;
     padding: 0;
@@ -79,41 +141,70 @@
     padding: 10px;
     margin-bottom: 8px;
     border-radius: 6px;
+    border-left: 4px solid #ce4646;
+    font-size: 0.95rem;
 }
 
-/* Botón añadir al carrito */
+/* BOTÓN CARRITO */
 #btn-carrito {
-    background: #3498db;
+    background: #47463a;
     color: white;
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
     cursor: pointer;
+    transition: 0.2s ease;
+    display: block;
+    margin: 0 auto; /* CENTRA EL BOTÓN */
 }
 
 #btn-carrito:hover {
-    background: #2980b9;
+    background: #616160;
+    transform: scale(1.03);
 }
 
 /* ================================
-   SECCIÓN GRÁFICA DE PRECIOS
+   GRÁFICA DE PRECIOS
 ================================ */
-
 .grafica-precio {
     margin-top: 60px;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto; /* CENTRA LA SECCIÓN COMPLETA */
+}
+
+.grafica-precio h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center; /* CENTRA EL TÍTULO */
 }
 
 .grafica-placeholder {
-    background: #fafafa;
-    border: 1px dashed #ccc;
+    background: #f8f8f8;
+    border: 2px dashed #ccc;
     padding: 40px;
     text-align: center;
     border-radius: 10px;
     margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Estadísticas */
+.estadisticas-precio {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
 }
 
 .estadisticas-precio p {
     font-size: 1.1rem;
     margin: 5px 0;
+    font-weight: 500;
 }
