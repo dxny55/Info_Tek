@@ -1,24 +1,16 @@
 import { createProductCard } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
-// ===============================
-// Referencias del DOM
-// ===============================
 const contenedor = document.getElementById("lista-productos");
 const contador = document.getElementById("contador-productos");
 const botonesCategorias = document.querySelectorAll(".categoria-btn");
 const btnCompararFinal = document.getElementById("btn-comparar-final");
 
-// Inicializar modal de comparativa
 const compareModal = initCompareModal();
 
-// ===============================
-// Variables globales
-// ===============================
 let productos = [];
-let seleccionados = []; // Para el comparador
+let seleccionados = [];
 
-// Mapa entre botones y categorías de MongoDB
 const mapaCategorias = {
     CPU: "Procesador",
     GPU: "Tarjeta Gráfica",
@@ -28,9 +20,6 @@ const mapaCategorias = {
     PSU: "PSU"
 };
 
-// ===============================
-// Cargar productos desde el backend
-// ===============================
 fetch("http://localhost:3000/api/productos")
     .then(res => res.json())
     .then(data => {
@@ -39,10 +28,6 @@ fetch("http://localhost:3000/api/productos")
     })
     .catch(err => console.error("Error cargando productos:", err));
 
-
-// ===============================
-// Mostrar productos en pantalla
-// ===============================
 function mostrarProductos(lista) {
     contenedor.innerHTML = "";
 
@@ -56,15 +41,9 @@ function mostrarProductos(lista) {
         contenedor.appendChild(card);
     });
 
-    if (contador) {
-        contador.textContent = `${lista.length} productos`;
-    }
+    contador.textContent = `${lista.length} productos`;
 }
 
-
-// ===============================
-// Filtro por categorías
-// ===============================
 botonesCategorias.forEach(btn => {
     btn.addEventListener("click", () => {
         botonesCategorias.forEach(b => b.classList.remove("activo"));
@@ -84,27 +63,20 @@ botonesCategorias.forEach(btn => {
     });
 });
 
-
-// ===============================
-// Botón "Comparar" en cada tarjeta
-// ===============================
 function toggleComparar(id, boton) {
     const producto = productos.find(p => p._id === id);
 
-    // Si no hay seleccionados, se permite cualquiera
     if (seleccionados.length === 0) {
         seleccionados.push(producto);
         boton.classList.add("seleccionado");
         return;
     }
 
-    // Si ya hay seleccionados, deben ser de la misma categoría
     if (producto.categoria !== seleccionados[0].categoria) {
         alert("Solo puedes comparar productos de la misma categoría");
         return;
     }
 
-    // Si ya estaba seleccionado → quitarlo
     const index = seleccionados.findIndex(p => p._id === id);
     if (index !== -1) {
         seleccionados.splice(index, 1);
@@ -112,15 +84,10 @@ function toggleComparar(id, boton) {
         return;
     }
 
-    // Si no estaba → añadirlo
     seleccionados.push(producto);
     boton.classList.add("seleccionado");
 }
 
-
-// ===============================
-// Botón global "Comparar seleccionados"
-// ===============================
 btnCompararFinal.addEventListener("click", () => {
     if (seleccionados.length < 2) {
         alert("Selecciona al menos 2 productos para comparar.");
@@ -130,10 +97,6 @@ btnCompararFinal.addEventListener("click", () => {
     compareModal.abrir(seleccionados);
 });
 
-
-// ===============================
-// Funciones placeholder (si aún no existen)
-// ===============================
 function verDetalle(producto) {
     console.log("Ver detalle:", producto);
 }

@@ -1,45 +1,59 @@
-// Inserta el HTML del modal automáticamente
 function injectModalHTML() {
-    const modalHTML = `
-        <div id="modal-comparativa" class="modal-comparativa">
-            <div class="modal-contenido">
-                <button class="modal-cerrar" id="cerrar-comparativa">X</button>
-                <h2 class="modal-titulo">Comparativa de productos</h2>
-                <div id="comparativa-contenido"></div>
-            </div>
-        </div>
-    `;
+    const html = `
+    <div id="modal-comparativa" class="modal-comparativa">
+        <div class="modal-contenido">
+            <button class="modal-cerrar" id="cerrar-comparativa">X</button>
 
-    document.body.insertAdjacentHTML("beforeend", modalHTML);
+            <div class="modal-header">
+                <h2>Comparativa de Productos</h2>
+                <p id="comparativa-count"></p>
+            </div>
+
+            <div id="comparativa-grafico"></div>
+
+            <div id="comparativa-tabla"></div>
+        </div>
+    </div>
+    `;
+    document.body.insertAdjacentHTML("beforeend", html);
 }
 
-export function initCompareModal() {
-    injectModalHTML();
+function parseSpecs(descripcion) {
+    const specs = {};
+    if (!descripcion) return specs;
 
-    const modal = document.getElementById("modal-comparativa");
-    const cerrar = document.getElementById("cerrar-comparativa");
-    const contenido = document.getElementById("comparativa-contenido");
+    const partes = descripcion.split(",");
 
-    cerrar.addEventListener("click", () => {
-        modal.style.display = "none";
+    partes.forEach(p => {
+        const texto = p.trim().toLowerCase();
+
+        if (texto.includes("núcleo")) specs["Núcleos"] = texto.match(/\d+/)?.[0];
+        if (texto.includes("hilo")) specs["Hilos"] = texto.match(/\d+/)?.[0];
+        if (texto.includes("ghz")) specs["Frecuencia Turbo"] = texto.match(/[\d.]+ghz/i)?.[0];
+        if (texto.includes("arquitectura")) specs["Arquitectura"] = texto.replace("arquitectura", "").trim();
+        if (texto.includes("socket")) specs["Socket"] = texto.replace("socket", "").trim().toUpperCase();
     });
 
-    return {
-        abrir: (productos) => {
-            contenido.innerHTML = generarTabla(productos);
-            modal.style.display = "flex";
-        }
-    };
+    return specs;
 }
 
 function generarTabla(productos) {
-    return `
-        <table class="comparativa-tabla">
+    const specsUnificadas = new Set();
+
+    productos.forEach(p => {
+        const specs = parseSpecs(p.descripcion);
+        Object.keys(specs).forEach(k => specsUnificadas.add(k));
+    });
+
+    let html = `
+    <table class="comparativa-tabla">
+        <thead>
             <tr>
                 <th>Característica</th>
                 ${productos.map(p => `<th>${p.nombre}</th>`).join("")}
             </tr>
-
+        </thead>
+        <tbody>
             <tr>
                 <td>Imagen</td>
                 ${productos.map(p => `
@@ -49,7 +63,7 @@ function generarTabla(productos) {
 
             <tr>
                 <td>Precio</td>
-                ${productos.map(p => `<td>${p.precio} €</td>`).join("")}
+                ${productos.map(p => `<td class="precio">${p.precio} €</td>`).join("")}
             </tr>
 
             <tr>
@@ -61,6 +75,42 @@ function generarTabla(productos) {
                 <td>Categoría</td>
                 ${productos.map(p => `<td>${p.categoria}</td>`).join("")}
             </tr>
-        </table>
     `;
+
+    specsUnificadas.forEach(key => {
+        html += `
+        <tr>
+            <td>${key}</td>
+            ${productos.map(p => {
+                const specs = parseSpecs(p.descripcion);
+                return `<td>${specs[key] || "-"}</td>`;
+            }).join("")}
+        </tr>
+        `;
+    });
+
+    html += `</tbody></table>`;
+
+    return html;
+}
+
+export function initCompareModal() {
+    injectModalHTML();
+
+    const modal = document.getElementById("modal-comparativa");
+    const cerrar = document.getElementById("cerrar-comparativa");
+    const tabla = document.getElementById("comparativa-tabla");
+    const count = document.getElementById("comparativa-count");
+
+    cerrar.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    return {
+        abrir: (productos) => {
+            count.textContent = `Comparando ${productos.length} producto(s)`;
+            tabla.innerHTML = generarTabla(productos);
+            modal.style.display = "flex";
+        }
+    };
 }
