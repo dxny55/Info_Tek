@@ -1,0 +1,91 @@
+/* Fondo del modal */
+.modal-comparativa {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Contenedor principal del modal */
+.modal-contenido {
+    background: white;
+    width: 95%;               /* MÁS ANCHO */
+    max-width: 1600px;        /* ANCHO MÁXIMO MUCHO MAYOR */
+    max-height: 92%;          /* MÁS ALTO */
+    overflow-y: auto;
+    border-radius: 14px;
+    padding: 35px;            /* MÁS ESPACIO INTERNO */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+/* Botón cerrar */
+.modal-cerrar {
+    float: right;
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.modal-cerrar:hover {
+    background: #d93636;
+}
+
+/* Cabecera */
+.modal-header {
+    margin-bottom: 25px;
+}
+
+.modal-header h2 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.modal-header p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* TABLA */
+.comparativa-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1rem;        /* TEXTO MÁS GRANDE */
+}
+
+/* Celdas */
+.comparativa-tabla th,
+.comparativa-tabla td {
+    border: 1px solid #ccc;
+    padding: 18px;            /* MÁS ESPACIO */
+    text-align: center;
+}
+
+/* Encabezados */
+.comparativa-tabla th {
+    background: #191970;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Imágenes más grandes */
+.comparativa-img {
+    width: 180px;             /* ANTES 120px */
+    height: 180px;
+    object-fit: contain;
+}
+
+/* Precio destacado */
+.precio {
+    font-size: 1.8rem;        /* MÁS GRANDE */
+    font-weight: bold;
+    color: #2563eb;
+}

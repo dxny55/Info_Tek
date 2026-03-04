@@ -1,0 +1,15 @@
+[
+    {
+        username:"",
+        mailAdress:"",
+        password:"", codificarla con bcrypt
+        userPicture:"",
+        provider:"" en el caso de google es google, login clasico = infotek
+        billingInfo[    
+            payCard:"",
+            cvCard:"0",
+            cardHolder:"0",
+            userAdress:"", " aqui ponemos la dirección de usuario + ciudad + codigo postal"
+        ],
+    }
+]
