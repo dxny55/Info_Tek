@@ -1,10 +1,25 @@
 import { createProductCard } from "../src/components/productCard/productCard.js";
+import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
 const contenedor = document.getElementById("lista-productos");
-let productos = [];
-let seleccionados = []; // Para el comparador
+const contador = document.getElementById("contador-productos");
+const botonesCategorias = document.querySelectorAll(".categoria-btn");
+const btnCompararFinal = document.getElementById("btn-comparar-final");
 
-// Cargar productos desde el backend
+const compareModal = initCompareModal();
+
+let productos = [];
+let seleccionados = [];
+
+const mapaCategorias = {
+    CPU: "Procesador",
+    GPU: "Tarjeta Gráfica",
+    RAM: "RAM",
+    Motherboard: "Placa Base",
+    Storage: "Almacenamiento",
+    PSU: "PSU"
+};
+
 fetch("http://localhost:3000/api/productos")
     .then(res => res.json())
     .then(data => {
@@ -13,11 +28,7 @@ fetch("http://localhost:3000/api/productos")
     })
     .catch(err => console.error("Error cargando productos:", err));
 
-// Mostrar productos en la tienda
-
-
 function mostrarProductos(lista) {
-    const contenedor = document.getElementById("lista-productos");
     contenedor.innerHTML = "";
 
     lista.forEach(p => {
@@ -29,37 +40,43 @@ function mostrarProductos(lista) {
         );
         contenedor.appendChild(card);
     });
+
+    contador.textContent = `${lista.length} productos`;
 }
 
+botonesCategorias.forEach(btn => {
+    btn.addEventListener("click", () => {
+        botonesCategorias.forEach(b => b.classList.remove("activo"));
+        btn.classList.add("activo");
 
-// Botón "Ver más"
-function verDetalle(id) {
-    window.location.href = `producto.html?id=${id}`;
-}
+        const catBoton = btn.dataset.cat;
 
-// Botón "Añadir al carrito"
-function añadirCarrito(id) {
-    alert("Producto añadido al carrito (luego lo haremos real)");
-}
+        if (catBoton === "Todos") {
+            mostrarProductos(productos);
+            return;
+        }
 
-// Botón "Comparar"
+        const categoriaMongo = mapaCategorias[catBoton];
+        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+
+        mostrarProductos(filtrados);
+    });
+});
+
 function toggleComparar(id, boton) {
     const producto = productos.find(p => p._id === id);
 
-    // Si no hay seleccionados, se permite cualquiera
     if (seleccionados.length === 0) {
         seleccionados.push(producto);
         boton.classList.add("seleccionado");
         return;
     }
 
-    // Si ya hay seleccionados, deben ser de la misma categoría
     if (producto.categoria !== seleccionados[0].categoria) {
         alert("Solo puedes comparar productos de la misma categoría");
         return;
     }
 
-    // Si ya estaba seleccionado → quitarlo
     const index = seleccionados.findIndex(p => p._id === id);
     if (index !== -1) {
         seleccionados.splice(index, 1);
@@ -67,7 +84,23 @@ function toggleComparar(id, boton) {
         return;
     }
 
-    // Si no estaba → añadirlo
     seleccionados.push(producto);
     boton.classList.add("seleccionado");
+}
+
+btnCompararFinal.addEventListener("click", () => {
+    if (seleccionados.length < 2) {
+        alert("Selecciona al menos 2 productos para comparar.");
+        return;
+    }
+
+    compareModal.abrir(seleccionados);
+});
+
+function verDetalle(producto) {
+    console.log("Ver detalle:", producto);
+}
+
+function añadirCarrito(producto) {
+    console.log("Añadir al carrito:", producto);
 }

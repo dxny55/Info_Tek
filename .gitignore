@@ -82,3 +82,8 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# ignore .env
+.env*.Local
+.env
+.env.Local

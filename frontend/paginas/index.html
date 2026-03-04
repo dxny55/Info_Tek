@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoTek - Tienda</title>
+
+    <!-- CSS global -->
     <link rel="stylesheet" href="../estilos/index.css">
+
+    <!-- CSS del componente ProductCard -->
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
 
+    <!-- CSS del componente CompareModal -->
+    <link rel="stylesheet" href="../src/components/compareModal/compareModal.css">
 </head>
 
 <body>
@@ -23,19 +29,20 @@
             <input type="text" class="buscador" placeholder="Buscar componentes...">
 
             <div class="header-usuario">
-                <button class="btn-icon">
-                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                
+
+                <button class="btn-icon" id="btn-comparar-final">
+                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
                 </button>
 
                 <button class="btn-icon">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
                 </button>
-
+                
                 <button class="btn-icon">
-                    <img src="../recursos/imagenes/cerrar_sesion.png" alt="cerrar_sesion">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
                 </button>
             </div>
-
 
         </div>
     </header>
@@ -62,14 +69,12 @@
             <p class="contador" id="contador-productos">0 productos</p>
         </div>
 
-        <section class="grid-productos" id="lista-productos">
-            <!-- AQUÍ SE INSERTAN LOS PRODUCTOS DESDE MONGODB -->
-        </section>
+        <section class="grid-productos" id="lista-productos"></section>
 
     </main>
 
+    <!-- SCRIPT PRINCIPAL COMO MÓDULO -->
     <script type="module" src="../scripts/cargarProductos.js"></script>
-    
 
 </body>
 </html>
