@@ -99,11 +99,19 @@ btnCompararFinal.addEventListener("click", () => {
 });
 
 function verDetalle(producto) {
-    console.log("Ver detalle:", producto);
+    window.location.href = `producto.html?id=${producto._id}`;
 }
 
 function añadirCarrito(producto) {
-    console.log("Añadir al carrito:", producto);
+    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    if (!favs.find(p => p._id === producto._id)) {
+        favs.push(producto);
+        localStorage.setItem("favoritos", JSON.stringify(favs));
+        alert("Añadido a favoritos ❤️");
+    } else {
+        alert("Este producto ya está en favoritos");
+    }
 }
 
 
