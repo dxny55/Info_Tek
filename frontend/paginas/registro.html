@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - InfoTek</title>
+
     <link rel="stylesheet" href="../estilos/login.css">
+
 </head>
 
 <body class="fondo-login">
@@ -19,15 +23,38 @@
 
         <form id="form-registro">
 
-            <input type="nombre" id="nombre" placeholder="Nombre" required>
+            <input 
+                type="text"
+                id="nombre"
+                placeholder="Nombre"
+                required
+            >
 
-            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input 
+                type="email"
+                id="email"
+                placeholder="Correo electrónico"
+                required
+            >
 
-            <input type="password" id="password" placeholder="Contraseña" required>
+            <input 
+                type="password"
+                id="password"
+                placeholder="Contraseña"
+                required
+            >
 
-            <input type="password" id="password2" placeholder="Confirmar contraseña" required>
+            <input 
+                type="password"
+                id="password2"
+                placeholder="Confirmar contraseña"
+                required
+            >
 
-            <button type="submit" class="btn">Registrarse</button>
+            <button type="submit" class="btn">
+                Registrarse
+            </button>
+
         </form>
 
         <p class="texto-secundario">
@@ -37,6 +64,9 @@
 
     </div>
 
+    <!-- SCRIPT REGISTRO -->
     <script src="../scripts/autenticacion.js"></script>
+
 </body>
+
 </html>

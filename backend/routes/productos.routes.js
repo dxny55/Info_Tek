@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import Producto from "../models/producto.model.js";
+
 const router = express.Router();
-const Producto = require("../models/producto.model");
 
 // Obtener todos los productos
 router.get("/", async (req, res) => {
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Obtener un producto por ID (para la página detalle)
+// Obtener un producto por ID
 router.get("/:id", async (req, res) => {
     try {
         const producto = await Producto.findById(req.params.id);
@@ -22,4 +23,4 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
