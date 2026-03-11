@@ -102,17 +102,24 @@ function verDetalle(producto) {
     window.location.href = `producto.html?id=${producto._id}`;
 }
 
-function añadirCarrito(producto) {
+function añadirCarrito(producto, boton) {
     let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
 
-    if (!favs.find(p => p._id === producto._id)) {
+    const index = favs.findIndex(p => p._id === producto._id);
+
+    if (index === -1) {
+        // No está → añadir
         favs.push(producto);
-        localStorage.setItem("favoritos", JSON.stringify(favs));
-        alert("Añadido a favoritos ❤️");
+        boton.classList.add("favorito-activo"); // opcional
     } else {
-        alert("Este producto ya está en favoritos");
+        // Ya está → quitar
+        favs.splice(index, 1);
+        boton.classList.remove("favorito-activo"); // opcional
     }
+
+    localStorage.setItem("favoritos", JSON.stringify(favs));
 }
+
 
 
 //CUENTA------------------
