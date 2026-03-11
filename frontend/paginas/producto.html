@@ -7,25 +7,61 @@
 
     <!-- CSS de la página de producto -->
     <link rel="stylesheet" href="../estilos/producto.css">
+
+    <!-- CSS global (para la navbar y estilos generales) -->
+    <link rel="stylesheet" href="../estilos/index.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR DINÁMICO -->
-    <header id="encabezado"></header>
+    <!-- NAVBAR COPIADA DEL INDEX -->
+    <header class="header">
+        <div class="header-contenido">
+
+            <div class="header-logo">
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </div>
+
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+
+            <div class="header-usuario">
+
+                <!-- Botón comparar -->
+                <button class="btn-icon" id="btn-comparar-final">
+                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                </button>
+
+                <!-- Botón carrito -->
+                <button class="btn-icon">
+                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                </button>
+
+                <!-- Botón cuenta -->
+                <button class="btn-icon" id="btn-cuenta">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                </button>
+
+            </div>
+
+        </div>
+    </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
         <div class="producto-detalle">
 
-            
             <!-- GALERÍA DE IMÁGENES -->
             <section class="producto-imagen">
-                <!-- Imagen principal -->
-                <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
+                <div class="galeria-columnas">
 
-                <!-- Miniaturas (se llenan con JS) -->
-                <div id="miniaturas"></div>
+                    <!-- Miniaturas (se llenan con JS) -->
+                    <div id="miniaturas" class="miniaturas-columna"></div>
+
+                    <!-- Imagen principal -->
+                    <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
+
+                </div>
             </section>
 
             <!-- INFORMACIÓN DEL PRODUCTO -->
@@ -70,12 +106,6 @@
             <p>Precio medio: <span id="precio-media">-</span></p>
         </div>
     </section>
-
-    <!-- NAVBAR SCRIPT -->
-    <script type="module">
-        import { cargarNav } from "../src/components/nav/navBar.js";
-        cargarNav();
-    </script>
 
     <!-- SCRIPT PRINCIPAL DEL PRODUCTO -->
     <script src="../scripts/producto.js"></script>

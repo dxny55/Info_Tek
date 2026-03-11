@@ -17,8 +17,8 @@ const stockEl = document.getElementById("producto-stock");
 const especificacionesEl = document.getElementById("producto-especificaciones");
 const btnCarrito = document.getElementById("btn-carrito");
 
-// Contenedor para miniaturas (si quieres añadirlo después)
-const contenedorImagenes = document.querySelector(".producto-imagen");
+// Contenedor correcto de miniaturas
+const contenedorMiniaturas = document.getElementById("miniaturas");
 
 // ===============================
 // 3. CARGAR PRODUCTO DESDE BACKEND
@@ -37,8 +37,7 @@ async function cargarProducto() {
         // IMAGEN PRINCIPAL
         // ===============================
         if (producto.imagenes && producto.imagenes.length > 0) {
-            const ruta = "../" + producto.imagenes[0].replace("frontend/", "");
-            imgPrincipal.src = ruta;
+            imgPrincipal.src = "../" + producto.imagenes[0].replace("frontend/", "");
         } else {
             imgPrincipal.src = "../recursos/imagenes/default.jpg";
         }
@@ -83,21 +82,27 @@ async function cargarProducto() {
         }
 
         // ===============================
-        // MINIATURAS (si hay más imágenes)
+        // MINIATURAS (CORRECTO)
         // ===============================
-        if (producto.imagenes && producto.imagenes.length > 1) {
-            producto.imagenes.forEach((img, index) => {
-                if (index === 0) return; // ya es la principal
+        contenedorMiniaturas.innerHTML = "";
 
+        if (producto.imagenes && producto.imagenes.length > 0) {
+            producto.imagenes.forEach((img, index) => {
                 const mini = document.createElement("img");
                 mini.src = "../" + img.replace("frontend/", "");
                 mini.classList.add("miniatura");
 
+                // Primera imagen = principal
+                if (index === 0) {
+                    imgPrincipal.src = mini.src;
+                }
+
+                // Al hacer clic → solo cambia la grande
                 mini.addEventListener("click", () => {
                     imgPrincipal.src = mini.src;
                 });
 
-                contenedorImagenes.appendChild(mini);
+                contenedorMiniaturas.appendChild(mini);
             });
         }
 
