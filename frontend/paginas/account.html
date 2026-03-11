@@ -89,12 +89,12 @@
                     id="selector-color-cuenta" 
                     style="width: 100%; height: 45px; border: none; cursor: pointer; border-radius: 8px;">
 
-                    <div class="botones-tema">
-                        <button class="btn btn-guardar" id="guardar-color">Guardar color</button>
-                        <button class="btn btn-restablecer" id="restablecer-color">Restablecer</button>
-                    </div>
-
+                <div class="botones-tema">
+                    <button class="btn btn-guardar" id="guardar-color">Guardar color</button>
+                    <button class="btn btn-restablecer" id="restablecer-color">Restablecer</button>
                 </div>
+
+            </div>
 
         </section>
 
@@ -106,51 +106,56 @@
         const btnGuardarColor = document.getElementById("guardar-color");
         const btnRestablecer = document.getElementById("restablecer-color");
 
-        // Color por defecto del proyecto
         const COLOR_DEFECTO = "#f5f6fa";
+
+        // Detectar si un color es oscuro
+        function esColorOscuro(hex) {
+            hex = hex.replace("#", "");
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            const luminosidad = (0.299 * r + 0.587 * g + 0.114 * b);
+            return luminosidad < 128;
+        }
+
+        // Aplicar color al fondo y al texto
+        function aplicarColor(color) {
+            document.documentElement.style.setProperty(
+                "--color-fondo",
+                `linear-gradient(to bottom right, ${color}, #000000)`
+            );
+
+            if (esColorOscuro(color)) {
+                document.documentElement.style.setProperty("--color-texto", "#ffffff");
+            } else {
+                document.documentElement.style.setProperty("--color-texto", "#000000");
+            }
+        }
 
         // Cargar color guardado
         const colorGuardado = localStorage.getItem("colorFondo");
         if (colorGuardado) {
             selectorCuenta.value = colorGuardado;
-            document.documentElement.style.setProperty(
-                "--color-fondo",
-                `linear-gradient(to bottom right, ${colorGuardado}, #000000)`
-            );
+            aplicarColor(colorGuardado);
         } else {
-            // Si no hay color guardado, usar el color por defecto
             selectorCuenta.value = COLOR_DEFECTO;
-            document.documentElement.style.setProperty(
-                "--color-fondo",
-                `linear-gradient(to bottom right, ${COLOR_DEFECTO}, #000000)`
-            );
+            aplicarColor(COLOR_DEFECTO);
         }
 
-        // Guardar nuevo color
+        // Guardar color
         btnGuardarColor.addEventListener("click", () => {
             const nuevoColor = selectorCuenta.value;
-
             localStorage.setItem("colorFondo", nuevoColor);
-
-            document.documentElement.style.setProperty(
-                "--color-fondo",
-                `linear-gradient(to bottom right, ${nuevoColor}, #000000)`
-            );
+            aplicarColor(nuevoColor);
         });
 
-        // Restablecer color por defecto
+        // Restablecer color
         btnRestablecer.addEventListener("click", () => {
             localStorage.removeItem("colorFondo");
-
             selectorCuenta.value = COLOR_DEFECTO;
-
-            document.documentElement.style.setProperty(
-                "--color-fondo",
-                `linear-gradient(to bottom right, ${COLOR_DEFECTO}, #000000)`
-            );
+            aplicarColor(COLOR_DEFECTO);
         });
     </script>
-
 
 </body>
 </html>

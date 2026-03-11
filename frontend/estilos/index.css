@@ -7,8 +7,19 @@
 
 /* Color dinámico del usuario */
 :root {
-    --color-fondo: linear-gradient(to bottom, #f5f6fa, #000000);
+    --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
+    --color-texto: #000000;
 }
+
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 
 body {
     background: var(--color-fondo);
@@ -17,6 +28,7 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 
 
 
