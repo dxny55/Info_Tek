@@ -1,41 +1,59 @@
 /* ================================
-   CONTENEDOR GENERAL CENTRADO
+   CONTENEDOR MÁS ANCHO
 ================================ */
 .contenedor {
-    max-width: 1200px;
-    margin: 0 auto; /* CENTRA TODO */
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 20px;
 }
 
 /* ================================
-   CONTENEDOR PRINCIPAL DEL PRODUCTO
+   LAYOUT PRINCIPAL
 ================================ */
 .producto-detalle {
     display: flex;
-    gap: 40px;
-    margin-top: 40px;
     align-items: flex-start;
-    justify-content: center; /* CENTRA LAS DOS COLUMNAS */
-    padding-bottom: 40px;
+    gap: 50px; /* más separación */
+    margin-top: 20px;
 }
 
 /* ================================
    GALERÍA DE IMÁGENES
 ================================ */
 .producto-imagen {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 420px;
-   align-items: flex-start;/* CENTRA LA IMAGEN Y MINIATURAS */
+    flex-shrink: 0;
 }
 
-/* Imagen principal */
+.galeria-columnas {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.miniaturas-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.miniatura {
+    width: 80px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.miniatura:hover {
+    transform: scale(1.08);
+    border-color: #0d69a7;
+}
+
+/* Imagen principal más grande */
 #producto-imagen {
-    width: 420px;
-    height: auto;
+    width: 500px;
     border-radius: 12px;
-    border: 1px solid #000000;
+    border: 1px solid #000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: 0.2s ease;
 }
@@ -44,36 +62,11 @@
     transform: scale(1.02);
 }
 
-/* Miniaturas */
-#miniaturas {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* CENTRA LAS MINIATURAS */
-}
-
-.miniatura {
-    width: 80px;
-    height: auto;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    transition: 0.2s ease;
-    object-fit: cover;
-}
-
-.miniatura:hover {
-    transform: scale(1.08);
-    border-color: #0d69a7;
-}
-
 /* ================================
    INFORMACIÓN DEL PRODUCTO
 ================================ */
 .producto-info {
-    flex: 1;
-    padding-right: 20px;
-    max-width: 500px;
+    flex: 1.3; /* más ancho */
     text-align: left;
 }
 
@@ -81,16 +74,14 @@
     font-size: 2.2rem;
     margin-bottom: 10px;
     font-weight: 700;
-    text-align: center; /* CENTRA EL TÍTULO */
 }
 
-/* PRECIOS */
+/* Precios */
 .producto-precio {
     display: flex;
     align-items: center;
     gap: 15px;
     margin: 15px 0;
-    justify-content: center; /* CENTRA LOS PRECIOS */
 }
 
 .precio-actual {
@@ -102,7 +93,6 @@
 .precio-anterior {
     text-decoration: line-through;
     color: #888;
-    font-size: 1.1rem;
 }
 
 .descuento {
@@ -110,30 +100,25 @@
     color: white;
     padding: 4px 8px;
     border-radius: 5px;
-    font-size: 0.9rem;
     font-weight: bold;
 }
 
-/* RATING */
+/* Rating */
 .producto-rating {
     font-size: 1.2rem;
     margin-bottom: 10px;
-    text-align: center; /* CENTRA EL RATING */
 }
 
-/* STOCK */
+/* Stock */
 .producto-stock {
-    font-size: 1rem;
     margin-bottom: 20px;
     color: #555;
-    text-align: center; /* CENTRA EL STOCK */
 }
 
-/* ESPECIFICACIONES */
+/* Especificaciones */
 .producto-especificaciones {
     list-style: none;
     padding: 0;
-    margin-bottom: 20px;
 }
 
 .producto-especificaciones li {
@@ -142,10 +127,9 @@
     margin-bottom: 8px;
     border-radius: 6px;
     border-left: 4px solid #ce4646;
-    font-size: 0.95rem;
 }
 
-/* BOTÓN CARRITO */
+/* Botón carrito */
 #btn-carrito {
     background: #47463a;
     color: white;
@@ -155,8 +139,6 @@
     font-size: 1.1rem;
     cursor: pointer;
     transition: 0.2s ease;
-    display: block;
-    margin: 0 auto; /* CENTRA EL BOTÓN */
 }
 
 #btn-carrito:hover {
@@ -170,19 +152,12 @@
 .grafica-precio {
     margin-top: 60px;
     padding: 25px;
-    background: #ffffff;
+    background: #fff;
     border-radius: 12px;
     border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     max-width: 900px;
     margin-left: auto;
-    margin-right: auto; /* CENTRA LA SECCIÓN COMPLETA */
-}
-
-.grafica-precio h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    text-align: center; /* CENTRA EL TÍTULO */
+    margin-right: auto;
 }
 
 .grafica-placeholder {
@@ -192,19 +167,9 @@
     text-align: center;
     border-radius: 10px;
     margin-bottom: 20px;
-    font-size: 1.1rem;
-    color: #666;
 }
 
-/* Estadísticas */
 .estadisticas-precio {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-}
-
-.estadisticas-precio p {
-    font-size: 1.1rem;
-    margin: 5px 0;
-    font-weight: 500;
 }
