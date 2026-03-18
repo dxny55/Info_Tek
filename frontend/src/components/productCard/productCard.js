@@ -12,7 +12,10 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
-            <button class="btn-favorito">❤️</button>
+            <button class="btn-favorito">
+                <img src="../recursos/imagenes/corazon.png" alt="favoritos">
+            </button>
+
             <button class="btn-comparar">
                 <img src="../recursos/imagenes/comparar.png" alt="comparar">
             </button>

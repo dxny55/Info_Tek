@@ -1,6 +1,3 @@
-// ===============================
-// INYECTAR HTML DEL MODAL
-// ===============================
 function injectModalHTML() {
     const html = `
     <div id="modal-comparativa" class="modal-comparativa">
@@ -12,10 +9,8 @@ function injectModalHTML() {
                 <p id="comparativa-count"></p>
             </div>
 
-            <div id="comparativa-grafico">
-                <div class="grafica-comparativa">
-                    <canvas id="canvas-comparativa"></canvas>
-                </div>
+            <div class="grafica-comparativa">
+                <canvas id="canvas-comparativa"></canvas>
             </div>
 
             <div id="comparativa-tabla"></div>
@@ -25,9 +20,6 @@ function injectModalHTML() {
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
-// ===============================
-// PARSEAR ESPECIFICACIONES
-// ===============================
 function parseSpecs(descripcion) {
     const specs = {};
     if (!descripcion) return specs;
@@ -47,9 +39,6 @@ function parseSpecs(descripcion) {
     return specs;
 }
 
-// ===============================
-// GENERAR TABLA COMPARATIVA
-// ===============================
 function generarTabla(productos) {
     const specsUnificadas = new Set();
 
