@@ -78,7 +78,7 @@ cargarProducto();
 // 4. GRÁFICA DE PRECIOS
 // ===============================
 async function cargarGrafica(identification) {
-    const res = await fetch("../data/precios.json");
+    const res = await fetch("../data/precios.json"); // ← RUTA CORRECTA
     const data = await res.json();
 
     const producto = data.productos.find(p => p.identification === identification);
@@ -91,7 +91,6 @@ async function cargarGrafica(identification) {
 
     generarGraficaIndividual(producto.precios);
 
-    // Estadísticas
     const min = Math.min(...producto.precios);
     const max = Math.max(...producto.precios);
     const media = (producto.precios.reduce((a, b) => a + b) / producto.precios.length).toFixed(2);
@@ -100,6 +99,7 @@ async function cargarGrafica(identification) {
     precioMaxEl.textContent = max + " €";
     precioMediaEl.textContent = media + " €";
 }
+
 
 function generarGraficaIndividual(precios) {
     const ctx = document.createElement("canvas");

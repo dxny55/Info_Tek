@@ -10,7 +10,7 @@ function injectModalHTML() {
             </div>
 
             <div class="grafica-comparativa">
-                <canvas id="canvas-comparativa"></canvas>
+                <div id="canvas-comparativa"></div>
             </div>
 
             <div id="comparativa-tabla"></div>
@@ -97,7 +97,7 @@ function generarTabla(productos) {
 }
 
 // ===============================
-// GRÁFICA COMPARATIVA
+// GRÁFICA COMPARATIVA (APEXCHARTS)
 // ===============================
 let grafica = null;
 
@@ -113,24 +113,28 @@ async function cargarGraficaComparativa(identifications) {
 }
 
 function generarGraficaComparativa(productos) {
-    const canvas = document.getElementById("canvas-comparativa");
+    const contenedor = document.getElementById("canvas-comparativa");
 
     if (grafica) {
         grafica.destroy();
     }
 
-    grafica = new Chart(canvas, {
-        type: "line",
-        data: {
-            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
-            datasets: productos.map(p => ({
-                label: p.slug.replace(/_/g, " "),
-                data: p.precios,
-                borderWidth: 2,
-                tension: 0.3
-            }))
+    const opciones = {
+        chart: {
+            type: "line",
+            height: 300
+        },
+        series: productos.map(p => ({
+            name: p.slug.replace(/_/g, " "),
+            data: p.precios
+        })),
+        xaxis: {
+            categories: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"]
         }
-    });
+    };
+
+    grafica = new ApexCharts(contenedor, opciones);
+    grafica.render();
 }
 
 // ===============================
