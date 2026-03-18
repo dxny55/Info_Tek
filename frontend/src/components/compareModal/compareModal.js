@@ -1,3 +1,6 @@
+// ===============================
+// INYECTAR MODAL
+// ===============================
 function injectModalHTML() {
     const html = `
     <div id="modal-comparativa" class="modal-comparativa">
@@ -20,6 +23,9 @@ function injectModalHTML() {
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
+// ===============================
+// PARSEAR ESPECIFICACIONES
+// ===============================
 function parseSpecs(descripcion) {
     const specs = {};
     if (!descripcion) return specs;
@@ -39,6 +45,9 @@ function parseSpecs(descripcion) {
     return specs;
 }
 
+// ===============================
+// TABLA COMPARATIVA
+// ===============================
 function generarTabla(productos) {
     const specsUnificadas = new Set();
 
@@ -101,41 +110,89 @@ function generarTabla(productos) {
 // ===============================
 let grafica = null;
 
-async function cargarGraficaComparativa(identifications) {
+async function cargarGraficaComparativa(identifications, idToName) {
     const res = await fetch("../data/precios.json");
     const data = await res.json();
 
-    const productos = data.productos.filter(p =>
-        identifications.includes(p.identification)
+    const idsUpper = identifications.map(id => id.toUpperCase().trim());
+
+    const productos = data.precios.filter(p =>
+        idsUpper.includes(p.identificacion.toUpperCase().trim())
     );
 
-    generarGraficaComparativa(productos);
+    generarGraficaComparativa(productos, idToName);
 }
 
-function generarGraficaComparativa(productos) {
+function generarGraficaComparativa(productos, idToName) {
     const contenedor = document.getElementById("canvas-comparativa");
 
-    if (grafica) {
-        grafica.destroy();
-    }
+    if (grafica) grafica.destroy();
 
+    const fechas = [
+        ...new Set(
+            productos.flatMap(p => p.historial.map(h => h.fecha))
+        )
+    ].sort();
+
+    const fechasISO = fechas.map(f => new Date(f).toISOString());
+
+    const series = productos.map(p => {
+        const id = p.identificacion.toUpperCase().trim();
+        const nombreReal = idToName[id] || p.identificacion;
+
+        return {
+            name: nombreReal,
+            data: fechasISO.map(fISO => {
+                const fechaOriginal = fISO.split("T")[0];
+                const registro = p.historial.find(h => h.fecha === fechaOriginal);
+                return registro ? registro.precio : null;
+            })
+        };
+    });
+
+    // 🔥 AQUÍ VA EL BLOQUE QUE ME PREGUNTASTE 🔥
     const opciones = {
         chart: {
             type: "line",
-            height: 300
+            height: 300,
+            toolbar: {
+                show: true,
+                tools: {
+                    download: false,
+                    selection: false,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: false,
+                    reset: false
+                }
+            }
         },
-        series: productos.map(p => ({
-            name: p.slug.replace(/_/g, " "),
-            data: p.precios
-        })),
+        series: series,
         xaxis: {
-            categories: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"]
+            type: "datetime",
+            categories: fechasISO,
+            title: { text: "Fecha" }
+        },
+        yaxis: {
+            title: { text: "Precio (€)" }
+        },
+        stroke: {
+            width: 3,
+            curve: "smooth"
+        },
+        markers: {
+            size: 4
+        },
+        legend: {
+            position: "top"
         }
     };
 
     grafica = new ApexCharts(contenedor, opciones);
     grafica.render();
 }
+
 
 // ===============================
 // INICIALIZAR MODAL
@@ -155,12 +212,21 @@ export function initCompareModal() {
 
     return {
         abrir: (productos) => {
-            count.textContent = `Comparando ${productos.length} producto(s)`;
 
+            count.textContent = `Comparando ${productos.length} producto(s)`;
             tabla.innerHTML = generarTabla(productos);
 
-            const ids = productos.map(p => p.identification);
-            cargarGraficaComparativa(ids);
+            // Crear mapa ID → nombre real
+            const idToName = {};
+            productos.forEach(p => {
+                const id = (p.identification || p.identificacion || p.id || "").toUpperCase().trim();
+                idToName[id] = p.nombre;
+            });
+
+            // IDs normalizados
+            const ids = Object.keys(idToName);
+
+            cargarGraficaComparativa(ids, idToName);
 
             modal.style.display = "flex";
         }
