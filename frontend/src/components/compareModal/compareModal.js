@@ -9,7 +9,9 @@ function injectModalHTML() {
                 <p id="comparativa-count"></p>
             </div>
 
-            <div id="comparativa-grafico"></div>
+            <div class="grafica-comparativa">
+                <canvas id="canvas-comparativa"></canvas>
+            </div>
 
             <div id="comparativa-tabla"></div>
         </div>
@@ -94,6 +96,46 @@ function generarTabla(productos) {
     return html;
 }
 
+// ===============================
+// GRÁFICA COMPARATIVA
+// ===============================
+let grafica = null;
+
+async function cargarGraficaComparativa(identifications) {
+    const res = await fetch("../data/precios.json");
+    const data = await res.json();
+
+    const productos = data.productos.filter(p =>
+        identifications.includes(p.identification)
+    );
+
+    generarGraficaComparativa(productos);
+}
+
+function generarGraficaComparativa(productos) {
+    const canvas = document.getElementById("canvas-comparativa");
+
+    if (grafica) {
+        grafica.destroy();
+    }
+
+    grafica = new Chart(canvas, {
+        type: "line",
+        data: {
+            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+            datasets: productos.map(p => ({
+                label: p.slug.replace(/_/g, " "),
+                data: p.precios,
+                borderWidth: 2,
+                tension: 0.3
+            }))
+        }
+    });
+}
+
+// ===============================
+// INICIALIZAR MODAL
+// ===============================
 export function initCompareModal() {
     injectModalHTML();
 
@@ -104,12 +146,18 @@ export function initCompareModal() {
 
     cerrar.addEventListener("click", () => {
         modal.style.display = "none";
+        if (grafica) grafica.destroy();
     });
 
     return {
         abrir: (productos) => {
             count.textContent = `Comparando ${productos.length} producto(s)`;
+
             tabla.innerHTML = generarTabla(productos);
+
+            const ids = productos.map(p => p.identification);
+            cargarGraficaComparativa(ids);
+
             modal.style.display = "flex";
         }
     };

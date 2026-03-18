@@ -17,8 +17,9 @@ const stockEl = document.getElementById("producto-stock");
 const especificacionesEl = document.getElementById("producto-especificaciones");
 const btnCarrito = document.getElementById("btn-carrito");
 
-// Contenedor para miniaturas (si quieres añadirlo después)
-const contenedorImagenes = document.querySelector(".producto-imagen");
+const precioMinEl = document.getElementById("precio-min");
+const precioMaxEl = document.getElementById("precio-max");
+const precioMediaEl = document.getElementById("precio-media");
 
 // ===============================
 // 3. CARGAR PRODUCTO DESDE BACKEND
@@ -33,9 +34,7 @@ async function cargarProducto() {
             return;
         }
 
-        // ===============================
         // IMAGEN PRINCIPAL
-        // ===============================
         if (producto.imagenes && producto.imagenes.length > 0) {
             const ruta = "../" + producto.imagenes[0].replace("frontend/", "");
             imgPrincipal.src = ruta;
@@ -43,68 +42,30 @@ async function cargarProducto() {
             imgPrincipal.src = "../recursos/imagenes/default.jpg";
         }
 
-        // ===============================
         // NOMBRE
-        // ===============================
         nombreEl.textContent = producto.nombre;
 
-        // ===============================
         // PRECIOS
-        // ===============================
         precioActualEl.textContent = producto.precio + " €";
         precioAnteriorEl.textContent = (producto.precio * 1.10).toFixed(2) + " €";
         descuentoEl.textContent = "-10%";
 
-        // ===============================
-        // RATING (simulado)
-        // ===============================
+        // RATING
         ratingEl.textContent = "4.8";
 
-        // ===============================
         // STOCK
-        // ===============================
         stockEl.textContent = `Stock disponible: ${producto.stock} unidades`;
 
-        // ===============================
         // ESPECIFICACIONES
-        // ===============================
         especificacionesEl.innerHTML = "";
-
         if (producto.descripcion) {
             const li = document.createElement("li");
             li.textContent = producto.descripcion;
             especificacionesEl.appendChild(li);
         }
 
-        if (producto.marca) {
-            const li = document.createElement("li");
-            li.textContent = "Marca: " + producto.marca;
-            especificacionesEl.appendChild(li);
-        }
-
-        // ===============================
-        // MINIATURAS (si hay más imágenes)
-        // ===============================
-        if (producto.imagenes && producto.imagenes.length > 1) {
-            producto.imagenes.forEach((img, index) => {
-                if (index === 0) return; // ya es la principal
-
-                const mini = document.createElement("img");
-                mini.src = "../" + img.replace("frontend/", "");
-                mini.classList.add("miniatura");
-
-                mini.addEventListener("click", () => {
-                    imgPrincipal.src = mini.src;
-                });
-
-                contenedorImagenes.appendChild(mini);
-            });
-        }
-
-        // ===============================
-        // BOTÓN AÑADIR AL CARRITO
-        // ===============================
-        btnCarrito.addEventListener("click", () => agregarAlCarrito(producto));
+        // CARGAR GRÁFICA
+        cargarGrafica(producto.identification);
 
     } catch (error) {
         console.error("Error cargando producto:", error);
@@ -114,19 +75,51 @@ async function cargarProducto() {
 cargarProducto();
 
 // ===============================
-// 4. CARRITO (localStorage)
+// 4. GRÁFICA DE PRECIOS
 // ===============================
-function agregarAlCarrito(producto) {
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+async function cargarGrafica(identification) {
+    const res = await fetch("../data/precios.json");
+    const data = await res.json();
 
-    carrito.push({
-        id: producto._id,
-        nombre: producto.nombre,
-        precio: producto.precio,
-        cantidad: 1
+    const producto = data.productos.find(p => p.identification === identification);
+
+    if (!producto) {
+        document.getElementById("contenedor-grafica").innerHTML =
+            "<p>No hay datos de precio para este producto.</p>";
+        return;
+    }
+
+    generarGraficaIndividual(producto.precios);
+
+    // Estadísticas
+    const min = Math.min(...producto.precios);
+    const max = Math.max(...producto.precios);
+    const media = (producto.precios.reduce((a, b) => a + b) / producto.precios.length).toFixed(2);
+
+    precioMinEl.textContent = min + " €";
+    precioMaxEl.textContent = max + " €";
+    precioMediaEl.textContent = media + " €";
+}
+
+function generarGraficaIndividual(precios) {
+    const ctx = document.createElement("canvas");
+    const contenedor = document.getElementById("contenedor-grafica");
+
+    contenedor.innerHTML = "";
+    contenedor.appendChild(ctx);
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+            datasets: [{
+                label: "Precio (€)",
+                data: precios,
+                borderColor: "#191970",
+                backgroundColor: "rgba(25, 25, 112, 0.2)",
+                borderWidth: 3,
+                tension: 0.3
+            }]
+        }
     });
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    alert("Producto añadido al carrito");
 }

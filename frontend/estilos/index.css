@@ -7,8 +7,19 @@
 
 /* Color dinámico del usuario */
 :root {
-    --color-fondo: linear-gradient(to bottom, #f5f6fa, #000000);
+    --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
+    --color-texto: #000000;
 }
+
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 
 body {
     background: var(--color-fondo);
@@ -17,6 +28,7 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 
 
 
@@ -173,4 +185,84 @@ html, body {
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
     padding: 0 40px;
+}
+
+.footer {
+    margin-top: 60px;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
+    backdrop-filter: blur(4px);
+    text-align: center;
+    color: white;
+}
+
+.footer-contenido {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-redes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-redes img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1); /* iconos blancos */
+    transition: 0.2s;
+}
+
+.footer-redes img:hover {
+    transform: scale(1.15);
+}
+
+.footer-copy {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
 }

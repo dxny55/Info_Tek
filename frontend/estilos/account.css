@@ -1,33 +1,48 @@
+/* Fondo dinámico + color dinámico SOLO fuera de las cards */
 body {
     background: var(--color-fondo);
+    color: var(--color-texto);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Contenedor general */
 .cuenta-contenedor {
     max-width: 90%;
     margin: auto;
     padding: 40px 20px;
 }
 
+/* Encabezado de la sección */
 .cuenta-header h1 {
     font-size: 2.4rem;
     margin-bottom: 5px;
 }
 
 .cuenta-header p {
-    color: #555;
     font-size: 1.1rem;
 }
 
+/* GRID PRINCIPAL */
 .cuenta-grid {
     margin-top: 40px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
 }
 
+.tema-card {
+    grid-column: 1 / span 2; /* La coloca centrada debajo de las 3 cards */
+    width: 75%;
+}
+
+/* 🔒 Todo el texto dentro de las cards SIEMPRE negro */
+.cuenta-card * {
+    color: #000000 !important;
+}
+
+/* Estilo de las cards */
 .cuenta-card {
     background: white;
     padding: 25px;
@@ -44,13 +59,14 @@ body {
     font-size: 1.4rem;
 }
 
+/* Botones dentro de las cards */
 .btn {
     margin-top: auto;
     width: 90%;
     align-self: center;
     padding: 12px 18px;
     background: #191970;
-    color: white;
+    color: white !important; /* 🔒 Siempre blanco */
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -68,11 +84,7 @@ body {
     background: #222;
 }
 
-/* CARD DE TEMAS OCUPA 2 COLUMNAS */
-.tema-card {
-    grid-column: span 2;
-}
-
+/* Botones de guardar/restablecer */
 .botones-tema {
     display: flex;
     gap: 10px;
@@ -86,15 +98,79 @@ body {
 .btn-restablecer {
     flex: 1; /* 25% */
     background: #444;
+    color: white !important; /* 🔒 Siempre blanco */
 }
 
 .btn-restablecer:hover {
     background: #222;
 }
 
-
+/* Responsive */
 @media (max-width: 900px) {
     .tema-card {
         grid-column: span 1;
+    }
+}
+.footer {
+    margin-top: 60px;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
+    backdrop-filter: blur(4px);
+    text-align: center;
+    color: white;
+}
+
+.footer-contenido {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-redes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-redes img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1); /* iconos blancos */
+    transition: 0.2s;
+}
+
+.footer-redes img:hover {
+    transform: scale(1.15);
+}
+
+.footer-copy {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
     }
 }

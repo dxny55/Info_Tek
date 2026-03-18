@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información Legal - InfoTek</title>
+
+    <!-- Tus estilos globales -->
+    <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../estilos/account.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-contenido">
+
+            <div class="header-logo">
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </div>
+
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+
+            <div class="header-usuario">
+
+                <!-- Botón comparar -->
+                <button class="btn-icon" id="btn-comparar-final">
+                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                </button>
+
+                <!-- Botón carrito -->
+                <button class="btn-icon">
+                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                </button>
+
+                <!-- Botón cuenta -->
+                <button class="btn-icon" id="btn-cuenta">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main class="contenedor" style="padding: 40px;">
+        <div id="contenido-legal" class="cuenta-card" style="max-width: 900px; margin: auto;"></div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-contenido">
+
+            <div class="footer-links">
+                <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
+                <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
+                <a href="legal.html?tipo=cookies">Política de Cookies</a>
+                <a href="legal.html?tipo=envio">Política de Envío</a>
+                <a href="legal.html?tipo=aviso">Aviso Legal sobre Pagos</a>
+            </div>
+
+            <div class="footer-redes">
+                <a href="#" class="red"><img src="../recursos/imagenes/facebook.png" alt="Facebook"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/twitter.png" alt="Twitter"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/instagram.png" alt="Instagram"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/youtube.png" alt="YouTube"></a>
+            </div>
+
+            <p class="footer-copy">© 2026 InfoTek. Todos los derechos reservados.</p>
+
+        </div>
+    </footer>
+
+    <!-- SCRIPT PARA CARGAR EL TEXTO CORRECTO -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const tipo = params.get("tipo");
+        const contenedor = document.getElementById("contenido-legal");
+
+        const textos = {
+            terminos: `
+                <h1>Términos y Condiciones</h1>
+                <p>Bienvenido a InfoTek. Este sitio es un proyecto académico...</p>
+            `,
+            privacidad: `
+                <h1>Política de Privacidad</h1>
+                <p>InfoTek no recopila datos reales. Toda la información es simulada...</p>
+            `,
+            cookies: `
+                <h1>Política de Cookies</h1>
+                <p>Este sitio usa almacenamiento local únicamente para fines educativos...</p>
+            `,
+            envio: `
+                <h1>Política de Envío</h1>
+                <p>No se realizan envíos reales. Los productos mostrados son ficticios...</p>
+            `,
+            aviso: `
+                <h1>Aviso Legal sobre Pagos</h1>
+                <p>Este sitio no procesa pagos reales. Si un usuario introduce datos reales de pago, lo hace bajo su propia responsabilidad. No se enviará ningún producto pero si que se cobrara la cantidad introducida...</p>
+            `
+        };
+
+        contenedor.innerHTML = textos[tipo] || "<h1>Información no encontrada</h1>";
+    </script>
+
+    <!-- SCRIPT DE COLORES DINÁMICOS -->
+    <script>
+        const colorGuardado = localStorage.getItem("colorFondo");
+
+        function esColorOscuro(hex) {
+            hex = hex.replace("#", "");
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            const luminosidad = (0.299 * r + 0.587 * g + 0.114 * b);
+            return luminosidad < 128;
+        }
+
+        function aplicarColor(color) {
+            document.documentElement.style.setProperty(
+                "--color-fondo",
+                `linear-gradient(to bottom right, ${color}, #000000)`
+            );
+
+            if (esColorOscuro(color)) {
+                document.documentElement.style.setProperty("--color-texto", "#ffffff");
+            } else {
+                document.documentElement.style.setProperty("--color-texto", "#000000");
+            }
+        }
+
+        if (colorGuardado) {
+            aplicarColor(colorGuardado);
+        }
+    </script>
+
+</body>
+</html>
