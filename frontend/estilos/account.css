@@ -1,10 +1,16 @@
 /* Fondo dinámico + color dinámico SOLO fuera de las cards */
+:root {
+    --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
+    --color-texto: #000000;
+}
+
 body {
     background: var(--color-fondo);
     color: var(--color-texto);
-    font-family: Arial, sans-serif;
+    background-attachment: fixed;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Contenedor general */

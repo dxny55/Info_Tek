@@ -5,202 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Cuenta - InfoTek</title>
 
+    <!-- Estilos -->
     <link rel="stylesheet" href="../estilos/account.css">
     <link rel="stylesheet" href="../estilos/index.css">
 </head>
 
 <body>
 
-<!-- ENCABEZADO -->
-<header class="header">
-    <div class="header-contenido">
+    <!-- ENCABEZADO -->
+    <header class="header">
+        <div class="header-contenido">
 
-        <div class="header-logo">
-            <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-            <h1>InfoTek</h1>
+            <!-- Logo -->
+            <div class="header-logo">
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </div>
+
+            <!-- Buscador -->
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+
+            <!-- Iconos usuario -->
+            <div class="header-usuario">
+
+                <button class="btn-icon" id="btn-comparar-final">
+                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                </button>
+
+                <button class="btn-icon">
+                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                </button>
+
+                <button class="btn-icon" id="btn-cuenta">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                </button>
+
+            </div>
+
         </div>
+    </header>
 
-        <input type="text" class="buscador" placeholder="Buscar componentes...">
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="cuenta-contenedor">
 
-        <div class="header-usuario">
+        <!-- Encabezado de la cuenta -->
+        <section class="cuenta-header">
+            <h1 id="saludo-usuario">Hola</h1>
+            <p>Gestiona tu información personal y la seguridad de tu cuenta.</p>
+        </section>
 
-            <button class="btn-icon" id="btn-comparar-final">
-                <img src="../recursos/imagenes/comparar.png" alt="comparar">
-            </button>
+        <!-- GRID PRINCIPAL -->
+        <section class="cuenta-grid">
 
-            <button class="btn-icon">
-                <img src="../recursos/imagenes/carrito.png" alt="carrito">
-            </button>
+            <!-- Información personal -->
+            <div class="cuenta-card">
+                <h2>Información personal</h2>
 
-            <button class="btn-icon" id="btn-cuenta">
-                <img src="../recursos/imagenes/usuario.png" alt="usuario">
-            </button>
+                <p>
+                    <strong>Nombre:</strong>
+                    <span id="nombre-usuario"></span>
+                </p>
 
-        </div>
+                <p>
+                    <strong>Email:</strong>
+                    <span id="email-usuario"></span>
+                </p>
 
-    </div>
-</header>
+                <button class="btn">Editar información</button>
+            </div>
 
+            <!-- FAVORITOS -->
+            <div class="cuenta-card">
+                <h2>Favoritos</h2>
+                <p>Mira tus productos marcados como favoritos.</p>
+                <button class="btn btn-secundario">Mirar favoritos</button>
+            </div>
 
-<main class="cuenta-contenedor">
+            <!-- FAVORITOS -->
+            <div class="cuenta-card">
+                <h2>F</h2>
+                <p>M.</p>
+                <button class="btn">M</button>
+            </div>
 
-<section class="cuenta-header">
-    <h1 id="saludo-usuario">Hola</h1>
-    <p>Gestiona tu información personal y la seguridad de tu cuenta.</p>
-</section>
+            <!-- Ajustes de tema -->
+            <div class="cuenta-card tema-card">
 
+                <h2>Ajustes de Temas</h2>
+                <p>Personaliza el color de fondo de la tienda.</p>
 
-<!-- GRID PRINCIPAL -->
-<section class="cuenta-grid">
+                <label for="selector-color-cuenta" style="margin-bottom:10px;font-weight:bold;">
+                    Color de fondo:
+                </label>
 
-<div class="cuenta-card">
-    <h2>Información personal</h2>
+                <input 
+                    type="color" 
+                    id="selector-color-cuenta" 
+                    style="width: 100%; height: 45px; border: none; cursor: pointer; border-radius: 8px;"
+                >
 
-    <p>
-        <strong>Nombre:</strong>
-        <span id="nombre-usuario"></span>
-    </p>
-
-    <p>
-        <strong>Email:</strong>
-        <span id="email-usuario"></span>
-    </p>
-
-    <button class="btn">Editar información</button>
-</div>
-
-
-<div class="cuenta-card">
-    <h2>Seguridad</h2>
-    <p>Cambia tu contraseña o revisa la actividad reciente.</p>
-    <button class="btn btn-secundario">Cambiar contraseña</button>
-</div>
-
-
-<div class="cuenta-card">
-    <h2>Pedidos</h2>
-    <p>Consulta tu historial de compras y facturas.</p>
-    <button class="btn">Ver pedidos</button>
-</div>
+                <div class="botones-tema">
+                    <button class="btn btn-guardar" id="guardar-color">Guardar color</button>
+                    <button class="btn btn-restablecer" id="restablecer-color">Restablecer</button>
+                </div>
 
 
-<div class="cuenta-card">
-    <h2>Preferencias</h2>
-    <p>Notificaciones, idioma y personalización.</p>
-    <button class="btn">Configurar</button>
-</div>
+            </div>
 
+        </section>
+
+    </main>
+
+    <!-- SCRIPT PARA COLOR -->
+    <script>
+        const selectorCuenta = document.getElementById("selector-color-cuenta");
+        const btnGuardarColor = document.getElementById("guardar-color");
+        const btnRestablecer = document.getElementById("restablecer-color");
+
+        const COLOR_DEFECTO = "#f5f6fa";
+
+        // Detectar si un color es oscuro
+        function esColorOscuro(hex) {
+            hex = hex.replace("#", "");
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            const luminosidad = (0.299 * r + 0.587 * g + 0.114 * b);
+            return luminosidad < 128;
+        }
+
+        // Aplicar color al fondo y al texto
+        function aplicarColor(color) {
+            document.documentElement.style.setProperty(
+                "--color-fondo",
+                `linear-gradient(to bottom right, ${color}, #000000)`
+            );
+
+            if (esColorOscuro(color)) {
+                document.documentElement.style.setProperty("--color-texto", "#ffffff");
+            } else {
+                document.documentElement.style.setProperty("--color-texto", "#000000");
+            }
+        }
+
+        // Cargar color guardado
+        const colorGuardado = localStorage.getItem("colorFondo");
+        if (colorGuardado) {
             selectorCuenta.value = colorGuardado;
+            aplicarColor(colorGuardado);
+        } else {
+            selectorCuenta.value = COLOR_DEFECTO;
+            aplicarColor(COLOR_DEFECTO);
+        }
 
-<!-- CARD TEMAS -->
-<div class="cuenta-card tema-card">
+        // Guardar color
+        btnGuardarColor.addEventListener("click", () => {
+            const nuevoColor = selectorCuenta.value;
+            localStorage.setItem("colorFondo", nuevoColor);
+            aplicarColor(nuevoColor);
+        });
 
-<h2>Ajustes de Temas</h2>
+        // Restablecer color
+        btnRestablecer.addEventListener("click", () => {
+            localStorage.removeItem("colorFondo");
+            selectorCuenta.value = COLOR_DEFECTO;
+            aplicarColor(COLOR_DEFECTO);
+        });
+    </script>
 
-<p>Personaliza el color de fondo de la tienda.</p>
+    <footer class="footer">
+        <div class="footer-contenido">
 
-<label for="selector-color-cuenta" style="margin-bottom:10px;font-weight:bold;">
-Color de fondo:
-</label>
+            <div class="footer-links">
+                <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
+                <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
+                <a href="legal.html?tipo=cookies">Política de Cookies</a>
+                <a href="legal.html?tipo=envio">Política de Envío</a>
+                <a href="legal.html?tipo=aviso">Aviso Legal sobre Pagos</a>
+            </div>
 
-<input
-type="color"
-id="selector-color-cuenta"
-style="width:100%;height:45px;border:none;cursor:pointer;border-radius:8px;"
->
+            <div class="footer-redes">
+                <a href="#" class="red"><img src="../recursos/imagenes/facebook.png" alt="Facebook"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/twitter.png" alt="Twitter"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/instagram.png" alt="Instagram"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/youtube.png" alt="YouTube"></a>
+            </div>
 
-<div class="botones-tema">
+            <p class="footer-copy">© 2026 InfoTek. Todos los derechos reservados.</p>
 
-<button class="btn btn-guardar" id="guardar-color">
-Guardar color
-</button>
+        </div>
+    </footer>
 
-<button class="btn btn-restablecer" id="restablecer-color">
-Restablecer
-</button>
-
-</div>
-
-
-<div style="margin-top:30px;">
-<button class="btn" id="cerrar-sesion">
-Cerrar sesión
-</button>
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<!-- SCRIPT PARA COLOR -->
-<script>
-
-const selectorCuenta = document.getElementById("selector-color-cuenta");
-const btnGuardarColor = document.getElementById("guardar-color");
-const btnRestablecer = document.getElementById("restablecer-color");
-
-const COLOR_DEFECTO = "#f5f6fa";
-
-
-const colorGuardado = localStorage.getItem("colorFondo");
-
-if (colorGuardado) {
-
-selectorCuenta.value = colorGuardado;
-
-document.documentElement.style.setProperty(
-"--color-fondo",
-`linear-gradient(to bottom right, ${colorGuardado}, #000000)`
-);
-
-} else {
-
-selectorCuenta.value = COLOR_DEFECTO;
-
-document.documentElement.style.setProperty(
-"--color-fondo",
-`linear-gradient(to bottom right, ${COLOR_DEFECTO}, #000000)`
-);
-
-}
-
-
-btnGuardarColor.addEventListener("click", () => {
-
-const nuevoColor = selectorCuenta.value;
-
-localStorage.setItem("colorFondo", nuevoColor);
-
-document.documentElement.style.setProperty(
-"--color-fondo",
-`linear-gradient(to bottom right, ${nuevoColor}, #000000)`
-);
-
-});
-
-
-btnRestablecer.addEventListener("click", () => {
-
-localStorage.removeItem("colorFondo");
-
-selectorCuenta.value = COLOR_DEFECTO;
-
-document.documentElement.style.setProperty(
-"--color-fondo",
-`linear-gradient(to bottom right, ${COLOR_DEFECTO}, #000000)`
-);
-
-});
-
-</script>
-
-
-<!-- SCRIPT CUENTA -->
-<script src="../scripts/account.js"></script>
-
+    <!-- SCRIPT CUENTA -->
+    <script src="../scripts/account.js"></script>
 
 </body>
 </html>
