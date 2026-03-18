@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producto - InfoTek</title>
 
+    <!-- CSS global (navbar + estilos generales) -->
+    <link rel="stylesheet" href="../estilos/index.css">
+
     <!-- CSS de la página de producto -->
     <link rel="stylesheet" href="../estilos/producto.css">
 
@@ -14,8 +17,35 @@
 
 <body>
 
-    <!-- NAVBAR DINÁMICO -->
-    <header id="encabezado"></header>
+    <!-- NAVBAR COPIADA DEL INDEX -->
+    <header class="header">
+        <div class="header-contenido">
+
+            <div class="header-logo">
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </div>
+
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+
+            <div class="header-usuario">
+
+                <button class="btn-icon" id="btn-comparar-final">
+                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                </button>
+
+                <button class="btn-icon">
+                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                </button>
+
+                <button class="btn-icon" id="btn-cuenta">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                </button>
+
+            </div>
+
+        </div>
+    </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
@@ -23,8 +53,15 @@
 
             <!-- GALERÍA DE IMÁGENES -->
             <section class="producto-imagen">
-                <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
-                <div id="miniaturas"></div>
+                <div class="galeria-columnas">
+
+                    <!-- Miniaturas (se llenan con JS) -->
+                    <div id="miniaturas" class="miniaturas-columna"></div>
+
+                    <!-- Imagen principal -->
+                    <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
+
+                </div>
             </section>
 
             <!-- INFORMACIÓN DEL PRODUCTO -->
