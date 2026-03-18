@@ -1,12 +1,6 @@
-// ===============================
-// 1. OBTENER ID DE LA URL
-// ===============================
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-// ===============================
-// 2. REFERENCIAS DEL DOM
-// ===============================
 const imgPrincipal = document.getElementById("producto-imagen");
 const nombreEl = document.getElementById("producto-nombre");
 const precioActualEl = document.getElementById("producto-precio-actual");
@@ -16,14 +10,8 @@ const ratingEl = document.getElementById("producto-rating");
 const stockEl = document.getElementById("producto-stock");
 const especificacionesEl = document.getElementById("producto-especificaciones");
 const btnCarrito = document.getElementById("btn-carrito");
+const contenedorMiniaturas = document.getElementById("miniaturas");
 
-const precioMinEl = document.getElementById("precio-min");
-const precioMaxEl = document.getElementById("precio-max");
-const precioMediaEl = document.getElementById("precio-media");
-
-// ===============================
-// 3. CARGAR PRODUCTO DESDE BACKEND
-// ===============================
 async function cargarProducto() {
     try {
         const res = await fetch(`http://localhost:3000/api/productos/${id}`);
@@ -36,10 +24,7 @@ async function cargarProducto() {
 
         // IMAGEN PRINCIPAL
         if (producto.imagenes && producto.imagenes.length > 0) {
-            const ruta = "../" + producto.imagenes[0].replace("frontend/", "");
-            imgPrincipal.src = ruta;
-        } else {
-            imgPrincipal.src = "../recursos/imagenes/default.jpg";
+            imgPrincipal.src = "../" + producto.imagenes[0].replace("frontend/", "");
         }
 
         // NOMBRE
@@ -66,6 +51,23 @@ async function cargarProducto() {
 
         // CARGAR GRÁFICA
         cargarGrafica(producto.identification);
+
+        contenedorMiniaturas.innerHTML = "";
+        producto.imagenes.forEach((img, index) => {
+            const mini = document.createElement("img");
+            mini.src = "../" + img.replace("frontend/", "");
+            mini.classList.add("miniatura");
+
+            if (index === 0) imgPrincipal.src = mini.src;
+
+            mini.addEventListener("click", () => {
+                imgPrincipal.src = mini.src;
+            });
+
+            contenedorMiniaturas.appendChild(mini);
+        });
+
+        btnCarrito.addEventListener("click", () => agregarAlCarrito(producto));
 
     } catch (error) {
         console.error("Error cargando producto:", error);
@@ -122,4 +124,19 @@ function generarGraficaIndividual(precios) {
             }]
         }
     });
+}
+
+function agregarAlCarrito(producto) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    carrito.push({
+        id: producto._id,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        cantidad: 1
+    });
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    alert("Producto añadido al carrito");
 }
