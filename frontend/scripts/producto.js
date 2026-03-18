@@ -22,17 +22,26 @@ async function cargarProducto() {
             return;
         }
 
+        // IMAGEN PRINCIPAL
         if (producto.imagenes && producto.imagenes.length > 0) {
             imgPrincipal.src = "../" + producto.imagenes[0].replace("frontend/", "");
         }
 
+        // NOMBRE
         nombreEl.textContent = producto.nombre;
+
+        // PRECIOS
         precioActualEl.textContent = producto.precio + " €";
         precioAnteriorEl.textContent = (producto.precio * 1.10).toFixed(2) + " €";
         descuentoEl.textContent = "-10%";
+
+        // RATING
         ratingEl.textContent = "4.8";
+
+        // STOCK
         stockEl.textContent = `Stock disponible: ${producto.stock} unidades`;
 
+        // ESPECIFICACIONES
         especificacionesEl.innerHTML = "";
         if (producto.descripcion) {
             const li = document.createElement("li");
@@ -40,11 +49,8 @@ async function cargarProducto() {
             especificacionesEl.appendChild(li);
         }
 
-        if (producto.marca) {
-            const li = document.createElement("li");
-            li.textContent = "Marca: " + producto.marca;
-            especificacionesEl.appendChild(li);
-        }
+        // CARGAR GRÁFICA
+        cargarGrafica(producto.identification);
 
         contenedorMiniaturas.innerHTML = "";
         producto.imagenes.forEach((img, index) => {
@@ -69,6 +75,56 @@ async function cargarProducto() {
 }
 
 cargarProducto();
+
+// ===============================
+// 4. GRÁFICA DE PRECIOS
+// ===============================
+async function cargarGrafica(identification) {
+    const res = await fetch("../data/precios.json");
+    const data = await res.json();
+
+    const producto = data.productos.find(p => p.identification === identification);
+
+    if (!producto) {
+        document.getElementById("contenedor-grafica").innerHTML =
+            "<p>No hay datos de precio para este producto.</p>";
+        return;
+    }
+
+    generarGraficaIndividual(producto.precios);
+
+    // Estadísticas
+    const min = Math.min(...producto.precios);
+    const max = Math.max(...producto.precios);
+    const media = (producto.precios.reduce((a, b) => a + b) / producto.precios.length).toFixed(2);
+
+    precioMinEl.textContent = min + " €";
+    precioMaxEl.textContent = max + " €";
+    precioMediaEl.textContent = media + " €";
+}
+
+function generarGraficaIndividual(precios) {
+    const ctx = document.createElement("canvas");
+    const contenedor = document.getElementById("contenedor-grafica");
+
+    contenedor.innerHTML = "";
+    contenedor.appendChild(ctx);
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+            datasets: [{
+                label: "Precio (€)",
+                data: precios,
+                borderColor: "#191970",
+                backgroundColor: "rgba(25, 25, 112, 0.2)",
+                borderWidth: 3,
+                tension: 0.3
+            }]
+        }
+    });
+}
 
 function agregarAlCarrito(producto) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];

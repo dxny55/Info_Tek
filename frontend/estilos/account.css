@@ -28,8 +28,13 @@ body {
 .cuenta-grid {
     margin-top: 40px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
+}
+
+.tema-card {
+    grid-column: 1 / span 2; /* La coloca centrada debajo de las 3 cards */
+    width: 75%;
 }
 
 /* 🔒 Todo el texto dentro de las cards SIEMPRE negro */
@@ -79,11 +84,6 @@ body {
     background: #222;
 }
 
-/* CARD DE TEMAS OCUPA 2 COLUMNAS */
-.tema-card {
-    grid-column: span 2;
-}
-
 /* Botones de guardar/restablecer */
 .botones-tema {
     display: flex;
@@ -109,5 +109,68 @@ body {
 @media (max-width: 900px) {
     .tema-card {
         grid-column: span 1;
+    }
+}
+.footer {
+    margin-top: 60px;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
+    backdrop-filter: blur(4px);
+    text-align: center;
+    color: white;
+}
+
+.footer-contenido {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-redes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-redes img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1); /* iconos blancos */
+    transition: 0.2s;
+}
+
+.footer-redes img:hover {
+    transform: scale(1.15);
+}
+
+.footer-copy {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
     }
 }
