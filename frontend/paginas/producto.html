@@ -53,20 +53,16 @@
 
             <!-- GALERÍA DE IMÁGENES -->
             <section class="producto-imagen">
-                <div class="galeria-columnas">
-
-                    <!-- Miniaturas (se llenan con JS) -->
-                    <div id="miniaturas" class="miniaturas-columna"></div>
-
-                    <!-- Imagen principal -->
+                <div class="galeria-vertical">
                     <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
 
+                    <div id="miniaturas" class="miniaturas-fila"></div>
                 </div>
+
             </section>
 
             <!-- INFORMACIÓN DEL PRODUCTO -->
-            <section class="producto-info">
-
+            <section class="producto-info"> 
                 <h1 id="producto-nombre" class="producto-titulo">Nombre del producto</h1>
 
                 <div class="producto-precio">
@@ -86,7 +82,49 @@
 
                 <button id="btn-carrito" class="btn">Añadir al carrito</button>
 
+                <!-- BLOQUE DE INFORMACIÓN ADICIONAL -->
+                <div class="info-extra">
+
+                    <div class="info-item">
+                        <strong>Envío:</strong>
+                        <p>Entrega en 24/48h a toda España.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Devoluciones:</strong>
+                        <p>Devolución gratuita durante 30 días.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Garantía:</strong>
+                        <p>2 años de garantía oficial del fabricante.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Financiación:</strong>
+                        <p>Disponible desde 12€/mes.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <strong>Vendedor:</strong>
+                        <p>InfoTek — Distribuidor oficial.</p>
+                    </div>
+
+                </div>
+
+
             </section>
+            <section class="producto-extra">
+                    <div class="extra-box">
+                        <h3>Información de compra</h3>
+                        <p><strong>Envío:</strong> Entrega en 24/48h</p>
+                        <p><strong>Devoluciones:</strong> Gratis durante 30 días</p>
+                        <p><strong>Garantía:</strong> 2 años oficiales</p>
+                        <p><strong>Financiación:</strong> Desde 12€/mes</p>
+                        <p><strong>Vendedor:</strong> InfoTek — Distribuidor oficial</p>
+
+                    </div>
+                </section>
         </div>
     </main>
 
@@ -104,12 +142,6 @@
             <p>Precio medio: <span id="precio-media">-</span></p>
         </div>
     </section>
-
-    <!-- NAVBAR SCRIPT -->
-    <script type="module">
-        import { cargarNav } from "../src/components/nav/navBar.js";
-        cargarNav();
-    </script>
 
     <!-- SCRIPT PRINCIPAL DEL PRODUCTO (DEBE IR DESPUÉS DE CHART.JS) -->
     <script src="../scripts/producto.js"></script>
