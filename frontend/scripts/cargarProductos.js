@@ -12,9 +12,10 @@ const compareModal = initCompareModal();
 let productos = [];
 let seleccionados = [];
 
+// CATEGORÍAS AJUSTADAS A MONGODB
 const mapaCategorias = {
-    CPU: "Procesador",
-    GPU: "Tarjeta Gráfica",
+    CPU: "CPU",
+    GPU: "GPU",
     RAM: "RAM",
     Motherboard: "Placa Base",
     Storage: "Almacenamiento",
@@ -108,35 +109,28 @@ function añadirCarrito(producto, boton) {
     const index = favs.findIndex(p => p._id === producto._id);
 
     if (index === -1) {
-        // No está → añadir
         favs.push(producto);
-        boton.classList.add("favorito-activo"); // opcional
+        boton.classList.add("favorito-activo");
     } else {
-        // Ya está → quitar
         favs.splice(index, 1);
-        boton.classList.remove("favorito-activo"); // opcional
+        boton.classList.remove("favorito-activo");
     }
 
     localStorage.setItem("favoritos", JSON.stringify(favs));
 }
 
-
-
-//CUENTA------------------
-
-
+// CUENTA
 btnCuenta.addEventListener("click", () => {
     window.location.href = "./account.html"; 
 });
 
-// Cargar color guardado
+// COLOR
 const colorGuardado = localStorage.getItem("colorFondo");
 if (colorGuardado) {
     document.documentElement.style.setProperty("--color-fondo", colorGuardado);
     selectorColor.value = colorGuardado;
 }
 
-// Cambiar color al seleccionar
 selectorColor.addEventListener("input", (e) => {
     const nuevoColor = e.target.value;
     document.documentElement.style.setProperty("--color-fondo", nuevoColor);

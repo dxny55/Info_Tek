@@ -1,6 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// ELEMENTOS DEL DOM
 const imgPrincipal = document.getElementById("producto-imagen");
 const nombreEl = document.getElementById("producto-nombre");
 const precioActualEl = document.getElementById("producto-precio-actual");
@@ -12,6 +13,13 @@ const especificacionesEl = document.getElementById("producto-especificaciones");
 const btnCarrito = document.getElementById("btn-carrito");
 const contenedorMiniaturas = document.getElementById("miniaturas");
 
+const precioMinEl = document.getElementById("precio-min");
+const precioMaxEl = document.getElementById("precio-max");
+const precioMediaEl = document.getElementById("precio-media");
+
+// ===============================
+// CARGAR PRODUCTO
+// ===============================
 async function cargarProducto() {
     try {
         const res = await fetch(`http://localhost:3000/api/productos/${id}`);
@@ -23,19 +31,24 @@ async function cargarProducto() {
         }
 
         // IMAGEN PRINCIPAL
-        if (producto.imagenes && producto.imagenes.length > 0) {
-            imgPrincipal.src = "../" + producto.imagenes[0].replace("frontend/", "");
+        if (producto.imagenes?.length > 0) {
+            imgPrincipal.src = "../" + producto.imagenes[0];
         }
 
         // NOMBRE
-        nombreEl.textContent = producto.nombre;
+        nombreEl.textContent = producto.nombreLargo || producto.nombreCorto;
 
         // PRECIOS
         precioActualEl.textContent = producto.precio + " €";
-        precioAnteriorEl.textContent = (producto.precio * 1.10).toFixed(2) + " €";
-        descuentoEl.textContent = "-10%";
+        precioAnteriorEl.textContent = producto.precioAnterior + " €";
 
-        // RATING
+        const descuento = Math.round(
+            (1 - producto.precio / producto.precioAnterior) * 100
+        );
+
+        descuentoEl.textContent = `-${descuento}%`;
+
+        // RATING (fijo por ahora)
         ratingEl.textContent = "4.8";
 
         // STOCK
@@ -43,19 +56,17 @@ async function cargarProducto() {
 
         // ESPECIFICACIONES
         especificacionesEl.innerHTML = "";
-        if (producto.descripcion) {
+        Object.entries(producto.especificaciones).forEach(([clave, valor]) => {
             const li = document.createElement("li");
-            li.textContent = producto.descripcion;
+            li.textContent = `${clave}: ${valor}`;
             especificacionesEl.appendChild(li);
-        }
+        });
 
-        // CARGAR GRÁFICA
-        cargarGrafica(producto.identification);
-
+        // MINIATURAS
         contenedorMiniaturas.innerHTML = "";
         producto.imagenes.forEach((img, index) => {
             const mini = document.createElement("img");
-            mini.src = "../" + img.replace("frontend/", "");
+            mini.src = "../" + img;
             mini.classList.add("miniatura");
 
             if (index === 0) imgPrincipal.src = mini.src;
@@ -67,6 +78,20 @@ async function cargarProducto() {
             contenedorMiniaturas.appendChild(mini);
         });
 
+        // CARGAR GRÁFICA INDIVIDUAL
+        generarGraficaIndividual(producto.historialPrecios);
+
+        // ESTADÍSTICAS
+        const precios = producto.historialPrecios
+            .map(h => h.precio)
+            .filter(p => p !== null);
+
+        precioMinEl.textContent = Math.min(...precios) + " €";
+        precioMaxEl.textContent = Math.max(...precios) + " €";
+        precioMediaEl.textContent =
+            (precios.reduce((a, b) => a + b) / precios.length).toFixed(2) + " €";
+
+        // BOTÓN CARRITO
         btnCarrito.addEventListener("click", () => agregarAlCarrito(producto));
 
     } catch (error) {
@@ -77,33 +102,9 @@ async function cargarProducto() {
 cargarProducto();
 
 // ===============================
-// 4. GRÁFICA DE PRECIOS
+// GRÁFICA INDIVIDUAL
 // ===============================
-async function cargarGrafica(identification) {
-    const res = await fetch("../data/precios.json"); // ← RUTA CORRECTA
-    const data = await res.json();
-
-    const producto = data.productos.find(p => p.identification === identification);
-
-    if (!producto) {
-        document.getElementById("contenedor-grafica").innerHTML =
-            "<p>No hay datos de precio para este producto.</p>";
-        return;
-    }
-
-    generarGraficaIndividual(producto.precios);
-
-    const min = Math.min(...producto.precios);
-    const max = Math.max(...producto.precios);
-    const media = (producto.precios.reduce((a, b) => a + b) / producto.precios.length).toFixed(2);
-
-    precioMinEl.textContent = min + " €";
-    precioMaxEl.textContent = max + " €";
-    precioMediaEl.textContent = media + " €";
-}
-
-
-function generarGraficaIndividual(precios) {
+function generarGraficaIndividual(historial) {
     const ctx = document.createElement("canvas");
     const contenedor = document.getElementById("contenedor-grafica");
 
@@ -113,10 +114,10 @@ function generarGraficaIndividual(precios) {
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+            labels: historial.map(h => h.fecha),
             datasets: [{
                 label: "Precio (€)",
-                data: precios,
+                data: historial.map(h => h.precio),
                 borderColor: "#191970",
                 backgroundColor: "rgba(25, 25, 112, 0.2)",
                 borderWidth: 3,
@@ -126,12 +127,15 @@ function generarGraficaIndividual(precios) {
     });
 }
 
+// ===============================
+// CARRITO
+// ===============================
 function agregarAlCarrito(producto) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     carrito.push({
         id: producto._id,
-        nombre: producto.nombre,
+        nombre: producto.nombreCorto,
         precio: producto.precio,
         cantidad: 1
     });

@@ -2,13 +2,16 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
+    // Imagen principal del producto
     const imagen = producto.imagenes?.[0]
-        ? "../" + producto.imagenes[0].replace("frontend/", "")
+        ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
     card.innerHTML = `
-        <img class="producto-img" src="${imagen}" alt="${producto.nombre}">
-        <h3 class="producto-nombre">${producto.nombre}</h3>
+        <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
+        
+        <h3 class="producto-nombre">${producto.nombreLargo}</h3>
+
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
@@ -33,7 +36,7 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
 
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
-        onCarrito(producto); // aquí puedes poner favoritos si quieres
+        onCarrito(producto);
     });
 
     return card;

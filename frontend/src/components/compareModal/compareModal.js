@@ -20,52 +20,32 @@ function injectModalHTML() {
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
-function parseSpecs(descripcion) {
-    const specs = {};
-    if (!descripcion) return specs;
-
-    const partes = descripcion.split(",");
-
-    partes.forEach(p => {
-        const texto = p.trim().toLowerCase();
-
-        if (texto.includes("núcleo")) specs["Núcleos"] = texto.match(/\d+/)?.[0];
-        if (texto.includes("hilo")) specs["Hilos"] = texto.match(/\d+/)?.[0];
-        if (texto.includes("ghz")) specs["Frecuencia Turbo"] = texto.match(/[\d.]+ghz/i)?.[0];
-        if (texto.includes("arquitectura")) specs["Arquitectura"] = texto.replace("arquitectura", "").trim();
-        if (texto.includes("socket")) specs["Socket"] = texto.replace("socket", "").trim().toUpperCase();
-    });
-
-    return specs;
-}
+// ===============================
+// TABLA DE COMPARACIÓN
+// ===============================
 
 function generarTabla(productos) {
-    const specsUnificadas = new Set();
-
-    productos.forEach(p => {
-        const specs = parseSpecs(p.descripcion);
-        Object.keys(specs).forEach(k => specsUnificadas.add(k));
-    });
 
     let html = `
     <table class="comparativa-tabla">
         <thead>
             <tr>
                 <th>Característica</th>
-                ${productos.map(p => `<th>${p.nombre}</th>`).join("")}
+                ${productos.map(p => `<th>${p.nombreCorto}</th>`).join("")}
             </tr>
         </thead>
         <tbody>
+
             <tr>
                 <td>Imagen</td>
                 ${productos.map(p => `
-                    <td><img class="comparativa-img" src="/${p.imagenes[0]}"></td>
+                    <td><img class="comparativa-img" src="../${p.imagenes[0]}"></td>
                 `).join("")}
             </tr>
 
             <tr>
                 <td>Precio</td>
-                ${productos.map(p => `<td class="precio">${p.precio} €</td>`).join("")}
+                ${productos.map(p => `<td>${p.precio} €</td>`).join("")}
             </tr>
 
             <tr>
@@ -79,59 +59,62 @@ function generarTabla(productos) {
             </tr>
     `;
 
-    specsUnificadas.forEach(key => {
+    // ESPECIFICACIONES REALES
+    const keys = new Set();
+    productos.forEach(p => {
+        Object.keys(p.especificaciones).forEach(k => keys.add(k));
+    });
+
+    keys.forEach(key => {
         html += `
         <tr>
             <td>${key}</td>
-            ${productos.map(p => {
-                const specs = parseSpecs(p.descripcion);
-                return `<td>${specs[key] || "-"}</td>`;
-            }).join("")}
+            ${productos.map(p => `<td>${p.especificaciones[key] || "-"}</td>`).join("")}
         </tr>
         `;
     });
 
     html += `</tbody></table>`;
-
     return html;
 }
 
 // ===============================
 // GRÁFICA COMPARATIVA (APEXCHARTS)
 // ===============================
+
 let grafica = null;
-
-async function cargarGraficaComparativa(identifications) {
-    const res = await fetch("../data/precios.json");
-    const data = await res.json();
-
-    const productos = data.productos.filter(p =>
-        identifications.includes(p.identification)
-    );
-
-    generarGraficaComparativa(productos);
-}
 
 function generarGraficaComparativa(productos) {
     const contenedor = document.getElementById("canvas-comparativa");
 
-    if (grafica) {
-        grafica.destroy();
-    }
+    if (grafica) grafica.destroy();
 
     const opciones = {
-        chart: {
-            type: "line",
-            height: 300
-        },
-        series: productos.map(p => ({
-            name: p.slug.replace(/_/g, " "),
-            data: p.precios
-        })),
-        xaxis: {
-            categories: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"]
+    chart: {
+        type: "line",
+        height: 300,
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: false,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+                pan: false,
+                reset: false
+            }
         }
-    };
+    },
+    series: productos.map(p => ({
+        name: p.nombreCorto,
+        data: p.historialPrecios.map(h => h.precio || null)
+    })),
+    xaxis: {
+        categories: productos[0].historialPrecios.map(h => h.fecha)
+    }
+};
+
 
     grafica = new ApexCharts(contenedor, opciones);
     grafica.render();
@@ -140,6 +123,7 @@ function generarGraficaComparativa(productos) {
 // ===============================
 // INICIALIZAR MODAL
 // ===============================
+
 export function initCompareModal() {
     injectModalHTML();
 
@@ -159,8 +143,7 @@ export function initCompareModal() {
 
             tabla.innerHTML = generarTabla(productos);
 
-            const ids = productos.map(p => p.identification);
-            cargarGraficaComparativa(ids);
+            generarGraficaComparativa(productos);
 
             modal.style.display = "flex";
         }
