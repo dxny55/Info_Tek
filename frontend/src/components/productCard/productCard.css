@@ -2,7 +2,7 @@
    TARJETA DEL PRODUCTO
    ============================ */
 .producto-card {
-    width: 400px;              /* Más estrecha */
+    width: 350px;              /* Más estrecha */
     min-height: 500px;         /* Más alargada */
     background: white;
     margin-left: 10%;
@@ -114,5 +114,5 @@
 }
 
 .btn-favorito.seleccionado {
-    background: #0080ff;
+    background: #ff0022;
 }

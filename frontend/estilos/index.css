@@ -50,7 +50,11 @@ html, body {
     background: linear-gradient(135deg, #191970, #000000);
     padding: 12px 0;
     color: #F5F5F5;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
 }
+
 
 /* Contenedor interno */
 .header-contenido {
@@ -142,28 +146,72 @@ html, body {
 
 /* ------------BOTONES DE CATEGORÍAS------------ */
 
-.categorias {
+.layout-tienda {
     display: flex;
-    gap: 10px;
-    margin: 0 40px 40px 40px;
+    align-items: flex-start; /* ← Alinea filtro y productos a la misma altura */
+    gap: 40px;
+    padding: 20px;
+}
+.zona-productos {
+    flex: 1;
 }
 
-.categoria-btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: 2px solid #191970;
-    background: #F5F5F5;
-    color: #191970;
+/* Filtro lateral */
+.filtro-lateral {
+    width: 260px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 100px;
+}
+
+
+/* Bloques del filtro */
+.filtro-bloque {
+    margin-bottom: 25px;
+}
+
+.filtro-bloque h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.filtro-bloque label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+}
+
+details summary {
     cursor: pointer;
     font-weight: bold;
-    transition: 0.25s ease;
+    margin: 8px 0;
 }
 
-.categoria-btn.activo,
-.categoria-btn:hover {
-    background: #191970;
-    color: #F5F5F5;
-    transform: translateY(-2px);
+/* Botón limpiar */
+#btn-limpiar-filtros {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #5353b6, #3116c7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 15px;
+}
+
+#btn-limpiar-filtros:hover {
+    background: linear-gradient(135deg, #191970, #000000);
+}
+
+/* Productos */
+.productos {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
 }
 
 /* ------------PRODUCTOS------------ */
