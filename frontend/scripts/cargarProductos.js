@@ -9,7 +9,7 @@ const btnCuenta = document.getElementById("btn-cuenta");
 const selectorColor = document.getElementById("selector-color");
 const compareModal = initCompareModal();
 
-let productos = [];
+window.productos = [];
 let seleccionados = [];
 
 // CATEGORÍAS AJUSTADAS A MONGODB
@@ -25,7 +25,8 @@ const mapaCategorias = {
 fetch("http://localhost:3000/api/productos")
     .then(res => res.json())
     .then(data => {
-        productos = data;
+    window.productos = data;
+
         mostrarProductos(productos);
     })
     .catch(err => console.error("Error cargando productos:", err));
