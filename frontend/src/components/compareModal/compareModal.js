@@ -1,6 +1,12 @@
+// ===============================
+// 1. INYECTAR HTML DEL MODAL
+// ===============================
 function injectModalHTML() {
+    // Si ya existe, no lo duplicamos
+    if (document.getElementById("modal-comparativa")) return;
+
     const html = `
-    <div id="modal-comparativa" class="modal-comparativa">
+    <div id="modal-comparativa" class="modal-comparativa" style="display:none;">
         <div class="modal-contenido">
             <button class="modal-cerrar" id="cerrar-comparativa">X</button>
 
@@ -10,41 +16,26 @@ function injectModalHTML() {
             </div>
 
             <div class="grafica-comparativa">
-                <canvas id="canvas-comparativa"></canvas>
+                <div id="canvas-comparativa"></div>
             </div>
 
-            <div id="comparativa-tabla"></div>
+            <div id="comparativa-tabla-contenedor"></div>
         </div>
     </div>
     `;
     document.body.insertAdjacentHTML("beforeend", html);
 }
 
-function parseSpecs(descripcion) {
-    const specs = {};
-    if (!descripcion) return specs;
-
-    const partes = descripcion.split(",");
-
-    partes.forEach(p => {
-        const texto = p.trim().toLowerCase();
-
-        if (texto.includes("núcleo")) specs["Núcleos"] = texto.match(/\d+/)?.[0];
-        if (texto.includes("hilo")) specs["Hilos"] = texto.match(/\d+/)?.[0];
-        if (texto.includes("ghz")) specs["Frecuencia Turbo"] = texto.match(/[\d.]+ghz/i)?.[0];
-        if (texto.includes("arquitectura")) specs["Arquitectura"] = texto.replace("arquitectura", "").trim();
-        if (texto.includes("socket")) specs["Socket"] = texto.replace("socket", "").trim().toUpperCase();
-    });
-
-    return specs;
-}
-
+// ===============================
+// 2. GENERAR TABLA DE COMPARACIÓN
+// ===============================
 function generarTabla(productos) {
-    const specsUnificadas = new Set();
-
+    // Recolectamos todas las llaves de especificaciones de todos los productos
+    const todasLasKeys = new Set();
     productos.forEach(p => {
-        const specs = parseSpecs(p.descripcion);
-        Object.keys(specs).forEach(k => specsUnificadas.add(k));
+        if (p.especificaciones) {
+            Object.keys(p.especificaciones).forEach(k => todasLasKeys.add(k));
+        }
     });
 
     let html = `
@@ -52,113 +43,128 @@ function generarTabla(productos) {
         <thead>
             <tr>
                 <th>Característica</th>
-                ${productos.map(p => `<th>${p.nombre}</th>`).join("")}
+                ${productos.map(p => `<th>${p.nombreCorto || p.nombre}</th>`).join("")}
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Imagen</td>
-                ${productos.map(p => `
-                    <td><img class="comparativa-img" src="/${p.imagenes[0]}"></td>
-                `).join("")}
+                ${productos.map(p => {
+                    const imgRuta = p.imagenes?.[0] ? "../" + p.imagenes[0].replace("frontend/", "") : "../recursos/imagenes/placeholder.png";
+                    return `<td><img class="comparativa-img" src="${imgRuta}"></td>`;
+                }).join("")}
             </tr>
-
             <tr>
-                <td>Precio</td>
-                ${productos.map(p => `<td class="precio">${p.precio} €</td>`).join("")}
+                <td>Precio Actual</td>
+                ${productos.map(p => `<td class="precio-destacado">${p.precio} €</td>`).join("")}
             </tr>
-
             <tr>
                 <td>Stock</td>
-                ${productos.map(p => `<td>${p.stock}</td>`).join("")}
+                ${productos.map(p => `<td>${p.stock} u.</td>`).join("")}
             </tr>
-
             <tr>
                 <td>Categoría</td>
                 ${productos.map(p => `<td>${p.categoria}</td>`).join("")}
             </tr>
     `;
 
-    specsUnificadas.forEach(key => {
+    // Filas de especificaciones dinámicas
+    todasLasKeys.forEach(key => {
         html += `
         <tr>
-            <td>${key}</td>
-            ${productos.map(p => {
-                const specs = parseSpecs(p.descripcion);
-                return `<td>${specs[key] || "-"}</td>`;
-            }).join("")}
+            <td class="spec-label">${key}</td>
+            ${productos.map(p => `<td>${p.especificaciones?.[key] || "-"}</td>`).join("")}
         </tr>
         `;
     });
 
     html += `</tbody></table>`;
-
     return html;
 }
 
 // ===============================
-// GRÁFICA COMPARATIVA
+// 3. GRÁFICA COMPARATIVA (APEXCHARTS)
 // ===============================
 let grafica = null;
 
-async function cargarGraficaComparativa(identifications) {
-    const res = await fetch("../data/precios.json");
-    const data = await res.json();
-
-    const productos = data.productos.filter(p =>
-        identifications.includes(p.identification)
-    );
-
-    generarGraficaComparativa(productos);
-}
-
 function generarGraficaComparativa(productos) {
-    const canvas = document.getElementById("canvas-comparativa");
+    const contenedor = document.getElementById("canvas-comparativa");
+    if (!contenedor) return;
 
     if (grafica) {
         grafica.destroy();
     }
 
-    grafica = new Chart(canvas, {
-        type: "line",
-        data: {
-            labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
-            datasets: productos.map(p => ({
-                label: p.slug.replace(/_/g, " "),
-                data: p.precios,
-                borderWidth: 2,
-                tension: 0.3
-            }))
-        }
-    });
+    // Extraer fechas del primer producto como referencia para el eje X
+    const categoriasX = productos[0]?.historialPrecios?.map(h => h.fecha) || ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
+
+    const opciones = {
+        chart: {
+            type: "line",
+            height: 350,
+            fontFamily: 'Arial, sans-serif',
+            toolbar: { show: true }
+        },
+        colors: ['#191970', '#ce4646', '#2f7920', '#47463a'],
+        stroke: { curve: 'smooth', width: 3 },
+        series: productos.map(p => ({
+            name: p.nombreCorto || p.nombre,
+            data: p.historialPrecios ? p.historialPrecios.map(h => h.precio) : (p.precios || [])
+        })),
+        xaxis: {
+            categories: categoriasX,
+            title: { text: 'Historial de Tiempo' }
+        },
+        yaxis: {
+            title: { text: 'Precio (€)' }
+        },
+        tooltip: { shared: true, intersect: false }
+    };
+
+    grafica = new ApexCharts(contenedor, opciones);
+    grafica.render();
 }
 
 // ===============================
-// INICIALIZAR MODAL
+// 4. INICIALIZAR E INTERFAZ
 // ===============================
 export function initCompareModal() {
     injectModalHTML();
 
     const modal = document.getElementById("modal-comparativa");
     const cerrar = document.getElementById("cerrar-comparativa");
-    const tabla = document.getElementById("comparativa-tabla");
-    const count = document.getElementById("comparativa-count");
+    const tablaContenedor = document.getElementById("comparativa-tabla-contenedor");
+    const countLabel = document.getElementById("comparativa-count");
 
+    // Evento cerrar
     cerrar.addEventListener("click", () => {
         modal.style.display = "none";
-        if (grafica) grafica.destroy();
+        // No destruimos la gráfica aquí para evitar parpadeos, 
+        // se destruye al abrir una nueva.
+    });
+
+    // Cerrar al hacer clic fuera del contenido
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
     });
 
     return {
         abrir: (productos) => {
-            count.textContent = `Comparando ${productos.length} producto(s)`;
+            if (!productos || productos.length === 0) return;
 
-            tabla.innerHTML = generarTabla(productos);
+            countLabel.textContent = `Comparando ${productos.length} producto(s)`;
+            
+            // 1. Generar la tabla
+            tablaContenedor.innerHTML = generarTabla(productos);
 
-            const ids = productos.map(p => p.identification);
-            cargarGraficaComparativa(ids);
-
+            // 2. Mostrar el modal (necesario antes de renderizar la gráfica para que tome el ancho)
             modal.style.display = "flex";
+
+            // 3. Generar la gráfica con ApexCharts
+            // Usamos un pequeño timeout para asegurar que el contenedor es visible
+            setTimeout(() => {
+                generarGraficaComparativa(productos);
+            }, 100);
         }
     };
 }
