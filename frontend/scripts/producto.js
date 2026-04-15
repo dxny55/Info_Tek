@@ -14,6 +14,7 @@ const ratingEl = document.getElementById("producto-rating");
 const stockEl = document.getElementById("producto-stock");
 const especificacionesEl = document.getElementById("producto-especificaciones");
 const btnCarrito = document.getElementById("btn-carrito");
+const contenedorMiniaturas = document.getElementById("miniaturas");
 
 const precioMinEl = document.getElementById("precio-min");
 const precioMaxEl = document.getElementById("precio-max");

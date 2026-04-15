@@ -91,9 +91,7 @@ function generarGraficaComparativa(productos) {
     const contenedor = document.getElementById("canvas-comparativa");
     if (!contenedor) return;
 
-    if (grafica) {
-        grafica.destroy();
-    }
+    if (grafica) grafica.destroy();
 
     // Extraer fechas del primer producto como referencia para el eje X
     const categoriasX = productos[0]?.historialPrecios?.map(h => h.fecha) || ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
@@ -124,6 +122,7 @@ function generarGraficaComparativa(productos) {
     grafica = new ApexCharts(contenedor, opciones);
     grafica.render();
 }
+
 
 // ===============================
 // 4. INICIALIZAR E INTERFAZ

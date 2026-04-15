@@ -1,119 +1,230 @@
 {
-  "productos": [
+  "precios": [
     {
-      "identification": "CPU001",
-      "slug": "ryzen_7_5800x3d",
-      "precios": [399.99, 532.0, 389.9, 532.0]
+      "identificacion": "CPU001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 399.99 },
+        { "fecha": "2026-02-25", "precio": 532.00 },
+        { "fecha": "2026-03-04", "precio": 389.90 },
+        { "fecha": "2026-03-11", "precio": 532.00 },
+        { "fecha": "2026-03-18", "precio": 532.00 }
+      ]
     },
     {
-      "identification": "CPU002",
-      "slug": "ryzen_9_9950x3d",
-      "precios": [679.95, 679.95, 721.61, 700.95]
+      "identificacion": "CPU002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 679.95 },
+        { "fecha": "2026-02-25", "precio": 679.95 },
+        { "fecha": "2026-03-04", "precio": 721.61 },
+        { "fecha": "2026-03-11", "precio": 700.95 },
+        { "fecha": "2026-03-18", "precio": 683.90 }
+      ]
     },
     {
-      "identification": "CPU003",
-      "slug": "intel_i7_14700kf",
-      "precios": [345.0, 343.99, 342.99, 343.0]
+      "identificacion": "CPU003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 345.00 },
+        { "fecha": "2026-02-25", "precio": 343.99 },
+        { "fecha": "2026-03-04", "precio": 342.99 },
+        { "fecha": "2026-03-11", "precio": 343.00 },
+        { "fecha": "2026-03-18", "precio": 343.99 }
+      ]
     },
     {
-      "identification": "CPU004",
-      "slug": "intel_i9_13900k",
-      "precios": [514.99, 514.99, 524.8, 524.8]
-    },
-
-    {
-      "identification": "GPU001",
-      "slug": "rtx_5090_gaming_oc",
-      "precios": [3076.62, 5012.37, 5085.99, 4460.49]
-    },
-    {
-      "identification": "GPU002",
-      "slug": "rtx_5070_ti_eagle",
-      "precios": [1070.0, 1070.0, 1070.0, 1070.0]
-    },
-    {
-      "identification": "GPU003",
-      "slug": "rtx_3060_ti_biostar",
-      "precios": [410.74, 421.27, 423.18, 452.37]
-    },
-    {
-      "identification": "GPU004",
-      "slug": "rx_9060_xt_sapphire",
-      "precios": [528.90, 529.0, 489.9, 489.9]
-    },
-
-    {
-      "identification": "MB001",
-      "slug": "msi_b850_gaming_plus",
-      "precios": [187.90, 187.91, 195.9, 124.9]
-    },
-    {
-      "identification": "MB002",
-      "slug": "msi_b850_tomahawk",
-      "precios": [221.90, 221.91, 242.31, 209.9]
-    },
-    {
-      "identification": "MB003",
-      "slug": "msi_b760_gaming_plus",
-      "precios": [141.95, 140.95, 140.95, 132.99]
+      "identificacion": "CPU004",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 514.99 },
+        { "fecha": "2026-02-25", "precio": 514.99 },
+        { "fecha": "2026-03-04", "precio": 524.80 },
+        { "fecha": "2026-03-11", "precio": 524.80 },
+        { "fecha": "2026-03-18", "precio": 549.99 }
+        
+      ]
     },
 
     {
-      "identification": "RAM001",
-      "slug": "corsair_vengeance_ddr5_6000",
-      "precios": [471.95, 509.98, 434.95, 361.99]
+      "identificacion": "GPU001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 3076.62 },
+        { "fecha": "2026-02-25", "precio": 5012.37 },
+        { "fecha": "2026-03-04", "precio": 5085.99 },
+        { "fecha": "2026-03-11", "precio": 4460.49 },
+        { "fecha": "2026-03-18", "precio": 4194.94 }
+      ]
     },
     {
-      "identification": "RAM002",
-      "slug": "kingston_fury_64gb_ddr5",
-      "precios": [1116.43, 1209.0, 1229.0, 1219.0]
+      "identificacion": "GPU002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 1070.00 },
+        { "fecha": "2026-02-25", "precio": 1070.00 },
+        { "fecha": "2026-03-04", "precio": 1070.00 },
+        { "fecha": "2026-03-11", "precio": 1070.00 },
+        { "fecha": "2026-03-18", "precio": 1063.95 }
+      ]
     },
     {
-      "identification": "RAM003",
-      "slug": "kingston_fury_ddr4_3200_16gb",
-      "precios": [164.95, 169.95, 169.95, 170.81]
+      "identificacion": "GPU003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 410.74 },
+        { "fecha": "2026-02-25", "precio": 421.27 },
+        { "fecha": "2026-03-04", "precio": 423.18 },
+        { "fecha": "2026-03-11", "precio": 452.37 },
+        { "fecha": "2026-03-18", "precio": 460.43 }
+      ]
     },
     {
-      "identification": "RAM004",
-      "slug": "adata_xpg_d35g_32gb",
-      "precios": [269.95, 269.95, 269.95, 302.95]
+      "identificacion": "GPU004",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 528.90 },
+        { "fecha": "2026-02-25", "precio": 529.00 },
+        { "fecha": "2026-03-04", "precio": 489.90 },
+        { "fecha": "2026-03-11", "precio": 489.90 },
+        { "fecha": "2026-03-18", "precio": 529.00 }
+      ]
     },
 
     {
-      "identification": "PSU001",
-      "slug": "tempest_psu_pro_750w",
-      "precios": [44.99, 44.99, 44.99, 44.99]
+      "identificacion": "MB001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 187.90 },
+        { "fecha": "2026-02-25", "precio": 187.91 },
+        { "fecha": "2026-03-04", "precio": 195.90 },
+        { "fecha": "2026-03-11", "precio": 124.90 },
+        { "fecha": "2026-03-18", "precio": 189.90 }
+      ]
     },
     {
-      "identification": "PSU002",
-      "slug": "forgeon_bolt_1000w",
-      "precios": [159.99, 189.99, 129.99, 129.99]
+      "identificacion": "MB002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 221.90 },
+        { "fecha": "2026-02-25", "precio": 221.91 },
+        { "fecha": "2026-03-04", "precio": 242.31 },
+        { "fecha": "2026-03-11", "precio": 209.90 },
+        { "fecha": "2026-03-18", "precio": 209.90 }
+      ]
     },
     {
-      "identification": "PSU003",
-      "slug": "preyon_850w_gold",
-      "precios": [120.29, 128.29, 76.18, 76.18]
-    },
-    {
-      "identification": "PSU004",
-      "slug": "tempest_psu_x_650w",
-      "precios": [49.99, 49.90, 49.99, 49.99]
+      "identificacion": "MB003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 141.95 },
+        { "fecha": "2026-02-25", "precio": 140.95 },
+        { "fecha": "2026-03-04", "precio": 140.95 },
+        { "fecha": "2026-03-11", "precio": 132.99 },
+        { "fecha": "2026-03-18", "precio": 142.99 }
+      ]
     },
 
     {
-      "identification": "ST001",
-      "slug": "forgeon_nimbus_plus_2tb",
-      "precios": [259.95, 259.95, 259.95, 262.95]
+      "identificacion": "RAM001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 471.95 },
+        { "fecha": "2026-02-25", "precio": 509.98 },
+        { "fecha": "2026-03-04", "precio": 434.95 },
+        { "fecha": "2026-03-11", "precio": 361.99 },
+        { "fecha": "2026-03-18", "precio": 434.95 }
+      ]
     },
     {
-      "identification": "ST002",
-      "slug": "seagate_ironwolf_8tb",
-      "precios": [251.95, 251.95, 299.0, 299.0]
+      "identificacion": "RAM002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 1116.43 },
+        { "fecha": "2026-02-25", "precio": 1209.00 },
+        { "fecha": "2026-03-04", "precio": 1229.00 },
+        { "fecha": "2026-03-11", "precio": 1219.00 },
+        { "fecha": "2026-03-18", "precio": 966.76 }
+      ]
     },
     {
-      "identification": "ST003",
-      "slug": "kingston_a400_240gb",
-      "precios": [67.95, 67.95, 67.95, 67.95]
+      "identificacion": "RAM003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 164.95 },
+        { "fecha": "2026-02-25", "precio": 169.95 },
+        { "fecha": "2026-03-04", "precio": 169.95 },
+        { "fecha": "2026-03-11", "precio": 170.81 },
+        { "fecha": "2026-03-18", "precio": 169.95 }
+      ]
+    },
+    {
+      "identificacion": "RAM004",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 269.95 },
+        { "fecha": "2026-02-25", "precio": 269.95 },
+        { "fecha": "2026-03-04", "precio": 269.95 },
+        { "fecha": "2026-03-11", "precio": 302.95 },
+        { "fecha": "2026-03-18", "precio": 304.30 }
+      ]
+    },
+
+    {
+      "identificacion": "PSU001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 44.99 },
+        { "fecha": "2026-02-25", "precio": 44.99 },
+        { "fecha": "2026-03-04", "precio": 44.99 },
+        { "fecha": "2026-03-11", "precio": 44.99 },
+        { "fecha": "2026-03-18", "precio": 44.99 }
+      ]
+    },
+    {
+      "identificacion": "PSU002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 159.99 },
+        { "fecha": "2026-02-25", "precio": 189.99 },
+        { "fecha": "2026-03-04", "precio": 129.99 },
+        { "fecha": "2026-03-11", "precio": 129.99 },
+        { "fecha": "2026-03-18", "precio": 189.99 }
+      ]
+    },
+    {
+      "identificacion": "PSU003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 120.29 },
+        { "fecha": "2026-02-25", "precio": 128.29 },
+        { "fecha": "2026-03-04", "precio": 76.18 },
+        { "fecha": "2026-03-11", "precio": 76.18 },
+        { "fecha": "2026-03-18", "precio": 102.54 }
+      ]
+    },
+    {
+      "identificacion": "PSU004",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 49.99 },
+        { "fecha": "2026-02-25", "precio": 49.90 },
+        { "fecha": "2026-03-04", "precio": 49.99 },
+        { "fecha": "2026-03-11", "precio": 49.99 },
+        { "fecha": "2026-03-18", "precio": 49.99 }
+      ]
+    },
+
+    {
+      "identificacion": "STO001",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 259.95 },
+        { "fecha": "2026-02-25", "precio": 259.95 },
+        { "fecha": "2026-03-04", "precio": 259.95 },
+        { "fecha": "2026-03-11", "precio": 262.95 },
+        { "fecha": "2026-03-18", "precio": 262.95 }
+      ]
+    },
+    {
+      "identificacion": "STO002",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 251.95 },
+        { "fecha": "2026-02-25", "precio": 251.95 },
+        { "fecha": "2026-03-04", "precio": 299.00 },
+        { "fecha": "2026-03-11", "precio": 299.00 },
+        { "fecha": "2026-03-18", "precio": 318.89 }
+      ]
+    },
+    {
+      "identificacion": "STO003",
+      "historial": [
+        { "fecha": "2026-02-18", "precio": 67.95 },
+        { "fecha": "2026-02-25", "precio": 67.95 },
+        { "fecha": "2026-03-04", "precio": 67.95 },
+        { "fecha": "2026-03-11", "precio": 67.95 },
+        { "fecha": "2026-03-18", "precio": 67.95 }
+      ]
     }
   ]
 }

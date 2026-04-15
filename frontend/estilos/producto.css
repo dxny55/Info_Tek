@@ -25,7 +25,13 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ================================
+   CONTENEDOR MÁS ANCHO
+================================ */
 .contenedor {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 25px;
@@ -45,8 +51,11 @@ body {
 
 /* GALERÍA DE IMÁGENES */
 .producto-imagen {
+    flex-shrink: 0;
+}
+
+.galeria-columnas {
     display: flex;
-    flex-direction: column;
     gap: 15px;
     align-items: center;
 }
@@ -71,6 +80,7 @@ body {
 /* Miniaturas */
 #miniaturas, .miniaturas-fila {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
@@ -107,7 +117,7 @@ body {
     margin: 0;
 }
 
-/* PRECIOS */
+/* Precios */
 .producto-precio {
     display: flex;
     align-items: center;
@@ -125,7 +135,6 @@ body {
 .precio-anterior {
     text-decoration: line-through;
     color: #888;
-    font-size: 1.1rem;
 }
 
 .descuento {
