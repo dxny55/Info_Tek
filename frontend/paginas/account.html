@@ -18,8 +18,10 @@
 
             <!-- Logo -->
             <div class="header-logo">
-                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-                <h1>InfoTek</h1>
+                <a href="/frontend/paginas/index.html" class="logo-link">
+                    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                    <h1>InfoTek</h1>
+                </a>
             </div>
 
             <!-- Buscador -->
@@ -72,21 +74,20 @@
                 </p>
 
                 <button class="btn">Editar información</button>
+                <button class="btn" id="cerrar-sesion">Cerrar sesión</button>
             </div>
 
-            <!-- FAVORITOS -->
-            <div class="cuenta-card">
-                <h2>Favoritos</h2>
-                <p>Mira tus productos marcados como favoritos.</p>
-                <button class="btn btn-secundario">Mirar favoritos</button>
-            </div>
+         <!-- FAVORITOS -->
+<div class="cuenta-card">
+    <h2>Favoritos</h2>
+    <p>Mira tus productos guardados.</p>
 
-            <!-- FAVORITOS -->
-            <div class="cuenta-card">
-                <h2>F</h2>
-                <p>M.</p>
-                <button class="btn">M</button>
-            </div>
+    <button class="btn btn-secundario" onclick="window.location.href='favoritos.html'">
+    Mis favoritos
+</button>
+
+    <div id="lista-favoritos" class="lista-favoritos"></div>
+</div>
 
             <!-- Ajustes de tema -->
             <div class="cuenta-card tema-card">
