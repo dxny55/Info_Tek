@@ -1,12 +1,9 @@
-/* ============================
-   TARJETA DEL PRODUCTO
-   ============================ */
 .producto-card {
-    width: 350px;              /* Más estrecha */
-    min-height: 500px;         /* Más alargada */
+    width: 100%;               /* Se adapta al contenedor de la grid */
+    min-height: 380px;         /* Altura mínima consistente */
     background: white;
-    margin-left: 10%;
-    padding: 15px;
+    margin: 0;                 /* Sin márgenes externos (la grid usa gap) */
+    padding: 16px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     display: flex;
@@ -14,6 +11,7 @@
     justify-content: space-between;
     transition: 0.2s ease;
     color: #191970;
+    box-sizing: border-box;    /* El padding no añade al ancho total */
 }
 
 .producto-card:hover {
@@ -53,7 +51,10 @@
 .botones-producto {
     display: flex;
     justify-content: flex-end;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
 }
 
 /* ============================

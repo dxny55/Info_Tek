@@ -13,15 +13,12 @@
     <script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
     <!-- CSS del componente CompareModal -->
     <link rel="stylesheet" href="../src/components/compareModal/compareModal.css">
-    
-
 </head>
 
 <body>
     <!-- ENCABEZADO -->
     <header class="header">
         <div class="header-contenido">
-
             <div class="header-logo">
                 <img src="../recursos/imagenes/logo.png" alt="InfoTek">
                 <h1>InfoTek</h1>
@@ -30,48 +27,47 @@
             <input type="text" class="buscador" placeholder="Buscar componentes...">
 
             <div class="header-usuario">
-
-                <!-- Botón comparar -->
                 <button class="btn-icon" id="btn-comparar-final">
                     <img src="../recursos/imagenes/comparar.png" alt="comparar">
                 </button>
-
-                <!-- Botón carrito -->
                 <button class="btn-icon">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
                 </button>
-
-                <!-- Botón cuenta -->
                 <button class="btn-icon" id="btn-cuenta">
                     <img src="../recursos/imagenes/usuario.png" alt="usuario">
                 </button>
-
             </div>
-
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
+        <!-- Layout principal: Filtros + Productos -->
+        <div class="layout-tienda">
+            
+            <!-- FILTRO LATERAL (Sticky) -->
+            <aside class="filtro-lateral">
+                <div class="filtro-bloque">
+                    <h3>Búsqueda de filtros</h3>
+                </div>
 
-    <!-- FILTRO LATERAL -->
-        <aside class="filtro-lateral">
-            <div class="filtro-bloque">
-                <h3>Precio</h3>
-                <label><input type="radio" name="precio" value="0-250"> 0 € – 250 €</label>
-                <label><input type="radio" name="precio" value="250-500"> 250 € – 500 €</label>
-                <label><input type="radio" name="precio" value="500-1000"> 500 € – 1000 €</label>
-                <label><input type="radio" name="precio" value="1000-mas"> Más de 1000 €</label>
-            </div>
+                <div class="filtro-bloque">
+                    <h3>Precio</h3>
+                    <div class="filtro-rango-precio">
+                        <input type="number" placeholder="11€" class="input-precio" id="precio-min">
+                        <span>-</span>
+                        <input type="number" placeholder="11964€" class="input-precio" id="precio-max">
+                    </div>
+                </div>
 
-            <div class="filtro-bloque">
+                <div class="filtro-bloque">
                 <h3>Categorías</h3>
                 <label><input type="checkbox" value="PC"> PC</label>
                 <label><input type="checkbox" value="Electrodomesticos"> Electrodomésticos</label>
                 <label><input type="checkbox" value="Consolas"> Consolas</label>
 
                 <details>
-                    <summary>Componentes</summary>
+                    <summary><strong>Componentes</strong></summary>
                     <label><input type="checkbox" value="CPU"> CPU</label>
                     <label><input type="checkbox" value="GPU"> GPU</label>
                     <label><input type="checkbox" value="RAM"> RAM</label>
@@ -92,22 +88,23 @@
                 <label><input type="checkbox" value="Nintendo"> Nintendo</label>
             </div>
 
-            <button id="btn-limpiar-filtros">Limpiar filtros</button>
-        </aside>
+                <button id="btn-limpiar-filtros">Limpiar filtros</button>
+            </aside>
 
-        <!-- LISTA DE PRODUCTOS -->
-        <div class="productos-header">
-            <h2 class="titulo-seccion">Todos los productos</h2>
-            <p class="contador" id="contador-productos">0 productos</p>
+            <!-- ZONA DE PRODUCTOS -->
+            <div class="zona-productos">
+                <div class="productos-header">
+                    <h2 class="titulo-seccion">Todos los productos</h2>
+                    <p class="contador" id="contador-productos">0 productos</p>
+                </div>
+                <section class="grid-productos" id="lista-productos"></section>
+            </div>
+
         </div>
-
-        <section class="grid-productos" id="lista-productos"></section>
-
     </main>
 
     <footer class="footer">
         <div class="footer-contenido">
-
             <div class="footer-links">
                 <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
                 <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
@@ -124,7 +121,6 @@
             </div>
 
             <p class="footer-copy">© 2026 InfoTek. Todos los derechos reservados.</p>
-
         </div>
     </footer>
 
@@ -132,7 +128,5 @@
     <script type="module" src="../scripts/cargarProductos.js"></script>
     <script src="../scripts/autenticacion.js"></script>
     <script src="../libs/apexcharts.js"></script>
-
-
 </body>
 </html>
