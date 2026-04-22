@@ -313,3 +313,49 @@ main {
     font-weight: bold;
     color: #2f7920;
 }
+/* Contador del carrito en navbar */
+.carrito-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff6000;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 999px;
+    min-width: 18px;
+    text-align: center;
+}
+#btn-carrito-nav {
+    position: relative;
+}
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #191970;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: 0.3s ease;
+    z-index: 99999;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.fly-img {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    z-index: 99999;
+    pointer-events: none;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}

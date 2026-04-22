@@ -11,13 +11,13 @@
     <!-- CSS de la página de producto -->
     <link rel="stylesheet" href="../estilos/producto.css">
 
-    <!-- CHART.JS (DEBE IR ANTES QUE TU SCRIPT) -->
+    <!-- CHART.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- NAVBAR COPIADA DEL INDEX -->
+    <!-- NAVBAR -->
     <header class="header">
         <div class="header-contenido">
 
@@ -28,6 +28,7 @@
 
             <input type="text" class="buscador" placeholder="Buscar componentes...">
             <div class="buscador-sugerencias"></div>
+
             <div class="header-usuario">
 
                 <!-- Botón comparar -->
@@ -35,9 +36,10 @@
                     <img src="../recursos/imagenes/comparar.png" alt="comparar">
                 </button>
 
-                <!-- Botón carrito -->
-                <button class="btn-icon">
+                <!-- Botón carrito con contador -->
+                <button class="btn-icon" id="btn-carrito-nav">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                    <span id="carrito-count" class="carrito-count">0</span>
                 </button>
 
                 <!-- Botón cuenta -->
@@ -53,7 +55,6 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
 
-        <!-- SECCIÓN PRINCIPAL -->
         <div class="producto-detalle">
 
             <!-- GALERÍA -->
@@ -81,7 +82,7 @@
                 <button id="btn-carrito" class="btn">Añadir al carrito</button>
             </section>
 
-            <!-- CAJA DE COMPRA (sticky) -->
+            <!-- CAJA DE COMPRA -->
             <section class="producto-extra">
                 <div class="extra-box">
                     <h3>Información de compra</h3>
@@ -95,7 +96,7 @@
 
         </div>
 
-        <!-- SECCIÓN GRÁFICA (NUEVA POSICIÓN) -->
+        <!-- GRÁFICA -->
         <section class="grafica-precio">
             <h2>Tendencia de precio</h2>
 
@@ -110,7 +111,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN ESPECIFICACIONES -->
+        <!-- ESPECIFICACIONES -->
         <section class="contenedor especificaciones-box">
             <h2>Especificaciones del producto</h2>
             <ul id="producto-especificaciones" class="producto-especificaciones"></ul>
@@ -118,18 +119,16 @@
 
     </main>
 
-
-
-
+    <!-- SCRIPTS -->
     <script src="../scripts/productosGlobales.js"></script>
-
-    <!-- SCRIPT DEL BUSCADOR -->
     <script src="../scripts/buscador.js"></script>
-
-    <!-- SCRIPT PRINCIPAL COMO MÓDULO -->
     <script type="module" src="../scripts/cargarProductos.js"></script>
     <script src="../scripts/autenticacion.js"></script>
     <script src="../scripts/producto.js"></script>
     <script src="../libs/apexcharts.js"></script>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
 </body>
 </html>

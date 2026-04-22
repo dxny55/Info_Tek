@@ -1,4 +1,4 @@
-import { createProductCard } from "../src/components/productCard/productCard.js";
+import { createProductCard, animarProductoAlCarrito } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
 const contenedor = document.getElementById("lista-productos");
@@ -6,27 +6,79 @@ const contador = document.getElementById("contador-productos");
 const botonesCategorias = document.querySelectorAll(".categoria-btn");
 const btnCompararFinal = document.getElementById("btn-comparar-final");
 const btnCuenta = document.getElementById("btn-cuenta");
-const selectorColor = document.getElementById("selector-color");
 const compareModal = initCompareModal();
 
 window.productos = [];
 let seleccionados = [];
 
-// CATEGORÍAS AJUSTADAS A MONGODB
-const mapaCategorias = {
-    CPU: "CPU",
-    GPU: "GPU",
-    RAM: "RAM",
-    Motherboard: "Placa Base",
-    Storage: "Almacenamiento",
-    PSU: "PSU"
-};
+// ===============================
+// TOAST
+// ===============================
+function mostrarToast(mensaje) {
+    const toast = document.getElementById("toast");
+    toast.innerHTML = mensaje;
+    toast.classList.add("show");
 
+    setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+// ===============================
+// CONTADOR DEL CARRITO
+// ===============================
+function actualizarContadorCarrito() {
+    const span = document.getElementById("carrito-count");
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const total = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    if (span) span.textContent = total;
+}
+
+// ===============================
+// AÑADIR AL CARRITO (REAL)
+// ===============================
+function añadirCarrito(producto, boton, event) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    const index = carrito.findIndex(item => item.id === producto._id);
+
+    if (index === -1) {
+        carrito.push({
+            id: producto._id,
+            nombre: producto.nombreCorto,
+            precio: producto.precio,
+            cantidad: 1,
+            imagen: producto.imagenes?.[0] || null
+        });
+    } else {
+        carrito[index].cantidad += 1;
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarContadorCarrito();
+
+    // Animación desde la card
+    const cardImg = event.target.closest(".producto-card").querySelector(".producto-img");
+    const rect = cardImg.getBoundingClientRect();
+
+    animarProductoAlCarrito(
+        "../" + (producto.imagenes?.[0] || "recursos/imagenes/placeholder.png"),
+        rect.left,
+        rect.top
+    );
+
+    // Toast
+    mostrarToast(`
+        ✔ Producto añadido al carrito<br>
+        <a href="carrito.html" style="color:#ffd700; text-decoration:underline;">Ir al carrito</a>
+    `);
+}
+
+// ===============================
+// CARGAR PRODUCTOS
+// ===============================
 fetch("http://localhost:3000/api/productos")
     .then(res => res.json())
     .then(data => {
-    window.productos = data;
-
+        window.productos = data;
         mostrarProductos(productos);
     })
     .catch(err => console.error("Error cargando productos:", err));
@@ -47,25 +99,40 @@ function mostrarProductos(lista) {
     contador.textContent = `${lista.length} productos`;
 }
 
+// ===============================
+// FILTRO POR CATEGORÍAS
+// ===============================
+const mapaCategorias = {
+    CPU: "CPU",
+    GPU: "GPU",
+    RAM: "RAM",
+    Motherboard: "Placa Base",
+    Storage: "Almacenamiento",
+    PSU: "PSU"
+};
+
 botonesCategorias.forEach(btn => {
     btn.addEventListener("click", () => {
         botonesCategorias.forEach(b => b.classList.remove("activo"));
         btn.classList.add("activo");
 
-        const catBoton = btn.dataset.cat;
+        const cat = btn.dataset.cat;
 
-        if (catBoton === "Todos") {
+        if (cat === "Todos") {
             mostrarProductos(productos);
             return;
         }
 
-        const categoriaMongo = mapaCategorias[catBoton];
+        const categoriaMongo = mapaCategorias[cat];
         const filtrados = productos.filter(p => p.categoria === categoriaMongo);
 
         mostrarProductos(filtrados);
     });
 });
 
+// ===============================
+// COMPARAR
+// ===============================
 function toggleComparar(id, boton) {
     const producto = productos.find(p => p._id === id);
 
@@ -96,44 +163,25 @@ btnCompararFinal.addEventListener("click", () => {
         alert("Selecciona al menos 2 productos para comparar.");
         return;
     }
-
     compareModal.abrir(seleccionados);
 });
 
+// ===============================
+// VER DETALLE
+// ===============================
 function verDetalle(producto) {
     window.location.href = `producto.html?id=${producto._id}`;
 }
 
-function añadirCarrito(producto, boton) {
-    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-    const index = favs.findIndex(p => p._id === producto._id);
-
-    if (index === -1) {
-        favs.push(producto);
-        boton.classList.add("favorito-activo");
-    } else {
-        favs.splice(index, 1);
-        boton.classList.remove("favorito-activo");
-    }
-
-    localStorage.setItem("favoritos", JSON.stringify(favs));
+// ===============================
+// NAVBAR: IR AL CARRITO
+// ===============================
+const btnCarritoNav = document.getElementById("btn-carrito-nav");
+if (btnCarritoNav) {
+    btnCarritoNav.addEventListener("click", () => {
+        window.location.href = "./carrito.html";
+    });
 }
 
-// CUENTA
-btnCuenta.addEventListener("click", () => {
-    window.location.href = "./account.html"; 
-});
-
-// COLOR
-const colorGuardado = localStorage.getItem("colorFondo");
-if (colorGuardado) {
-    document.documentElement.style.setProperty("--color-fondo", colorGuardado);
-    selectorColor.value = colorGuardado;
-}
-
-selectorColor.addEventListener("input", (e) => {
-    const nuevoColor = e.target.value;
-    document.documentElement.style.setProperty("--color-fondo", nuevoColor);
-    localStorage.setItem("colorFondo", nuevoColor);
-});
+// Inicializar contador
+actualizarContadorCarrito();
