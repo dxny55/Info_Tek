@@ -116,3 +116,22 @@
 .btn-favorito.seleccionado {
     background: #0080ff;
 }
+
+
+.producto-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: #FF6000;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.rating-number {
+    font-size: 14px;
+    color: #555;
+}

@@ -1,6 +1,15 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// ===============================
+// GENERAR ESTRELLAS
+// ===============================
+function generarEstrellas(rating) {
+    if (!rating) return "☆☆☆☆☆";
+    const llenas = Math.round(rating);
+    return "★★★★★☆☆☆☆☆".slice(5 - llenas, 10);
+}
+
 // ELEMENTOS DEL DOM
 const imgPrincipal = document.getElementById("producto-imagen");
 const nombreEl = document.getElementById("producto-nombre");
@@ -48,8 +57,11 @@ async function cargarProducto() {
 
         descuentoEl.textContent = `-${descuento}%`;
 
-        // RATING (fijo por ahora)
-        ratingEl.textContent = "4.8";
+        // ⭐ RATING REAL DESDE MONGODB
+        ratingEl.innerHTML = `
+            <span class="stars">${generarEstrellas(producto.rating)}</span>
+            <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"} / 5</span>
+        `;
 
         // STOCK
         stockEl.textContent = `Stock disponible: ${producto.stock} unidades`;

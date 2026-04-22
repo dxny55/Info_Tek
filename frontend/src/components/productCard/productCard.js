@@ -1,3 +1,12 @@
+// ===============================
+// GENERAR ESTRELLAS
+// ===============================
+function generarEstrellas(rating) {
+    if (!rating) return "☆☆☆☆☆"; // Si no tiene rating aún
+    const llenas = Math.round(rating);
+    return "★★★★★☆☆☆☆☆".slice(5 - llenas, 10);
+}
+
 export function createProductCard(producto, onVer, onCarrito, onComparar) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
@@ -11,6 +20,12 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
         <h3 class="producto-nombre">${producto.nombreLargo}</h3>
+
+        <!-- RATING -->
+        <div class="producto-rating">
+            <span class="stars">${generarEstrellas(producto.rating)}</span>
+            <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"}</span>
+        </div>
 
         <p class="producto-precio">${producto.precio} €</p>
 
