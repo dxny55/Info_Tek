@@ -2,7 +2,7 @@
    TARJETA DEL PRODUCTO
    ============================ */
 .producto-card {
-    width: 400px;              /* Más estrecha */
+    width: 300px;              /* Más estrecha */
     min-height: 500px;         /* Más alargada */
     background: white;
     margin-left: 10%;
@@ -46,6 +46,16 @@
     color: #0080ff;
     margin-bottom: 10px;
 }
+
+/* GRID DE PRODUCTOS */
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas SIEMPRE */
+    gap: 40px; /* separación entre tarjetas */
+    padding: 20px;
+}
+
+
 
 /* ============================
    CONTENEDOR DEL BOTÓN

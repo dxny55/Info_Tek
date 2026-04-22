@@ -1,13 +1,5 @@
-// ===============================
-// GENERAR ESTRELLAS
-// ===============================
-function generarEstrellas(rating) {
-    if (!rating) return "☆☆☆☆☆"; // Si no tiene rating aún
-    const llenas = Math.round(rating);
-    return "★★★★★☆☆☆☆☆".slice(5 - llenas, 10);
-}
+export function createProductCard(producto, onVer, onFavorito, onComparar) {
 
-export function createProductCard(producto, onVer, onCarrito, onComparar) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
@@ -16,42 +8,41 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
+    // comprobar si ya es favorito
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const esFavorito = favoritos.some(p => p._id === producto._id);
+
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
         <h3 class="producto-nombre">${producto.nombreLargo}</h3>
 
-        <!-- RATING -->
-        <div class="producto-rating">
-            <span class="stars">${generarEstrellas(producto.rating)}</span>
-            <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"}</span>
-        </div>
-
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
-            <button class="btn-favorito">
-                <img src="../recursos/imagenes/corazon.png" alt="favoritos">
+            <button class="btn-favorito ${esFavorito ? "activo" : ""}">
+                <img src="../recursos/imagenes/corazon.png">
             </button>
 
             <button class="btn-comparar">
-                <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                <img src="../recursos/imagenes/comparar.png">
             </button>
         </div>
     `;
 
-    // Toda la card abre el producto
+    // abrir producto
     card.addEventListener("click", () => onVer(producto));
 
-    // Evitar que los botones internos activen el click de la card
+    // botón comparar
     card.querySelector(".btn-comparar").addEventListener("click", (e) => {
         e.stopPropagation();
         onComparar(producto._id, e.currentTarget);
     });
 
+    // botón favoritos
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
-        onCarrito(producto);
+        onFavorito(producto, e.currentTarget);
     });
 
     return card;

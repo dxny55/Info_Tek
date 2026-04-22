@@ -1,139 +1,77 @@
+import { aplicarFiltros } from "./filtros.js";
 import { createProductCard } from "../src/components/productCard/productCard.js";
-import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
-const contenedor = document.getElementById("lista-productos");
-const contador = document.getElementById("contador-productos");
-const botonesCategorias = document.querySelectorAll(".categoria-btn");
-const btnCompararFinal = document.getElementById("btn-comparar-final");
-const btnCuenta = document.getElementById("btn-cuenta");
-const selectorColor = document.getElementById("selector-color");
-const compareModal = initCompareModal();
+let productosOriginales = [];
+let productosFiltrados = [];
 
-window.productos = [];
-let seleccionados = [];
+export async function cargarProductos() {
+    console.log("Cargando productos...");
 
-// CATEGORÍAS AJUSTADAS A MONGODB
-const mapaCategorias = {
-    CPU: "CPU",
-    GPU: "GPU",
-    RAM: "RAM",
-    Motherboard: "Placa Base",
-    Storage: "Almacenamiento",
-    PSU: "PSU"
-};
+    const contenedor = document.getElementById("lista-productos");
 
-fetch("http://localhost:3000/api/productos")
-    .then(res => res.json())
-    .then(data => {
-    window.productos = data;
+    if (!contenedor) {
+        console.error("ERROR: No existe #lista-productos en el HTML");
+        return;
+    }
 
-        mostrarProductos(productos);
-    })
-    .catch(err => console.error("Error cargando productos:", err));
+    try {
+        const res = await fetch("http://localhost:3000/api/productos");
+        const data = await res.json();
 
-function mostrarProductos(lista) {
+        productosOriginales = data;
+        productosFiltrados = [...productosOriginales];
+
+        renderizarProductos(productosFiltrados);
+        activarFiltros();
+
+    } catch (err) {
+        console.error("Error cargando productos:", err);
+    }
+}
+
+function renderizarProductos(lista) {
+    const contenedor = document.getElementById("lista-productos");
     contenedor.innerHTML = "";
 
-    lista.forEach(p => {
-        const card = createProductCard(
-            p,
-            verDetalle,
-            añadirCarrito,
-            toggleComparar
-        );
+    const contador = document.getElementById("contador-productos");
+    if (contador) contador.textContent = `${lista.length} productos`;
+
+    if (lista.length === 0) {
+        contenedor.innerHTML = `<p>No hay productos disponibles.</p>`;
+        return;
+    }
+
+    lista.forEach(producto => {
+        const card = createProductCard(producto);
         contenedor.appendChild(card);
     });
-
-    contador.textContent = `${lista.length} productos`;
 }
 
-botonesCategorias.forEach(btn => {
-    btn.addEventListener("click", () => {
-        botonesCategorias.forEach(b => b.classList.remove("activo"));
-        btn.classList.add("activo");
+function activarFiltros() {
+    const buscador = document.getElementById("filtro-texto");
+    const precioMin = document.getElementById("precio-min");
+    const precioMax = document.getElementById("precio-max");
+    const checkboxes = document.querySelectorAll(".filtro-categoria");
 
-        const catBoton = btn.dataset.cat;
+    const actualizar = () => {
+        productosFiltrados = aplicarFiltros(productosOriginales);
+        renderizarProductos(productosFiltrados);
+    };
 
-        if (catBoton === "Todos") {
-            mostrarProductos(productos);
-            return;
-        }
+    buscador.addEventListener("input", actualizar);
+    precioMin.addEventListener("input", actualizar);
+    precioMax.addEventListener("input", actualizar);
+    checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
 
-        const categoriaMongo = mapaCategorias[catBoton];
-        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+    document.getElementById("btn-limpiar-filtros").addEventListener("click", () => {
+        buscador.value = "";
+        precioMin.value = "";
+        precioMax.value = "";
+        checkboxes.forEach(cb => cb.checked = false);
 
-        mostrarProductos(filtrados);
+        productosFiltrados = [...productosOriginales];
+        renderizarProductos(productosFiltrados);
     });
-});
-
-function toggleComparar(id, boton) {
-    const producto = productos.find(p => p._id === id);
-
-    if (seleccionados.length === 0) {
-        seleccionados.push(producto);
-        boton.classList.add("seleccionado");
-        return;
-    }
-
-    if (producto.categoria !== seleccionados[0].categoria) {
-        alert("Solo puedes comparar productos de la misma categoría");
-        return;
-    }
-
-    const index = seleccionados.findIndex(p => p._id === id);
-    if (index !== -1) {
-        seleccionados.splice(index, 1);
-        boton.classList.remove("seleccionado");
-        return;
-    }
-
-    seleccionados.push(producto);
-    boton.classList.add("seleccionado");
 }
 
-btnCompararFinal.addEventListener("click", () => {
-    if (seleccionados.length < 2) {
-        alert("Selecciona al menos 2 productos para comparar.");
-        return;
-    }
-
-    compareModal.abrir(seleccionados);
-});
-
-function verDetalle(producto) {
-    window.location.href = `producto.html?id=${producto._id}`;
-}
-
-function añadirCarrito(producto, boton) {
-    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-    const index = favs.findIndex(p => p._id === producto._id);
-
-    if (index === -1) {
-        favs.push(producto);
-        boton.classList.add("favorito-activo");
-    } else {
-        favs.splice(index, 1);
-        boton.classList.remove("favorito-activo");
-    }
-
-    localStorage.setItem("favoritos", JSON.stringify(favs));
-}
-
-// CUENTA
-btnCuenta.addEventListener("click", () => {
-    window.location.href = "./account.html"; 
-});
-
-// COLOR
-const colorGuardado = localStorage.getItem("colorFondo");
-if (colorGuardado) {
-    document.documentElement.style.setProperty("--color-fondo", colorGuardado);
-    selectorColor.value = colorGuardado;
-}
-
-selectorColor.addEventListener("input", (e) => {
-    const nuevoColor = e.target.value;
-    document.documentElement.style.setProperty("--color-fondo", nuevoColor);
-    localStorage.setItem("colorFondo", nuevoColor);
-});
+cargarProductos();
