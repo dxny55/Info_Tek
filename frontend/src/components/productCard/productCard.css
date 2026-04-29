@@ -2,9 +2,16 @@
    TARJETA DEL PRODUCTO
 ============================ */
 .producto-card {
+<<<<<<< HEAD
     width: 100%;
     max-width: 320px;
     background: #fff;
+=======
+    width: 300px;              /* Más estrecha */
+    min-height: 500px;         /* Más alargada */
+    background: white;
+    margin-left: 10%;
+>>>>>>> origin/Continuardetallodelproducto
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -30,6 +37,16 @@
     border-radius: 8px;
     margin-bottom: 10px;
 }
+
+/* GRID DE PRODUCTOS */
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas SIEMPRE */
+    gap: 40px; /* separación entre tarjetas */
+    padding: 20px;
+}
+
+
 
 /* ============================
    NOMBRE Y PRECIO

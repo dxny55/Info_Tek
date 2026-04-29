@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createProductCard, animarProductoAlCarrito } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
@@ -7,10 +8,18 @@ const botonesCategorias = document.querySelectorAll(".categoria-btn");
 const btnCompararFinal = document.getElementById("btn-comparar-final");
 const btnCuenta = document.getElementById("btn-cuenta");
 const compareModal = initCompareModal();
+=======
+import { aplicarFiltros } from "./filtros.js";
+import { createProductCard } from "../src/components/productCard/productCard.js";
 
-window.productos = [];
-let seleccionados = [];
+let productosOriginales = [];
+let productosFiltrados = [];
+>>>>>>> origin/Continuardetallodelproducto
 
+export async function cargarProductos() {
+    console.log("Cargando productos...");
+
+<<<<<<< HEAD
 // ===============================
 // TOAST
 // ===============================
@@ -82,23 +91,49 @@ fetch("http://localhost:3000/api/productos")
         mostrarProductos(productos);
     })
     .catch(err => console.error("Error cargando productos:", err));
+=======
+    const contenedor = document.getElementById("lista-productos");
 
-function mostrarProductos(lista) {
-    contenedor.innerHTML = "";
+    if (!contenedor) {
+        console.error("ERROR: No existe #lista-productos en el HTML");
+        return;
+    }
 
-    lista.forEach(p => {
-        const card = createProductCard(
-            p,
-            verDetalle,
-            añadirCarrito,
-            toggleComparar
-        );
-        contenedor.appendChild(card);
-    });
+    try {
+        const res = await fetch("http://localhost:3000/api/productos");
+        const data = await res.json();
+>>>>>>> origin/Continuardetallodelproducto
 
-    contador.textContent = `${lista.length} productos`;
+        productosOriginales = data;
+        productosFiltrados = [...productosOriginales];
+
+        renderizarProductos(productosFiltrados);
+        activarFiltros();
+
+    } catch (err) {
+        console.error("Error cargando productos:", err);
+    }
 }
 
+function renderizarProductos(lista) {
+    const contenedor = document.getElementById("lista-productos");
+    contenedor.innerHTML = "";
+
+    const contador = document.getElementById("contador-productos");
+    if (contador) contador.textContent = `${lista.length} productos`;
+
+    if (lista.length === 0) {
+        contenedor.innerHTML = `<p>No hay productos disponibles.</p>`;
+        return;
+    }
+
+    lista.forEach(producto => {
+        const card = createProductCard(producto);
+        contenedor.appendChild(card);
+    });
+}
+
+<<<<<<< HEAD
 // ===============================
 // FILTRO POR CATEGORÍAS
 // ===============================
@@ -125,9 +160,34 @@ botonesCategorias.forEach(btn => {
 
         const categoriaMongo = mapaCategorias[cat];
         const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+=======
+function activarFiltros() {
+    const buscador = document.getElementById("filtro-texto");
+    const precioMin = document.getElementById("precio-min");
+    const precioMax = document.getElementById("precio-max");
+    const checkboxes = document.querySelectorAll(".filtro-categoria");
 
-        mostrarProductos(filtrados);
+    const actualizar = () => {
+        productosFiltrados = aplicarFiltros(productosOriginales);
+        renderizarProductos(productosFiltrados);
+    };
+
+    buscador.addEventListener("input", actualizar);
+    precioMin.addEventListener("input", actualizar);
+    precioMax.addEventListener("input", actualizar);
+    checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
+
+    document.getElementById("btn-limpiar-filtros").addEventListener("click", () => {
+        buscador.value = "";
+        precioMin.value = "";
+        precioMax.value = "";
+        checkboxes.forEach(cb => cb.checked = false);
+>>>>>>> origin/Continuardetallodelproducto
+
+        productosFiltrados = [...productosOriginales];
+        renderizarProductos(productosFiltrados);
     });
+<<<<<<< HEAD
 });
 
 // ===============================
@@ -185,3 +245,8 @@ if (btnCarritoNav) {
 
 // Inicializar contador
 actualizarContadorCarrito();
+=======
+}
+
+cargarProductos();
+>>>>>>> origin/Continuardetallodelproducto

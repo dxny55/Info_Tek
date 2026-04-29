@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ===============================
 // GENERAR ESTRELLAS
 // ===============================
@@ -38,6 +39,10 @@ export function animarProductoAlCarrito(imagenSrc, origenX, origenY) {
 // CREAR CARD DE PRODUCTO
 // ===============================
 export function createProductCard(producto, onVer, onCarrito, onComparar) {
+=======
+export function createProductCard(producto, onVer, onFavorito, onComparar) {
+
+>>>>>>> origin/Continuardetallodelproducto
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
@@ -45,38 +50,53 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
+    // comprobar si ya es favorito
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const esFavorito = favoritos.some(p => p._id === producto._id);
+
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
         <h3 class="producto-nombre">${producto.nombreLargo}</h3>
 
+<<<<<<< HEAD
         <div class="producto-rating">
             <span class="stars">${generarEstrellas(producto.rating)}</span>
             <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"}</span>
         </div>
 
+=======
+>>>>>>> origin/Continuardetallodelproducto
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
-            <button class="btn-favorito">
-                <img src="../recursos/imagenes/corazon.png" alt="favoritos">
+            <button class="btn-favorito ${esFavorito ? "activo" : ""}">
+                <img src="../recursos/imagenes/corazon.png">
             </button>
 
             <button class="btn-comparar">
-                <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                <img src="../recursos/imagenes/comparar.png">
             </button>
         </div>
     `;
 
+<<<<<<< HEAD
     // Abrir producto
     card.addEventListener("click", () => onVer(producto));
 
     // Comparar
+=======
+    // abrir producto
+    card.addEventListener("click", () => onVer(producto));
+
+    // botón comparar
+>>>>>>> origin/Continuardetallodelproducto
     card.querySelector(".btn-comparar").addEventListener("click", (e) => {
         e.stopPropagation();
         onComparar(producto._id, e.currentTarget);
     });
 
+<<<<<<< HEAD
     // Añadir al carrito con animación
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
     e.stopPropagation();
@@ -92,6 +112,13 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
     );
 });
 
+=======
+    // botón favoritos
+    card.querySelector(".btn-favorito").addEventListener("click", (e) => {
+        e.stopPropagation();
+        onFavorito(producto, e.currentTarget);
+    });
+>>>>>>> origin/Continuardetallodelproducto
 
     return card;
 }
