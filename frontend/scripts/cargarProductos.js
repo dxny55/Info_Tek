@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { createProductCard, animarProductoAlCarrito } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
 
@@ -8,18 +7,10 @@ const botonesCategorias = document.querySelectorAll(".categoria-btn");
 const btnCompararFinal = document.getElementById("btn-comparar-final");
 const btnCuenta = document.getElementById("btn-cuenta");
 const compareModal = initCompareModal();
-=======
-import { aplicarFiltros } from "./filtros.js";
-import { createProductCard } from "../src/components/productCard/productCard.js";
 
-let productosOriginales = [];
-let productosFiltrados = [];
->>>>>>> origin/Continuardetallodelproducto
+window.productos = [];
+let seleccionados = [];
 
-export async function cargarProductos() {
-    console.log("Cargando productos...");
-
-<<<<<<< HEAD
 // ===============================
 // TOAST
 // ===============================
@@ -91,106 +82,80 @@ fetch("http://localhost:3000/api/productos")
         mostrarProductos(productos);
     })
     .catch(err => console.error("Error cargando productos:", err));
-=======
-    const contenedor = document.getElementById("lista-productos");
 
-    if (!contenedor) {
-        console.error("ERROR: No existe #lista-productos en el HTML");
-        return;
-    }
-
-    try {
-        const res = await fetch("http://localhost:3000/api/productos");
-        const data = await res.json();
->>>>>>> origin/Continuardetallodelproducto
-
-        productosOriginales = data;
-        productosFiltrados = [...productosOriginales];
-
-        renderizarProductos(productosFiltrados);
-        activarFiltros();
-
-    } catch (err) {
-        console.error("Error cargando productos:", err);
-    }
-}
-
-function renderizarProductos(lista) {
-    const contenedor = document.getElementById("lista-productos");
+function mostrarProductos(lista) {
     contenedor.innerHTML = "";
 
-    const contador = document.getElementById("contador-productos");
-    if (contador) contador.textContent = `${lista.length} productos`;
-
-    if (lista.length === 0) {
-        contenedor.innerHTML = `<p>No hay productos disponibles.</p>`;
-        return;
-    }
-
-    lista.forEach(producto => {
+    lista.forEach(p => {
         const card = createProductCard(
-            producto,
-            onVerProducto,
-            onFavorito,
-            onComparar
+            p,
+            verDetalle,
+            añadirCarrito,
+            toggleComparar
         );
         contenedor.appendChild(card);
     });
+
+    contador.textContent = `${lista.length} productos`;
 }
 
 // ===============================
-// CALLBACKS NECESARIOS
+// FILTRO POR CATEGORÍAS
 // ===============================
+const mapaCategorias = {
+    CPU: "CPU",
+    GPU: "GPU",
+    RAM: "RAM",
+    Motherboard: "Placa Base",
+    Storage: "Almacenamiento",
+    PSU: "PSU"
+};
 
-// abrir producto individual
-function onVerProducto(producto) {
-    let id = producto._id;
-    if (id && typeof id === "object" && id.$oid) id = id.$oid;
-    window.location.href = `./producto.html?id=${id}`;
-}
+botonesCategorias.forEach(btn => {
+    btn.addEventListener("click", () => {
+        botonesCategorias.forEach(b => b.classList.remove("activo"));
+        btn.classList.add("activo");
 
-// favoritos (mínimo funcional)
-function onFavorito(producto, boton) {
-    boton.classList.toggle("activo");
-}
+        const cat = btn.dataset.cat;
 
-// comparar (mínimo funcional)
-function onComparar(idProducto, boton) {
-    boton.classList.toggle("activo");
-}
+        if (cat === "Todos") {
+            mostrarProductos(productos);
+            return;
+        }
+
+        const categoriaMongo = mapaCategorias[cat];
+        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+
+        mostrarProductos(filtrados);
+    });
+});
 
 // ===============================
-// FILTROS
+// COMPARAR
 // ===============================
+function toggleComparar(id, boton) {
+    const producto = productos.find(p => p._id === id);
 
-function activarFiltros() {
-    const buscador = document.getElementById("filtro-texto");
-    const precioMin = document.getElementById("precio-min");
-    const precioMax = document.getElementById("precio-max");
-    const checkboxes = document.querySelectorAll(".filtro-categoria, .filtro-marca");
-
-    const actualizar = () => {
-        productosFiltrados = aplicarFiltros(productosOriginales);
-        renderizarProductos(productosFiltrados);
-    };
-
-    if (buscador) buscador.addEventListener("input", actualizar);
-    if (precioMin) precioMin.addEventListener("input", actualizar);
-    if (precioMax) precioMax.addEventListener("input", actualizar);
-    checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
-
-    const btnLimpiar = document.getElementById("btn-limpiar-filtros");
-    if (btnLimpiar) {
-        btnLimpiar.addEventListener("click", () => {
-            if (buscador) buscador.value = "";
-            if (precioMin) precioMin.value = "";
-            if (precioMax) precioMax.value = "";
-            checkboxes.forEach(cb => cb.checked = false);
-
-            productosFiltrados = [...productosOriginales];
-            renderizarProductos(productosFiltrados);
-        });
+    if (seleccionados.length === 0) {
+        seleccionados.push(producto);
+        boton.classList.add("seleccionado");
+        return;
     }
+
+    if (producto.categoria !== seleccionados[0].categoria) {
+        alert("Solo puedes comparar productos de la misma categoría");
+        return;
+    }
+
+    const index = seleccionados.findIndex(p => p._id === id);
+    if (index !== -1) {
+        seleccionados.splice(index, 1);
+        boton.classList.remove("seleccionado");
+        return;
+    }
+
+    seleccionados.push(producto);
+    boton.classList.add("seleccionado");
 }
 
 btnCompararFinal.addEventListener("click", () => {
@@ -220,8 +185,3 @@ if (btnCarritoNav) {
 
 // Inicializar contador
 actualizarContadorCarrito();
-=======
-}
-
-cargarProductos();
->>>>>>> origin/Continuardetallodelproducto
