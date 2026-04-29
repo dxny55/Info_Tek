@@ -1,0 +1,82 @@
+.checkout-contenedor {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    gap: 40px;
+}
+
+/* FORMULARIO */
+.checkout-form {
+    flex: 2;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.checkout-form h2 {
+    margin-bottom: 20px;
+    color: #191970;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-grupo label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-grupo input,
+.form-grupo select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* BOTÓN */
+.btn-pago {
+    width: 100%;
+    margin-top: 20px;
+    background: #ff6000;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-pago:hover {
+    background: #e25500;
+}
+
+/* RESUMEN */
+.checkout-resumen {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.checkout-resumen h3 {
+    margin-bottom: 20px;
+}
+
+.resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.resumen-linea.total {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
