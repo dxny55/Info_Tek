@@ -128,94 +128,69 @@ function renderizarProductos(lista) {
     }
 
     lista.forEach(producto => {
-        const card = createProductCard(producto);
+        const card = createProductCard(
+            producto,
+            onVerProducto,
+            onFavorito,
+            onComparar
+        );
         contenedor.appendChild(card);
     });
 }
 
-<<<<<<< HEAD
 // ===============================
-// FILTRO POR CATEGORÍAS
+// CALLBACKS NECESARIOS
 // ===============================
-const mapaCategorias = {
-    CPU: "CPU",
-    GPU: "GPU",
-    RAM: "RAM",
-    Motherboard: "Placa Base",
-    Storage: "Almacenamiento",
-    PSU: "PSU"
-};
 
-botonesCategorias.forEach(btn => {
-    btn.addEventListener("click", () => {
-        botonesCategorias.forEach(b => b.classList.remove("activo"));
-        btn.classList.add("activo");
+// abrir producto individual
+function onVerProducto(producto) {
+    let id = producto._id;
+    if (id && typeof id === "object" && id.$oid) id = id.$oid;
+    window.location.href = `./producto.html?id=${id}`;
+}
 
-        const cat = btn.dataset.cat;
+// favoritos (mínimo funcional)
+function onFavorito(producto, boton) {
+    boton.classList.toggle("activo");
+}
 
-        if (cat === "Todos") {
-            mostrarProductos(productos);
-            return;
-        }
+// comparar (mínimo funcional)
+function onComparar(idProducto, boton) {
+    boton.classList.toggle("activo");
+}
 
-        const categoriaMongo = mapaCategorias[cat];
-        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
-=======
+// ===============================
+// FILTROS
+// ===============================
+
 function activarFiltros() {
     const buscador = document.getElementById("filtro-texto");
     const precioMin = document.getElementById("precio-min");
     const precioMax = document.getElementById("precio-max");
-    const checkboxes = document.querySelectorAll(".filtro-categoria");
+    const checkboxes = document.querySelectorAll(".filtro-categoria, .filtro-marca");
 
     const actualizar = () => {
         productosFiltrados = aplicarFiltros(productosOriginales);
         renderizarProductos(productosFiltrados);
     };
 
-    buscador.addEventListener("input", actualizar);
-    precioMin.addEventListener("input", actualizar);
-    precioMax.addEventListener("input", actualizar);
+    if (buscador) buscador.addEventListener("input", actualizar);
+    if (precioMin) precioMin.addEventListener("input", actualizar);
+    if (precioMax) precioMax.addEventListener("input", actualizar);
     checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
 
-    document.getElementById("btn-limpiar-filtros").addEventListener("click", () => {
-        buscador.value = "";
-        precioMin.value = "";
-        precioMax.value = "";
-        checkboxes.forEach(cb => cb.checked = false);
->>>>>>> origin/Continuardetallodelproducto
+    const btnLimpiar = document.getElementById("btn-limpiar-filtros");
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener("click", () => {
+            if (buscador) buscador.value = "";
+            if (precioMin) precioMin.value = "";
+            if (precioMax) precioMax.value = "";
+            checkboxes.forEach(cb => cb.checked = false);
 
-        productosFiltrados = [...productosOriginales];
-        renderizarProductos(productosFiltrados);
-    });
-<<<<<<< HEAD
-});
-
-// ===============================
-// COMPARAR
-// ===============================
-function toggleComparar(id, boton) {
-    const producto = productos.find(p => p._id === id);
-
-    if (seleccionados.length === 0) {
-        seleccionados.push(producto);
-        boton.classList.add("seleccionado");
-        return;
+            productosFiltrados = [...productosOriginales];
+            renderizarProductos(productosFiltrados);
+        });
     }
-
-    if (producto.categoria !== seleccionados[0].categoria) {
-        alert("Solo puedes comparar productos de la misma categoría");
-        return;
-    }
-
-    const index = seleccionados.findIndex(p => p._id === id);
-    if (index !== -1) {
-        seleccionados.splice(index, 1);
-        boton.classList.remove("seleccionado");
-        return;
-    }
-
-    seleccionados.push(producto);
-    boton.classList.add("seleccionado");
 }
 
 btnCompararFinal.addEventListener("click", () => {

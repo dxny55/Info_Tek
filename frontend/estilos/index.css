@@ -267,17 +267,22 @@ body {
 .footer {
     margin-top: 60px;
     padding: 30px 20px;
-    background: #adadad2a;
-    color: white;
+    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
+    backdrop-filter: blur(4px);
     text-align: center;
-    border-radius: 1%;/*FALTA MIIRAR---------------------------------------------------------------------------*/
+    color: white;
+}
+
+.footer-contenido {
+    max-width: 1200px;
+    margin: auto;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 25px;
     flex-wrap: wrap;
+    gap: 25px;
     margin-bottom: 20px;
 }
 
@@ -285,16 +290,24 @@ body {
     color: white;
     text-decoration: none;
     font-size: 0.95rem;
+    transition: 0.2s;
 }
 
 .footer-links a:hover {
     text-decoration: underline;
 }
 
+.footer-redes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
 .footer-redes img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1); /* iconos blancos */
     transition: 0.2s;
 }
 
@@ -307,120 +320,3 @@ body {
     font-size: 0.85rem;
     opacity: 0.8;
 }
-
-/* Responsive */
-@media (max-width: 600px) {
-    .footer-links {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-main {
-    flex: 1;
-}
-/* ===============================
-   BUSCADOR RÁPIDO (DROPDOWN)
-================================ */
-.buscador-sugerencias {
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-    max-height: 300px;
-    overflow-y: auto;
-    background: white;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    display: none;
-    flex-direction: column;
-    z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.sugerencia-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-.sugerencia-item:hover {
-    background: #f0f0f0;
-}
-.sugerencia-item img {
-    width: 45px;
-    height: 45px;
-    border-radius: 6px;
-    object-fit: cover;
-}
-.sugerencia-info {
-    display: flex;
-    flex-direction: column;
-}
-.sugerencia-info span {
-    font-size: 0.9rem;
-    color: #333;
-}
-.sugerencia-precio {
-    font-weight: bold;
-    color: #2f7920;
-}
-/* Contador del carrito en navbar */
-.carrito-count {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    background: #ff6000;
-    color: white;
-    font-size: 0.7rem;
-    padding: 2px 5px;
-    border-radius: 999px;
-    min-width: 18px;
-    text-align: center;
-}
-#btn-carrito-nav {
-    position: relative;
-}
-.toast {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: #191970;
-    color: white;
-    padding: 14px 20px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
-    transition: 0.3s ease;
-    z-index: 99999;
-}
-.toast.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-.fly-img {
-    position: fixed;
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    z-index: 99999;
-    pointer-events: none;
-    transition: transform 0.8s ease, opacity 0.8s ease;
-}
-=======
->>>>>>> origin/Continuardetallodelproducto
