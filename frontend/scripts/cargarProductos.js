@@ -42,36 +42,69 @@ function renderizarProductos(lista) {
     }
 
     lista.forEach(producto => {
-        const card = createProductCard(producto);
+        const card = createProductCard(
+            producto,
+            onVerProducto,
+            onFavorito,
+            onComparar
+        );
         contenedor.appendChild(card);
     });
 }
+
+// ===============================
+// CALLBACKS NECESARIOS
+// ===============================
+
+// abrir producto individual
+function onVerProducto(producto) {
+    let id = producto._id;
+    if (id && typeof id === "object" && id.$oid) id = id.$oid;
+    window.location.href = `./producto.html?id=${id}`;
+}
+
+// favoritos (mínimo funcional)
+function onFavorito(producto, boton) {
+    boton.classList.toggle("activo");
+}
+
+// comparar (mínimo funcional)
+function onComparar(idProducto, boton) {
+    boton.classList.toggle("activo");
+}
+
+// ===============================
+// FILTROS
+// ===============================
 
 function activarFiltros() {
     const buscador = document.getElementById("filtro-texto");
     const precioMin = document.getElementById("precio-min");
     const precioMax = document.getElementById("precio-max");
-    const checkboxes = document.querySelectorAll(".filtro-categoria");
+    const checkboxes = document.querySelectorAll(".filtro-categoria, .filtro-marca");
 
     const actualizar = () => {
         productosFiltrados = aplicarFiltros(productosOriginales);
         renderizarProductos(productosFiltrados);
     };
 
-    buscador.addEventListener("input", actualizar);
-    precioMin.addEventListener("input", actualizar);
-    precioMax.addEventListener("input", actualizar);
+    if (buscador) buscador.addEventListener("input", actualizar);
+    if (precioMin) precioMin.addEventListener("input", actualizar);
+    if (precioMax) precioMax.addEventListener("input", actualizar);
     checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
 
-    document.getElementById("btn-limpiar-filtros").addEventListener("click", () => {
-        buscador.value = "";
-        precioMin.value = "";
-        precioMax.value = "";
-        checkboxes.forEach(cb => cb.checked = false);
+    const btnLimpiar = document.getElementById("btn-limpiar-filtros");
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener("click", () => {
+            if (buscador) buscador.value = "";
+            if (precioMin) precioMin.value = "";
+            if (precioMax) precioMax.value = "";
+            checkboxes.forEach(cb => cb.checked = false);
 
-        productosFiltrados = [...productosOriginales];
-        renderizarProductos(productosFiltrados);
-    });
+            productosFiltrados = [...productosOriginales];
+            renderizarProductos(productosFiltrados);
+        });
+    }
 }
 
 cargarProductos();
