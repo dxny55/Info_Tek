@@ -87,7 +87,8 @@ function renderCarrito() {
 }
 
 btnComprar.addEventListener("click", () => {
-    alert("Aquí iría el proceso de pago (simulado).");
+    window.location.href = "./checkout.html";
 });
+
 
 renderCarrito();
