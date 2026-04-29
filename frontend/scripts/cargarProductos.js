@@ -1,5 +1,10 @@
 import { createProductCard, animarProductoAlCarrito } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
+import { aplicarFiltros } from "./filtros.js";
+
+
+let productosOriginales = [];
+let productosFiltrados = [];
 
 const contenedor = document.getElementById("lista-productos");
 const contador = document.getElementById("contador-productos");
@@ -102,14 +107,35 @@ function mostrarProductos(lista) {
 // ===============================
 // FILTRO POR CATEGORÍAS
 // ===============================
-const mapaCategorias = {
-    CPU: "CPU",
-    GPU: "GPU",
-    RAM: "RAM",
-    Motherboard: "Placa Base",
-    Storage: "Almacenamiento",
-    PSU: "PSU"
-};
+function activarFiltros() {
+    const buscador = document.getElementById("filtro-texto");
+    const precioMin = document.getElementById("precio-min");
+    const precioMax = document.getElementById("precio-max");
+    const checkboxes = document.querySelectorAll(".filtro-categoria, .filtro-marca");
+
+    const actualizar = () => {
+        productosFiltrados = aplicarFiltros(productosOriginales);
+        renderizarProductos(productosFiltrados);
+    };
+
+    if (buscador) buscador.addEventListener("input", actualizar);
+    if (precioMin) precioMin.addEventListener("input", actualizar);
+    if (precioMax) precioMax.addEventListener("input", actualizar);
+    checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
+
+    const btnLimpiar = document.getElementById("btn-limpiar-filtros");
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener("click", () => {
+            if (buscador) buscador.value = "";
+            if (precioMin) precioMin.value = "";
+            if (precioMax) precioMax.value = "";
+            checkboxes.forEach(cb => cb.checked = false);
+
+            productosFiltrados = [...productosOriginales];
+            renderizarProductos(productosFiltrados);
+        });
+    }
+}
 
 botonesCategorias.forEach(btn => {
     btn.addEventListener("click", () => {
