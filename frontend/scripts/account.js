@@ -22,34 +22,88 @@ document.getElementById("cerrar-sesion").addEventListener("click", () => {
 
 
 // ===============================
-// FAVORITOS
+// EDITAR USUARIO
+// ===============================
+const btnEditar = document.querySelector(".btn");
+
+if (btnEditar) {
+
+    btnEditar.addEventListener("click", async () => {
+
+        const nuevoNombre = prompt("Cambiar nombre de usuario:", user.name);
+        if (nuevoNombre === null) return;
+
+        const nuevoEmail = prompt("Cambiar email:", user.email);
+        if (nuevoEmail === null) return;
+
+        const nuevaPassword = prompt("Cambiar contraseña:");
+        if (nuevaPassword === null) return;
+
+        try {
+
+            const res = await fetch(`http://localhost:3000/api/auth/update-user/${user.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: nuevoNombre,
+                    email: nuevoEmail,
+                    password: nuevaPassword
+                })
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            if (res.ok) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                location.reload();
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Error al actualizar usuario");
+        }
+
+    });
+
+}
+
+
+// ===============================
+// FAVORITOS (LOCAL TEMPORAL)
 // ===============================
 const contenedor = document.getElementById("contenedor-favoritos");
 
-const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+if (contenedor) {
 
-contenedor.innerHTML = "";
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
-if (favoritos.length === 0) {
-    contenedor.innerHTML = "<p>No tienes favoritos aún</p>";
-}
+    contenedor.innerHTML = "";
 
-favoritos.forEach(producto => {
+    if (favoritos.length === 0) {
+        contenedor.innerHTML = "<p>No tienes favoritos aún</p>";
+    }
 
-    const card = document.createElement("div");
-    card.classList.add("producto-card");
+    favoritos.forEach(producto => {
 
-    const imagen = producto.imagen || "../recursos/imagenes/default.jpg";
+        const card = document.createElement("div");
+        card.classList.add("producto-card");
 
-    card.innerHTML = `
-        <img class="producto-img" src="${imagen}">
-        <h3 class="producto-nombre">${producto.nombre || "Producto"}</h3>
-        <p class="producto-precio">${producto.precio || 0} €</p>
-    `;
+        const imagen = producto.imagen || "../recursos/imagenes/default.jpg";
 
-    card.addEventListener("click", () => {
-        window.location.href = `producto.html?id=${producto._id}`;
+        card.innerHTML = `
+            <img class="producto-img" src="${imagen}">
+            <h3 class="producto-nombre">${producto.nombre || "Producto"}</h3>
+            <p class="producto-precio">${producto.precio || 0} €</p>
+        `;
+
+        card.addEventListener("click", () => {
+            window.location.href = `producto.html?id=${producto._id}`;
+        });
+
+        contenedor.appendChild(card);
     });
-
-    contenedor.appendChild(card);
-});
+}

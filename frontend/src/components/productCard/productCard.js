@@ -3,14 +3,12 @@ export function createProductCard(producto, onVer, onFavorito, onComparar) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
-    // Imagen principal del producto
     const imagen = producto.imagenes?.[0]
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
-    // comprobar si ya es favorito
-    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-    const esFavorito = favoritos.some(p => p._id === producto._id);
+    // 🔥 ahora ya no usamos localStorage
+    const esFavorito = false;
 
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
@@ -30,16 +28,13 @@ export function createProductCard(producto, onVer, onFavorito, onComparar) {
         </div>
     `;
 
-    // abrir producto
     card.addEventListener("click", () => onVer(producto));
 
-    // botón comparar
     card.querySelector(".btn-comparar").addEventListener("click", (e) => {
         e.stopPropagation();
         onComparar(producto._id, e.currentTarget);
     });
 
-    // botón favoritos
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
         onFavorito(producto, e.currentTarget);

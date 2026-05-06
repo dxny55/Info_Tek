@@ -5,42 +5,33 @@ import dotenv from "dotenv";
 
 import productosRoutes from "./routes/productos.routes.js";
 import authRoutes from "./routes/authRoutes.js";
+import favoritosRoutes from "./routes/favoritos.routes.js";
 
 dotenv.config();
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// MongoDB
 const uri = process.env.MONGO_URI;
-
-const clientOptions = {
-  serverSelectionTimeoutMS: 10000,
-};
 
 async function connexionMongoDB() {
   try {
-    console.log("Intentando conexión MongoDB...");
-    await mongoose.connect(uri, clientOptions);
-    console.log("✅ Conectado correctamente con MongoDB Atlas.");
+    await mongoose.connect(uri);
+    console.log("✅ MongoDB conectado");
   } catch (err) {
-    console.error("❌ Error conectando a MongoDB Atlas:");
     console.error(err);
   }
 }
 
 connexionMongoDB();
 
-// Rutas
+// RUTAS
 app.use("/api/productos", productosRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/favoritos", favoritosRoutes);
 
-// Servidor
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`Servidor backend en http://localhost:${PORT}`);
+app.listen(3000, () => {
+  console.log("Servidor en http://localhost:3000");
 });

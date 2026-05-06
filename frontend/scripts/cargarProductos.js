@@ -56,40 +56,49 @@ function mostrarProductos(lista) {
 }
 
 // ===============================
-// FAVORITOS
+// FAVORITOS (🔥 MODIFICADO)
 // ===============================
 function toggleFavorito(producto, boton) {
 
-    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const usuario = JSON.parse(localStorage.getItem("user"));
 
-    const index = favs.findIndex(p => p._id === producto._id);
+    if (!usuario) {
+        alert("Debes iniciar sesión");
+        return;
+    }
 
-    if (index === -1) {
+    const activo = boton.classList.contains("activo");
 
-        const productoGuardado = {
-            _id: producto._id,
-            nombre: producto.nombre,
-            precio: producto.precio,
-            imagen: producto.imagenes?.[0]
-                ? "../" + producto.imagenes[0].replace("frontend/", "")
-                : "../recursos/imagenes/default.jpg"
-        };
+    if (!activo) {
 
-        favs.push(productoGuardado);
+        fetch("http://localhost:3000/api/favoritos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuarioId: usuario.id,
+                productoId: producto._id
+            })
+        });
+
         boton.classList.add("activo");
 
     } else {
 
-        favs.splice(index, 1);
+        fetch("http://localhost:3000/api/favoritos", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuarioId: usuario.id,
+                productoId: producto._id
+            })
+        });
+
         boton.classList.remove("activo");
-
     }
-
-    localStorage.setItem("favoritos", JSON.stringify(favs));
 }
 
 // ===============================
-// COMPARAR
+// COMPARAR (SIN CAMBIOS)
 // ===============================
 function toggleComparar(id, boton) {
 
@@ -135,28 +144,12 @@ function verDetalle(producto) {
     window.location.href = `producto.html?id=${producto._id}`;
 }
 
-function añadirCarrito(producto, boton) {
-    let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-    const index = favs.findIndex(p => p._id === producto._id);
-
-    if (index === -1) {
-        favs.push(producto);
-        boton.classList.add("favorito-activo");
-    } else {
-        favs.splice(index, 1);
-        boton.classList.remove("favorito-activo");
-    }
-
-    localStorage.setItem("favoritos", JSON.stringify(favs));
-}
-
 // CUENTA
 btnCuenta.addEventListener("click", () => {
     window.location.href = "./account.html";
 });
 
-// COLOR
+// COLOR (SIN CAMBIOS)
 const colorGuardado = localStorage.getItem("colorFondo");
 
 if (colorGuardado) {
