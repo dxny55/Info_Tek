@@ -24,7 +24,10 @@
     <h1>InfoTek</h1>
 </a>
 
-            <input type="text" class="buscador" placeholder="Buscar componentes...">
+            <!-- BUSCADOR con id para compatibilidad con filtros -->
+            <input type="text" class="buscador" id="filtro-texto" placeholder="Buscar componentes...">
+            <div class="buscador-sugerencias"></div>
+
 
             <div class="header-usuario">
                 <button class="btn-icon" id="btn-comparar-final">
@@ -92,7 +95,6 @@
                     <label><input type="checkbox" class="filtro-marca" value="kingston"> Kingston</label>
                     <label><input type="checkbox" class="filtro-marca" value="forgeon"> Forgeon</label>
                     <label><input type="checkbox" class="filtro-marca" value="msi"> MSI</label>
-                    <label><input type="checkbox" class="filtro-marca" value="corsair"> Corsair</label>
 
                     <label><input type="checkbox" class="filtro-marca" value="sony"> Sony</label>
                     <label><input type="checkbox" class="filtro-marca" value="microsoft"> Microsoft</label>

@@ -1,71 +1,36 @@
 // ===============================
-// BUSCADOR RÁPIDO CON SUGERENCIAS
+// BUSCADOR PRINCIPAL (FILTRA LISTA EN TIEMPO REAL)
 // ===============================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const inputBuscador = document.querySelector(".buscador");
-    const contenedorSugerencias = document.querySelector(".buscador-sugerencias");
+    const inputBuscador = document.getElementById("filtro-texto");
 
-    if (!inputBuscador || !contenedorSugerencias) return;
+    // Si no existe el input, no hacemos nada
+    if (!inputBuscador) return;
 
     // Esperar a que cargarProductos.js cargue los productos
     const esperar = setInterval(() => {
-        if (window.productos && Array.isArray(window.productos)) {
+        if (window.productosOriginales && Array.isArray(window.productosOriginales)) {
             clearInterval(esperar);
 
             inputBuscador.addEventListener("input", () => {
-                const texto = inputBuscador.value.toLowerCase();
 
-                if (texto.length === 0) {
-                    contenedorSugerencias.style.display = "none";
-                    return;
+                const texto = inputBuscador.value.trim().toLowerCase();
+
+                // 1) Aplicar filtros normales (categoría, marca, precio)
+                let lista = aplicarFiltros(window.productosOriginales);
+
+                // 2) Filtrar por texto SOLO por nombreLargo
+                if (texto.length > 0) {
+                    lista = lista.filter(p =>
+                        (p.nombreLargo || "").toLowerCase().includes(texto)
+                    );
                 }
 
-                const filtrados = window.productos.filter(p =>
-                    p.nombre.toLowerCase().includes(texto)
-                );
-
-                mostrarSugerencias(filtrados);
+                // 3) Renderizar lista final
+                renderizarProductos(lista);
             });
         }
     }, 100);
-
-    function mostrarSugerencias(lista) {
-        contenedorSugerencias.innerHTML = "";
-
-        if (lista.length === 0) {
-            contenedorSugerencias.style.display = "none";
-            return;
-        }
-
-        lista.slice(0, 8).forEach(p => {
-            const item = document.createElement("div");
-            item.classList.add("sugerencia-item");
-
-            item.innerHTML = `
-                <img src="${p.imagenes?.[0] || '../recursos/imagenes/placeholder.png'}">
-                <div class="sugerencia-info">
-                    <span>${p.nombre}</span>
-                    <span class="sugerencia-precio">${p.precio} €</span>
-                </div>
-            `;
-
-            item.addEventListener("click", () => {
-                window.location.href = `producto.html?id=${p._id}`;
-            });
-
-            contenedorSugerencias.appendChild(item);
-        });
-
-        contenedorSugerencias.style.display = "flex";
-    }
-
-    // Ocultar sugerencias al hacer click fuera
-    document.addEventListener("click", (e) => {
-        if (!contenedorSugerencias.contains(e.target) &&
-            e.target !== inputBuscador) {
-            contenedorSugerencias.style.display = "none";
-        }
-    });
 });

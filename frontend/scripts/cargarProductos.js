@@ -45,15 +45,30 @@ function activarFiltros() {
     const checkboxes = document.querySelectorAll(".filtro-categoria, .filtro-marca");
 
     const actualizar = () => {
-        productosFiltrados = aplicarFiltros(productosOriginales);
-        renderizarProductos(productosFiltrados);
+
+        // 1) Primero aplicamos los filtros normales (categoría, marca, precio)
+        let lista = aplicarFiltros(productosOriginales);
+
+        // 2) Ahora filtramos por texto (nombreLargo)
+        const texto = buscador.value.trim().toLowerCase();
+
+        if (texto.length > 0) {
+            lista = lista.filter(p =>
+                (p.nombreLargo || "").toLowerCase().includes(texto)
+            );
+        }
+
+        // 3) Renderizamos la lista final
+        renderizarProductos(lista);
     };
 
+    // Eventos
     if (buscador) buscador.addEventListener("input", actualizar);
     if (precioMin) precioMin.addEventListener("input", actualizar);
     if (precioMax) precioMax.addEventListener("input", actualizar);
     checkboxes.forEach(cb => cb.addEventListener("change", actualizar));
 
+    // Botón limpiar
     const btnLimpiar = document.getElementById("btn-limpiar-filtros");
     if (btnLimpiar) {
         btnLimpiar.addEventListener("click", () => {
@@ -62,11 +77,11 @@ function activarFiltros() {
             precioMax.value = "";
             checkboxes.forEach(cb => cb.checked = false);
 
-            productosFiltrados = [...productosOriginales];
-            renderizarProductos(productosFiltrados);
+            renderizarProductos(productosOriginales);
         });
     }
 }
+
 
 
 // ===============================
