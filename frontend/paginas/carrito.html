@@ -11,17 +11,30 @@
 
     <header class="header">
         <div class="header-contenido">
-            <div class="header-logo">
-                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-                <h1>InfoTek</h1>
-            </div>
+
+            <a href="index.html" class="header-logo">
+    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+    <h1>InfoTek</h1>
+</a>
+
+            <input type="text" class="buscador" placeholder="Buscar componentes...">
+            <div class="buscador-sugerencias"></div>
 
             <div class="header-usuario">
+
+                <!-- Botón carrito con contador -->
                 <button class="btn-icon" id="btn-carrito-nav">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
                     <span id="carrito-count" class="carrito-count">0</span>
                 </button>
+
+                <!-- Botón cuenta -->
+                <button class="btn-icon" id="btn-cuenta">
+                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
+                </button>
+
             </div>
+
         </div>
     </header>
 

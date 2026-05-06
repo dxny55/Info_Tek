@@ -206,3 +206,14 @@ body {
     font-size: 0.85rem;
     opacity: 0.8;
 }
+/* Centrar contenido de todas las celdas */
+.tabla-carrito td,
+.tabla-carrito th {
+    text-align: center;
+}
+
+/* Alinear imagen + nombre a la izquierda si quieres mantenerlo así */
+.tabla-carrito td:first-child {
+    text-align: left;
+}
+
