@@ -27,35 +27,39 @@
     </div>
 </header>
 
-<main class="checkout-contenedor">
+<main class="checkout-layout">
 
     <!-- FORMULARIO -->
-    <section class="checkout-form">
+    <section class="checkout-box">
 
-        <h2>Dirección de envío</h2>
+        <h2 class="box-title">📦 Dirección de envío</h2>
 
         <form id="form-envio">
 
-            <div class="form-grupo">
-                <label>Nombre*</label>
-                <input type="text" required>
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Nombre*</label>
+                    <input type="text" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Apellidos*</label>
+                    <input type="text" required>
+                </div>
             </div>
 
-            <div class="form-grupo">
-                <label>Apellidos*</label>
-                <input type="text" required>
-            </div>
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>País*</label>
+                    <select required>
+                        <option value="España">España</option>
+                    </select>
+                </div>
 
-            <div class="form-grupo">
-                <label>País*</label>
-                <select required>
-                    <option value="España">España</option>
-                </select>
-            </div>
-
-            <div class="form-grupo">
-                <label>Móvil*</label>
-                <input type="tel" placeholder="+34 600 000 000" required>
+                <div class="form-grupo">
+                    <label>Móvil*</label>
+                    <input type="tel" placeholder="+34 600 000 000" required>
+                </div>
             </div>
 
             <div class="form-grupo">
@@ -68,14 +72,16 @@
                 <input type="text" placeholder="Piso, puerta, barrio…">
             </div>
 
-            <div class="form-grupo">
-                <label>Código postal*</label>
-                <input type="text" required>
-            </div>
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Código postal*</label>
+                    <input type="text" required>
+                </div>
 
-            <div class="form-grupo">
-                <label>Población*</label>
-                <input type="text" required>
+                <div class="form-grupo">
+                    <label>Población*</label>
+                    <input type="text" required>
+                </div>
             </div>
 
             <div class="form-grupo">
@@ -83,15 +89,14 @@
                 <input type="text" required>
             </div>
 
-            <button class="btn btn-pago" type="submit">Guardar y continuar</button>
-
+            <button class="btn-finalizar" type="submit">Guardar y continuar</button>
         </form>
 
     </section>
 
     <!-- RESUMEN -->
     <aside class="checkout-resumen">
-        <h3>Resumen</h3>
+        <h3>Resumen del pedido</h3>
 
         <div class="resumen-linea">
             <span>Subtotal artículos</span>
@@ -99,10 +104,11 @@
         </div>
 
         <div class="resumen-linea total">
-            <span>Total (Impuestos incluidos)</span>
+            <span>Total (IVA incluido)</span>
             <span id="total">0€</span>
         </div>
 
+        <button class="btn-pagar">Proceder al pago</button>
     </aside>
 
 </main>

@@ -24,16 +24,28 @@ function renderCarrito() {
     tbody.innerHTML = "";
 
     if (carrito.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5" style="text-align:center; padding:20px;">
-                    Tu carrito está vacío.
-                </td>
-            </tr>
-        `;
-        totalEl.textContent = "0 €";
-        return;
-    }
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="5">
+                <div class="carrito-vacio">
+                    <h3>🛒 Tu carrito está vacío</h3>
+                    <p>Parece que aún no has añadido ningún producto.</p>
+                    <a href="index.html" class="btn-seguir">Seguir comprando</a>
+                </div>
+            </td>
+        </tr>
+    `;
+
+    totalEl.textContent = "0 €";
+
+    // 🔴 DESACTIVAR BOTÓN FINALIZAR COMPRA
+    btnComprar.disabled = true;
+    btnComprar.classList.add("btn-disabled");
+
+    return;
+}
+
+
     console.log("items carrito: " + carrito.length);
     carrito.forEach((item, index) => {
         
@@ -60,6 +72,10 @@ function renderCarrito() {
     });
     
     totalEl.textContent = calcularTotal(carrito).toFixed(2) + " €";
+    // 🟢 ACTIVAR BOTÓN FINALIZAR COMPRA
+    btnComprar.disabled = false;
+    btnComprar.classList.remove("btn-disabled");
+
 
     // Eventos cantidad
     document.querySelectorAll(".input-cantidad").forEach(input => {
