@@ -233,6 +233,27 @@ function agregarAlCarrito(producto) {
     `);
 }
 
+function toggleFavorito(producto) {
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    const index = favoritos.findIndex(p => p._id === producto._id);
+
+    if (index !== -1) {
+        favoritos.splice(index, 1);
+        alert("❌ Eliminado de favoritos");
+    } else {
+        favoritos.push({
+            _id: producto._id,
+            nombre: producto.nombreLargo || producto.nombre,
+            precio: producto.precio,
+            imagen: producto.imagenes?.[0] || ""
+        });
+
+        alert("❤️ Añadido a favoritos");
+    }
+
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+}
 
 
 // NAVBAR: botón carrito

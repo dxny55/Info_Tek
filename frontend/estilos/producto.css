@@ -38,9 +38,7 @@ body {
     align-items: start;
 }
 
-/* ================================
-   GALERÍA DE IMÁGENES
-================================ */
+/* GALERÍA DE IMÁGENES */
 .producto-imagen {
     display: flex;
     flex-direction: column;
@@ -106,6 +104,7 @@ body {
 .producto-precio {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px;
 }
 
@@ -127,6 +126,7 @@ body {
     padding: 4px 10px;
     border-radius: 6px;
     font-weight: bold;
+    font-size: 0.9rem;
 }
 
 /* ================================
@@ -171,6 +171,7 @@ body {
     cursor: pointer;
     width: 100%;
     transition: 0.2s ease;
+    display: block;
 }
 
 #btn-carrito:hover {
@@ -234,7 +235,7 @@ body {
     padding: 40px;
     text-align: center;
     border-radius: 10px;
-    margin-bottom: 20px;
+    color: #666;
 }
 
 .estadisticas-precio {

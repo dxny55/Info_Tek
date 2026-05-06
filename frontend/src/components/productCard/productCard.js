@@ -1,3 +1,5 @@
+/*export function createProductCard(producto, onVer, onFavorito, onComparar) {
+
 // ===============================
 // GENERAR ESTRELLAS
 // ===============================
@@ -7,6 +9,7 @@ function generarEstrellas(rating) {
     const vacias = 5 - llenas;
     return "★".repeat(llenas) + "☆".repeat(vacias);
 }
+}*/
 
 // ===============================
 // ANIMACIÓN: PRODUCTO VUELA AL CARRITO
@@ -37,7 +40,7 @@ export function animarProductoAlCarrito(imagenSrc, origenX, origenY) {
 // ===============================
 // CREAR CARD DE PRODUCTO
 // ===============================
-export function createProductCard(producto, onVer, onCarrito, onComparar) {
+export function createProductCard(producto, onVer, onCarrito,onComparar,onFavorito) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
@@ -45,25 +48,28 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
+    // 🔥 ahora ya no usamos localStorage
+    const esFavorito = false;
+    //<span class="stars">${generarEstrellas(producto.rating)}</span>
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
         <h3 class="producto-nombre">${producto.nombreLargo}</h3>
 
         <div class="producto-rating">
-            <span class="stars">${generarEstrellas(producto.rating)}</span>
+            
             <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"}</span>
         </div>
 
         <p class="producto-precio">${producto.precio} €</p>
 
         <div class="botones-producto">
-            <button class="btn-favorito">
-                <img src="../recursos/imagenes/corazon.png" alt="favoritos">
+            <button class="btn-favorito ${esFavorito ? "activo" : ""}">
+                <img src="../recursos/imagenes/corazon.png">
             </button>
 
             <button class="btn-comparar">
-                <img src="../recursos/imagenes/comparar.png" alt="comparar">
+                <img src="../recursos/imagenes/comparar.png">
             </button>
         </div>
     `;
@@ -80,6 +86,7 @@ export function createProductCard(producto, onVer, onCarrito, onComparar) {
     // Añadir al carrito con animación
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
+        onFavorito(producto, e.currentTarget);
         const img = card.querySelector(".producto-img");
         const rect = img.getBoundingClientRect();
 
