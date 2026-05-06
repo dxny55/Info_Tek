@@ -4,11 +4,12 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
+
+// ===============================
 // REGISTRO
+// ===============================
 router.post("/register", async (req, res) => {
   try {
-
-    console.log("BODY:", req.body); // 👈 ver datos que llegan
 
     const { name, email, password } = req.body;
 
@@ -39,7 +40,7 @@ router.post("/register", async (req, res) => {
 
   } catch (error) {
 
-    console.error("ERROR REGISTER:", error); // 👈 MUY IMPORTANTE
+    console.error("ERROR REGISTER:", error);
 
     res.status(500).json({
       message: "Error en el servidor"
@@ -49,7 +50,9 @@ router.post("/register", async (req, res) => {
 });
 
 
+// ===============================
 // LOGIN
+// ===============================
 router.post("/login", async (req, res) => {
   try {
 
@@ -86,5 +89,74 @@ router.post("/login", async (req, res) => {
 
   }
 });
+
+
+// ===============================
+// RECUPERAR CONTRASEÑA
+// ===============================
+router.post("/recover-password", async (req, res) => {
+  try {
+
+    const { email, newPassword } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    res.json({ message: "Contraseña actualizada correctamente" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+});
+
+
+// ===============================
+// ACTUALIZAR USUARIO
+// ===============================
+router.put("/update-user/:id", async (req, res) => {
+  try {
+
+    const { name, email, password } = req.body;
+
+    const updateData = {
+      name,
+      email
+    };
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(password, salt);
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    res.json({
+      message: "Usuario actualizado correctamente",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar usuario" });
+  }
+});
+
 
 export default router;

@@ -38,6 +38,15 @@ body {
     gap: 40px;
 }
 
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 10px; /* Ajusta el valor a tu gusto */
+}
+
+
 .tema-card {
     grid-column: 1 / span 2; /* La coloca centrada debajo de las 3 cards */
     width: 75%;

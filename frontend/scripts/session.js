@@ -1,4 +1,4 @@
-const usuario = JSON.parse(localStorage.getItem("usuario"));
+const usuario = JSON.parse(localStorage.getItem("user"));
 
 if (usuario) {
 
@@ -18,7 +18,7 @@ if (usuario) {
 
 function logout() {
 
-  localStorage.removeItem("usuario");
+  localStorage.removeItem("user");
 
   alert("Sesión cerrada");
 

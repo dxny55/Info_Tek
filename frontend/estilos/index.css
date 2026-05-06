@@ -267,22 +267,17 @@ body {
 .footer {
     margin-top: 60px;
     padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
-    backdrop-filter: blur(4px);
-    text-align: center;
+    background: #adadad2a;
     color: white;
-}
-
-.footer-contenido {
-    max-width: 1200px;
-    margin: auto;
+    text-align: center;
+    border-radius: 1%;/*FALTA MIIRAR---------------------------------------------------------------------------*/
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 25px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
@@ -290,24 +285,16 @@ body {
     color: white;
     text-decoration: none;
     font-size: 0.95rem;
-    transition: 0.2s;
 }
 
 .footer-links a:hover {
     text-decoration: underline;
 }
 
-.footer-redes {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
 .footer-redes img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) invert(1); /* iconos blancos */
+    filter: brightness(0) invert(1);
     transition: 0.2s;
 }
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Favoritos - InfoTek</title>
+
+    <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../src/components/productCard/productCard.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-contenido">
+
+        <a href="index.html" class="header-logo">
+    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+    <h1>InfoTek</h1>
+</a>
+
+        <input type="text" class="buscador">
+
+        <div class="header-usuario">
+            <button class="btn-icon" id="btn-cuenta">
+                <img src="../recursos/imagenes/usuario.png">
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<main class="contenedor">
+
+    <h1 class="titulo-seccion">Mis favoritos</h1>
+    <p id="contador-productos" class="contador"></p>
+
+    <div id="lista-favoritos" class="grid-productos"></div>
+
+</main>
+
+<script>
+const contenedor = document.getElementById("lista-favoritos");
+const contador = document.getElementById("contador-productos");
+
+const usuario = JSON.parse(localStorage.getItem("user"));
+
+if (!usuario) {
+    alert("Debes iniciar sesión");
+    window.location.href = "login.html";
+}
+
+async function cargarFavoritos() {
+
+    const res = await fetch(`http://localhost:3000/api/favoritos/${usuario.id}`);
+    const favoritos = await res.json();
+
+    contenedor.innerHTML = "";
+
+    if (!favoritos || favoritos.length === 0) {
+        contenedor.innerHTML = "<p>No tienes favoritos aún</p>";
+        contador.textContent = "0 productos";
+        return;
+    }
+
+    contador.textContent = `${favoritos.length} productos`;
+
+    favoritos.forEach(fav => {
+
+        const producto = fav.productoId;
+
+        const card = document.createElement("div");
+        card.classList.add("producto-card");
+
+        const imagen = producto.imagenes?.[0]
+            ? "../" + producto.imagenes[0]
+            : "../recursos/imagenes/default.jpg";
+
+        card.innerHTML = `
+            <img class="producto-img" src="${imagen}">
+            <h3 class="producto-nombre">${producto.nombreLargo}</h3>
+            <p class="producto-precio">${producto.precio} €</p>
+
+            <div class="botones-producto">
+                <button class="btn-favorito activo">
+                    <img src="../recursos/imagenes/corazon.png">
+                </button>
+            </div>
+        `;
+
+        card.querySelector(".btn-favorito").addEventListener("click", async (e) => {
+            e.stopPropagation();
+
+            await fetch("http://localhost:3000/api/favoritos", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    usuarioId: usuario.id,
+                    productoId: producto._id
+                })
+            });
+
+            cargarFavoritos();
+        });
+
+        card.addEventListener("click", () => {
+            window.location.href = `producto.html?id=${producto._id}`;
+        });
+
+        contenedor.appendChild(card);
+    });
+}
+
+cargarFavoritos();
+</script>
+
+</body>
+</html>

@@ -26,7 +26,8 @@ function renderizarProductos(lista) {
             p,
             verDetalle,
             añadirCarrito,
-            toggleComparar
+            toggleComparar,
+            toggleFavorito
         );
         contenedor.appendChild(card);
     });
@@ -71,13 +72,13 @@ function activarFiltros() {
 // ===============================
 // TOAST
 // ===============================
-function mostrarToast(mensaje) {
+/*function mostrarToast(mensaje) {
     const toast = document.getElementById("toast");
     toast.innerHTML = mensaje;
     toast.classList.add("show");
 
     setTimeout(() => toast.classList.remove("show"), 2500);
-}
+}*/
 
 // ===============================
 // CONTADOR DEL CARRITO
@@ -123,10 +124,10 @@ function añadirCarrito(producto, boton, event) {
     );
 
     // Toast
-    mostrarToast(`
+  /*  mostrarToast(`
         ✔ Producto añadido al carrito<br>
         <a href="carrito.html" style="color:#ffd700; text-decoration:underline;">Ir al carrito</a>
-    `);
+    `);*/
 }
 
 // ===============================
@@ -145,16 +146,22 @@ fetch("http://localhost:3000/api/productos")
     })
     .catch(err => console.error("Error cargando productos:", err));
 
+// ===============================
+// MOSTRAR PRODUCTOS
+// ===============================
 function mostrarProductos(lista) {
+
     contenedor.innerHTML = "";
 
     lista.forEach(p => {
+
         const card = createProductCard(
             p,
             verDetalle,
-            añadirCarrito,
+            toggleFavorito,
             toggleComparar
         );
+
         contenedor.appendChild(card);
     });
 
@@ -168,25 +175,74 @@ botonesCategorias.forEach(btn => {
     btn.addEventListener("click", () => {
         botonesCategorias.forEach(b => b.classList.remove("activo"));
         btn.classList.add("activo");
-
-        const cat = btn.dataset.cat;
-
-        if (cat === "Todos") {
-            mostrarProductos(productos);
-            return;
-        }
-
-        const categoriaMongo = mapaCategorias[cat];
-        const filtrados = productos.filter(p => p.categoria === categoriaMongo);
-
-        mostrarProductos(filtrados);
     });
 });
+// ===============================
+// FAVORITOS (🔥 MODIFICADO)
+// ===============================
+function toggleFavorito(producto, boton) {
+    // 1. Corregido: Usar 'boton' en lugar de 'btn'
+    // const cat = boton.dataset.cat; // ¿Realmente necesitas la categoría aquí?
+
+    const usuario = JSON.parse(localStorage.getItem("user"));
+
+    if (!usuario) {
+        alert("Debes iniciar sesión");
+        return;
+    }
+
+    // --- COMENTO ESTA SECCIÓN ---
+    // Esta lógica de filtrar categorías NO debería estar en la función de Favoritos.
+    // Favoritos solo debe guardar o quitar el producto.
+    /*
+    if (cat === "Todos") {
+        mostrarProductos(productos);
+        return;
+    }
+    const categoriaMongo = mapaCategorias[cat];
+    const filtrados = productos.filter(p => p.categoria === categoriaMongo);
+    */
+    // ----------------------------
+
+    const activo = boton.classList.contains("activo");
+
+    if (!activo) {
+        // AGREGAR A FAVORITOS
+        fetch("http://localhost:3000/api/favoritos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuarioId: usuario.id,
+                productoId: producto._id
+            })
+        })
+        .then(res => {
+            if(res.ok) boton.classList.add("activo");
+        })
+        .catch(err => console.error("Error al guardar favorito:", err));
+
+    } else {
+        // ELIMINAR DE FAVORITOS
+        fetch("http://localhost:3000/api/favoritos", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuarioId: usuario.id,
+                productoId: producto._id
+            })
+        })
+        .then(res => {
+            if(res.ok) boton.classList.remove("activo");
+        })
+        .catch(err => console.error("Error al eliminar favorito:", err));
+    }
+}
 
 // ===============================
-// COMPARAR
+// COMPARAR (SIN CAMBIOS)
 // ===============================
 function toggleComparar(id, boton) {
+
     const producto = productos.find(p => p._id === id);
 
     if (seleccionados.length === 0) {
@@ -201,6 +257,7 @@ function toggleComparar(id, boton) {
     }
 
     const index = seleccionados.findIndex(p => p._id === id);
+
     if (index !== -1) {
         seleccionados.splice(index, 1);
         boton.classList.remove("seleccionado");
@@ -212,8 +269,9 @@ function toggleComparar(id, boton) {
 }
 
 btnCompararFinal.addEventListener("click", () => {
+
     if (seleccionados.length < 2) {
-        alert("Selecciona al menos 2 productos para comparar.");
+        alert("Selecciona al menos 2 productos");
         return;
     }
     compareModal.abrir(seleccionados);
@@ -226,6 +284,10 @@ function verDetalle(producto) {
     window.location.href = `producto.html?id=${producto._id}`;
 }
 
+// CUENTA
+btnCuenta.addEventListener("click", () => {
+    window.location.href = "./account.html";
+});
 // ===============================
 // NAVBAR: IR AL CARRITO
 // ===============================
@@ -238,3 +300,17 @@ if (btnCarritoNav) {
 
 // Inicializar contador
 actualizarContadorCarrito();
+
+// COLOR (SIN CAMBIOS)
+const colorGuardado = localStorage.getItem("colorFondo");
+
+if (colorGuardado) {
+    document.documentElement.style.setProperty("--color-fondo", colorGuardado);
+    selectorColor.value = colorGuardado;
+}
+
+selectorColor.addEventListener("input", (e) => {
+    const nuevoColor = e.target.value;
+    document.documentElement.style.setProperty("--color-fondo", nuevoColor);
+    localStorage.setItem("colorFondo", nuevoColor);
+});
