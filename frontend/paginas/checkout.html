@@ -89,8 +89,43 @@
                 <input type="text" required>
             </div>
 
-            <button class="btn-finalizar" type="submit">Guardar y continuar</button>
+            <button class="btn-finalizar" type="submit" id="btn-guardar-envio">
+                Guardar y continuar
+            </button>
         </form>
+
+
+        <!-- ⭐⭐⭐ NUEVO: FORMULARIO DE PAGO ⭐⭐⭐ -->
+        <section id="pago-section" class="pago-section oculto">
+
+            <h2 class="box-title">💳 Método de pago</h2>
+
+            <div class="form-grupo">
+                <label>Número de tarjeta*</label>
+                <input type="text" id="card-number" maxlength="16" placeholder="1234 5678 9012 3456">
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Expiración (MM/AA)*</label>
+                    <input type="text" id="card-exp" maxlength="5" placeholder="08/28">
+                </div>
+
+                <div class="form-grupo">
+                    <label>CVV*</label>
+                    <input type="text" id="card-cvv" maxlength="3" placeholder="123">
+                </div>
+            </div>
+
+            <div class="form-grupo">
+                <label>Titular de la tarjeta*</label>
+                <input type="text" id="card-name" placeholder="Nombre del titular">
+            </div>
+
+            <button id="btn-pagar" class="btn-finalizar">Pagar ahora</button>
+
+        </section>
+        <!-- ⭐⭐⭐ FIN FORMULARIO DE PAGO ⭐⭐⭐ -->
 
     </section>
 
@@ -112,6 +147,7 @@
     </aside>
 
 </main>
+
 
 <script src="../scripts/checkout.js"></script>
 
