@@ -7,6 +7,8 @@
 
     <!-- CSS global -->
     <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../estilos/responsive.css">
+    <link rel="stylesheet" href="../estilos/responsive.css">
 
     <!-- CSS del componente ProductCard -->
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
@@ -51,70 +53,76 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
         <!-- Layout principal: Filtros + Productos -->
+
+        <!-- BOTÓN RESPONSIVE FILTROS -->
+        <button id="btn-toggle-filtros" class="btn-toggle-filtros">
+            ☰ Filtros
+        </button>
+        <!-- OVERLAY PARA FILTROS MÓVIL -->
+        <div class="filtro-overlay" id="filtro-overlay"></div>
         <div class="layout-tienda">
             
-            <!-- FILTRO LATERAL (Sticky) -->
-            <aside class="filtro-lateral">
-                <div class="filtro-bloque">
-                    <h3>Búsqueda de filtros</h3>
+            <!-- FILTRO LATERAL (Sticky en desktop, Fixed overlay en móvil) -->
+        <aside class="filtro-lateral" id="filtro-lateral">
+            <div class="filtro-bloque">
+                <h3>Búsqueda de filtros</h3>
+            </div>
+
+            <div class="filtro-bloque">
+                <h3>Precio</h3>
+                <div class="filtro-rango-precio">
+                    <input type="number" placeholder="11€" class="input-precio" id="precio-min">
+                    <span>-</span>
+                    <input type="number" placeholder="11964€" class="input-precio" id="precio-max">
                 </div>
+            </div>
 
-                <div class="filtro-bloque">
-                    <h3>Precio</h3>
-                    <div class="filtro-rango-precio">
-                        <input type="number" placeholder="11€" class="input-precio" id="precio-min">
-                        <span>-</span>
-                        <input type="number" placeholder="11964€" class="input-precio" id="precio-max">
-                    </div>
-                </div>
+            <div class="filtro-bloque">
+                <h3>Categorías</h3>
+                <!-- Añadidas clases filtro-categoria para compatibilidad -->
+                <label><input type="checkbox" class="filtro-categoria" value="PC"> PC</label>
+                <label><input type="checkbox" class="filtro-categoria" value="Electrodomesticos"> Electrodomésticos</label>
+                <label><input type="checkbox" class="filtro-categoria" value="Consolas"> Consolas</label>
 
-                <div class="filtro-bloque">
-                    <h3>Categorías</h3>
-                    <!-- Añadidas clases filtro-categoria para compatibilidad -->
-                    <label><input type="checkbox" class="filtro-categoria" value="PC"> PC</label>
-                    <label><input type="checkbox" class="filtro-categoria" value="Electrodomesticos"> Electrodomésticos</label>
-                    <label><input type="checkbox" class="filtro-categoria" value="Consolas"> Consolas</label>
+                <details>
+                    <summary><strong>Componentes</strong></summary>
+                    <label><input type="checkbox" class="filtro-categoria" value="CPU"> CPU</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="GPU"> GPU</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="RAM"> RAM</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="Placas Base"> Placas Base</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="Almacenamiento"> Almacenamiento</label>
+                </details>
+            </div>
 
-                    <details>
-                        <summary><strong>Componentes</strong></summary>
-                        <label><input type="checkbox" class="filtro-categoria" value="CPU"> CPU</label>
-                        <label><input type="checkbox" class="filtro-categoria" value="GPU"> GPU</label>
-                        <label><input type="checkbox" class="filtro-categoria" value="RAM"> RAM</label>
-                        <label><input type="checkbox" class="filtro-categoria" value="Placas Base"> Placas Base</label>
-                        <label><input type="checkbox" class="filtro-categoria" value="Almacenamiento"> Almacenamiento</label>
-                    </details>
-                </div>
+            <div class="filtro-bloque">
+                <h3>Marcas</h3>
+                <label><input type="checkbox" class="filtro-marca" value="ryzen"> AMD</label>
+                <label><input type="checkbox" class="filtro-marca" value="intel"> Intel</label>
+                <label><input type="checkbox" class="filtro-marca" value="nvidia"> NVIDIA</label>
+                <label><input type="checkbox" class="filtro-marca" value="samsung"> Samsung</label>
+                <label><input type="checkbox" class="filtro-marca" value="xiaomi"> Xiaomi</label>
+                <label><input type="checkbox" class="filtro-marca" value="kingston"> Kingston</label>
+                <label><input type="checkbox" class="filtro-marca" value="forgeon"> Forgeon</label>
+                <label><input type="checkbox" class="filtro-marca" value="msi"> MSI</label>
 
-                <div class="filtro-bloque">
-                    <h3>Marcas</h3>
-                    <label><input type="checkbox" class="filtro-marca" value="ryzen"> AMD</label>
-                    <label><input type="checkbox" class="filtro-marca" value="intel"> Intel</label>
-                    <label><input type="checkbox" class="filtro-marca" value="nvidia"> NVIDIA</label>
-                    <label><input type="checkbox" class="filtro-marca" value="samsung"> Samsung</label>
-                    <label><input type="checkbox" class="filtro-marca" value="xiaomi"> Xiaomi</label>
-                    <label><input type="checkbox" class="filtro-marca" value="kingston"> Kingston</label>
-                    <label><input type="checkbox" class="filtro-marca" value="forgeon"> Forgeon</label>
-                    <label><input type="checkbox" class="filtro-marca" value="msi"> MSI</label>
+                <label><input type="checkbox" class="filtro-marca" value="sony"> Sony</label>
+                <label><input type="checkbox" class="filtro-marca" value="microsoft"> Microsoft</label>
+                <label><input type="checkbox" class="filtro-marca" value="nintendo"> Nintendo</label>
+            </div>
 
-                    <label><input type="checkbox" class="filtro-marca" value="sony"> Sony</label>
-                    <label><input type="checkbox" class="filtro-marca" value="microsoft"> Microsoft</label>
-                    <label><input type="checkbox" class="filtro-marca" value="nintendo"> Nintendo</label>
+            <button id="btn-limpiar-filtros">Limpiar filtros</button>
+        </aside>
 
-                </div>
-
-                <button id="btn-limpiar-filtros">Limpiar filtros</button>
-            </aside>
-
+        <div class="layout-tienda">
             <!-- ZONA DE PRODUCTOS -->
             <div class="zona-productos">
-                <div class="productos-header">
+                        <div class="productos-header">
                     <h2 class="titulo-seccion">Todos los productos</h2>
                     <p class="contador" id="contador-productos">0 productos</p>
                 </div>
                 <!-- Se mantienen id y clases; script buscará cualquiera -->
                 <section class="grid-productos productos-grid" id="lista-productos"></section>
             </div>
-
         </div>
     </main>
 
@@ -143,5 +151,6 @@
     <script type="module" src="../scripts/cargarProductos.js"></script>
     <script src="../scripts/autenticacion.js"></script>
     <script src="../libs/apexcharts.js"></script>
+
 </body>
 </html>
