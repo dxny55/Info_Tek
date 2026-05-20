@@ -174,3 +174,25 @@
 .btn-pagar:hover {
     background: #e25500;
 }
+
+.oculto {
+    display: none;
+}
+
+.msg-ok {
+    background: #d4ffe0;
+    color: #0d7a2e;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.msg-error {
+    background: #ffe0e0;
+    color: #b30000;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: 600;
+}
