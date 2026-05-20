@@ -189,3 +189,76 @@ body {
         gap: 10px;
     }
 }
+
+/* Sticky en escritorio ya definido arriba; en móvil lo convertimos en bloque */
+@media (max-width: 1100px) {
+
+    .contenedor {
+        margin-left: 20px;
+        margin-right: 20px;
+        display: block;
+    }
+
+    .layout-tienda {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+
+    .header-contenido {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .buscador {
+        width: 100%;
+        order: 3;
+    }
+
+    .grid-productos {
+        grid-template-columns: 1fr;
+    }
+
+    .titulo-seccion {
+        font-size: 1.4rem;
+    }
+
+    .contador {
+        font-size: 1rem;
+    }
+
+    .productos-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-toggle-filtros {
+        width: 100%;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+
+    .contenedor {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .header-logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .header-logo img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .filtro-lateral {
+        width: 260px;
+    }
+}
