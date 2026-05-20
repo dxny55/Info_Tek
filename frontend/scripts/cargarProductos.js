@@ -1,6 +1,7 @@
 import { createProductCard, animarProductoAlCarrito } from "../src/components/productCard/productCard.js";
 import { initCompareModal } from "../src/components/compareModal/compareModal.js";
-import { aplicarFiltros } from "./filtros.js";
+import { aplicarFiltros } from "../scripts/filtros.js";
+
 
 const contenedor = document.getElementById("lista-productos");
 const contador = document.getElementById("contador-productos");

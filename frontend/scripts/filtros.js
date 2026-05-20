@@ -53,7 +53,7 @@ export function aplicarFiltros(productos) {
     // --- MARCAS ---
     const marcasSeleccionadas = [...document.querySelectorAll(".filtro-marca:checked")]
         .map(m => norm(m.value));
-
+   
     return productos.filter(p => {
 
         // CATEGORÍA
@@ -75,51 +75,58 @@ export function aplicarFiltros(productos) {
         return coincideCategoria && coincideMarca && coincidePrecio;
     });
 }
+
+// ===============================
+// CONTROL DEL PANEL DE FILTROS (FULLSCREEN EN MÓVIL)
+// ===============================
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const btnToggle = document.getElementById("btn-toggle-filtros");
     const sidebar = document.getElementById("filtro-lateral");
     const overlay = document.getElementById("filtro-overlay");
+    const btnCerrar = document.getElementById("cerrar-filtros");
 
     if (!btnToggle || !sidebar) return;
 
-    // Función para abrir filtros
+    // ABRIR FILTROS
     function abrirFiltros() {
         sidebar.classList.add("abierto");
-        if (overlay) overlay.classList.add("activo");
-        document.body.style.overflow = "hidden"; // Evita scroll del body
+        document.body.style.overflow = "hidden"; // bloquea scroll del body
     }
 
-    // Función para cerrar filtros
+    // CERRAR FILTROS
     function cerrarFiltros() {
         sidebar.classList.remove("abierto");
-        if (overlay) overlay.classList.remove("activo");
-        document.body.style.overflow = ""; // Restaura scroll
+        document.body.style.overflow = ""; // restaura scroll
     }
 
-    // Abrir/cerrar sidebar con botón
+    // Botón "☰ Filtros"
     btnToggle.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (sidebar.classList.contains("abierto")) {
-            cerrarFiltros();
-        } else {
-            abrirFiltros();
-        }
+        abrirFiltros();
     });
 
-    // Cerrar al hacer clic en el overlay
+    // Botón "← Volver"
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => {
+            cerrarFiltros();
+        });
+    }
+
+    // Cerrar tocando el overlay (si lo usas)
     if (overlay) {
         overlay.addEventListener("click", () => {
             cerrarFiltros();
         });
     }
 
-    // Evitar cierre al clicar dentro del sidebar
+    // Evitar que clic dentro del panel cierre el filtro
     sidebar.addEventListener("click", (e) => {
         e.stopPropagation();
     });
 
-    // Reset en desktop
+    // Reset al cambiar a modo escritorio
     window.addEventListener("resize", () => {
         if (window.innerWidth > 1100) {
             cerrarFiltros();
