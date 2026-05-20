@@ -75,7 +75,11 @@ router.post("/login", async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        apellido: user.apellido,
+        sexo: user.sexo,
+        nacimiento: user.nacimiento,
+        email: user.email,
+        createdAt: user.createdAt
       }
     });
 
@@ -119,18 +123,20 @@ router.post("/recover-password", async (req, res) => {
   }
 });
 
-
 // ===============================
 // ACTUALIZAR USUARIO
 // ===============================
 router.put("/update-user/:id", async (req, res) => {
   try {
 
-    const { name, email, password } = req.body;
+    const { name, email, password, apellido, sexo, nacimiento } = req.body;
 
     const updateData = {
       name,
-      email
+      email,
+      apellido,
+      sexo,
+      nacimiento
     };
 
     if (password) {
@@ -149,7 +155,11 @@ router.put("/update-user/:id", async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        apellido: user.apellido,
+        sexo: user.sexo,
+        nacimiento: user.nacimiento,
+        createdAt: user.createdAt
       }
     });
 
@@ -157,6 +167,5 @@ router.put("/update-user/:id", async (req, res) => {
     res.status(500).json({ message: "Error al actualizar usuario" });
   }
 });
-
 
 export default router;
