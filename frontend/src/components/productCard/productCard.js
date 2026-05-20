@@ -40,7 +40,7 @@ export function animarProductoAlCarrito(imagenSrc, origenX, origenY) {
 // ===============================
 // CREAR CARD DE PRODUCTO
 // ===============================
-export function createProductCard(producto, onVer, onCarrito,onComparar,onFavorito) {
+export function createProductCard(producto, onVer, onCarrito, onComparar, onFavorito, esFavorito = false) {
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
@@ -48,16 +48,13 @@ export function createProductCard(producto, onVer, onCarrito,onComparar,onFavori
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
-    // 🔥 ahora ya no usamos localStorage
-    const esFavorito = false;
-    //<span class="stars">${generarEstrellas(producto.rating)}</span>
+    // Modificado: Ahora 'esFavorito' se controla de forma dinámica
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
         <h3 class="producto-nombre">${producto.nombreLargo}</h3>
 
         <div class="producto-rating">
-            
             <span class="rating-number">${producto.rating ? producto.rating.toFixed(1) : "N/A"}</span>
         </div>
 
@@ -83,20 +80,10 @@ export function createProductCard(producto, onVer, onCarrito,onComparar,onFavori
         onComparar(producto._id, e.currentTarget);
     });
 
-    // Añadir al carrito con animación
+    // Favorito (Modificado: Se elimina la lógica intrusa del carrito de esta sección)
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
         onFavorito(producto, e.currentTarget);
-        const img = card.querySelector(".producto-img");
-        const rect = img.getBoundingClientRect();
-
-        onCarrito(producto, e.currentTarget, e);
-
-        animarProductoAlCarrito(
-            imagen,
-            rect.left,
-            rect.top
-        );
     });
 
     return card;
