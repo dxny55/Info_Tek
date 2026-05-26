@@ -14,21 +14,24 @@ const saludo = document.getElementById("saludo-usuario");
 if (saludo && user) {
     saludo.textContent = "Hola, " + (user.name || "Usuario");
     
-    // Rellenar spans de información personal
-    if(document.getElementById("nombre-usuario")) document.getElementById("nombre-usuario").textContent = user.name;
-    if(document.getElementById("apellido-usuario")) document.getElementById("apellido-usuario").textContent = user.apellido || "-";
-    if(document.getElementById("email-usuario")) document.getElementById("email-usuario").textContent = user.email;
+    if(document.getElementById("nombre-usuario")) document.getElementById("nombre-usuario").textContent = user.name || "-";
+    if(document.getElementById("apellido-usuario")) document.getElementById("apellido-usuario").textContent = user.apellido || user.lastName || "-";
+    if(document.getElementById("email-usuario")) document.getElementById("email-usuario").textContent = user.email || "-";
     if(document.getElementById("sexo-usuario")) document.getElementById("sexo-usuario").textContent = user.sexo || "-";
 
-    // Formatear Fecha de Nacimiento
     const campoNacimiento = document.getElementById("nacimiento-usuario");
     if (campoNacimiento) {
-        if (user.nacimiento) {
-            const fecha = new Date(user.nacimiento);
-            const dia = String(fecha.getDate()).padStart(2, '0');
-            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-            const año = fecha.getFullYear();
-            campoNacimiento.textContent = `${dia}/${mes}/${año}`;
+        const fechaRaw = user.nacimiento || user.birthDate; 
+        if (fechaRaw) {
+            const fecha = new Date(fechaRaw);
+            if (!isNaN(fecha)) {
+                const dia = String(fecha.getDate()).padStart(2, '0');
+                const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+                const año = fecha.getFullYear();
+                campoNacimiento.textContent = `${dia}/${mes}/${año}`;
+            } else {
+                campoNacimiento.textContent = fechaRaw;
+            }
         } else {
             campoNacimiento.textContent = "-";
         }
@@ -56,10 +59,8 @@ if (btnEditar) {
     btnEditar.addEventListener("click", async () => {
         const nombre = prompt("Nuevo nombre:", user.name);
         if (nombre === null) return;
-
         const apellido = prompt("Nuevo apellido:", user.apellido || "");
         if (apellido === null) return;
-
         const sexo = prompt("Sexo (Hombre/Mujer/Otro):", user.sexo || "");
         if (sexo === null) return;
 
@@ -80,18 +81,15 @@ if (btnEditar) {
             const res = await fetch(`http://localhost:3000/api/auth/update-user/${user.id || user._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: nombre,
-                    apellido: apellido,
-                    sexo: sexo,
-                    nacimiento: nacimientoISO
-                })
+                body: JSON.stringify({ name: nombre, apellido: apellido, sexo: sexo, nacimiento: nacimientoISO })
             });
 
             const data = await res.json();
             if (res.ok) {
+                // CORRECCIÓN: Actualizamos manualmente el objeto local para evitar que los datos desaparezcan
+                const userActualizado = { ...user, name: nombre, apellido: apellido, sexo: sexo, nacimiento: nacimientoISO };
+                localStorage.setItem("user", JSON.stringify(userActualizado));
                 alert("Información actualizada correctamente");
-                localStorage.setItem("user", JSON.stringify(data.user));
                 window.location.reload();
             } else {
                 alert("Error: " + data.message);

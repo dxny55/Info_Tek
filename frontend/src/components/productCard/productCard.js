@@ -1,15 +1,25 @@
-/*export function createProductCard(producto, onVer, onFavorito, onComparar) {
+// ==========================================================================
+// COMPONENTE: PRODUCT CARD (RESTAURADO Y SEGURO)
+// ==========================================================================
 
-// ===============================
-// GENERAR ESTRELLAS
-// ===============================
-function generarEstrellas(rating) {
-    if (!rating) return "☆☆☆☆☆";
-    const llenas = Math.floor(rating);
-    const vacias = 5 - llenas;
-    return "★".repeat(llenas) + "☆".repeat(vacias);
+/**
+ * Función auxiliar interna para actualizar el contador flotante del header
+ * de forma nativa si existe en la página actual.
+ */
+function refrescarContadorLocal() {
+    const badge = document.getElementById("carrito-count");
+    if (badge) {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        const productosUnicos = carrito.length;
+
+        if (productosUnicos > 0) {
+            badge.textContent = productosUnicos;
+            badge.style.display = "flex";
+        } else {
+            badge.style.display = "none";
+        }
+    }
 }
-}*/
 
 // ===============================
 // ANIMACIÓN: PRODUCTO VUELA AL CARRITO
@@ -44,11 +54,11 @@ export function createProductCard(producto, onVer, onCarrito, onComparar, onFavo
     const card = document.createElement("div");
     card.classList.add("producto-card");
 
+    // Validar ruta de imagen por si viene relativa de la base de datos
     const imagen = producto.imagenes?.[0]
         ? "../" + producto.imagenes[0]
         : "../recursos/imagenes/default.jpg";
 
-    // Modificado: Ahora 'esFavorito' se controla de forma dinámica
     card.innerHTML = `
         <img class="producto-img" src="${imagen}" alt="${producto.nombreCorto}">
         
@@ -62,29 +72,63 @@ export function createProductCard(producto, onVer, onCarrito, onComparar, onFavo
 
         <div class="botones-producto">
             <button class="btn-favorito ${esFavorito ? "activo" : ""}">
-                <img src="../recursos/imagenes/corazon.png">
+                <img src="/Info_Tek/frontend/recursos/imagenes/corazon.png" alt="Favorito">
             </button>
 
             <button class="btn-comparar">
-                <img src="../recursos/imagenes/comparar.png">
+                <img src="/Info_Tek/frontend/recursos/imagenes/comparar.png" alt="Comparar">
             </button>
         </div>
     `;
 
-    // Abrir producto
+    // Evento para abrir la vista de detalle del producto
     card.addEventListener("click", () => onVer(producto));
 
-    // Comparar
+    // Evento para añadir a la lista de comparación
     card.querySelector(".btn-comparar").addEventListener("click", (e) => {
         e.stopPropagation();
         onComparar(producto._id, e.currentTarget);
     });
 
-    // Favorito (Modificado: Se elimina la lógica intrusa del carrito de esta sección)
+    // Evento para añadir o quitar de favoritos
     card.querySelector(".btn-favorito").addEventListener("click", (e) => {
         e.stopPropagation();
         onFavorito(producto, e.currentTarget);
     });
 
     return card;
+}
+
+/**
+ * FUNCIÓN CENTRALIZADA PARA AÑADIR AL CARRITO
+ * Guarda el producto en LocalStorage y refresca el número superior sin romper scripts
+ */
+export function ejecutarLogicaAñadirCarrito(producto, evento = null) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const itemExiste = carrito.find(item => item._id === producto._id);
+
+    if (itemExiste) {
+        itemExiste.cantidad += 1;
+    } else {
+        carrito.push({
+            _id: producto._id,
+            nombreLargo: producto.nombreLargo,
+            precio: producto.precio,
+            imagenes: producto.imagenes,
+            cantidad: 1
+        });
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+    // 🔥 Refresca el contador del header nativo al instante (Productos Únicos)
+    refrescarContadorLocal();
+
+    // Disparar animación de vuelo si se proporciona el evento de clic
+    if (evento) {
+        const targetCard = evento.target.closest('.producto-card') || document;
+        const imgElement = targetCard.querySelector('.producto-img');
+        const imgSrc = imgElement ? imgElement.src : "/Info_Tek/frontend/recursos/imagenes/default.jpg";
+        animarProductoAlCarrito(imgSrc, evento.clientX, evento.clientY);
+    }
 }

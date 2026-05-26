@@ -148,9 +148,6 @@ body {
     cursor: not-allowed !important;
     opacity: 0.6;
 }
-/* ============================
-   FOOTER
-============================ */
 .footer {
     margin-top: 60px;
     padding: 30px 20px;
@@ -216,4 +213,15 @@ body {
 .tabla-carrito td:first-child {
     text-align: left;
 }
-
+/* Corrección para footer al fondo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.contenedor-principal-cuenta {
+    flex: 1;
+}
+.footer {
+    margin-top: auto;
+}

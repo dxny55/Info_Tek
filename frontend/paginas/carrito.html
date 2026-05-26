@@ -4,67 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito - InfoTek</title>
+    <link rel="icon" type="image/png" href="../recursos/imagenes/logo2.png">
     <link rel="stylesheet" href="../estilos/index.css">
     <link rel="stylesheet" href="../estilos/carrito.css">
     <link rel="stylesheet" href="../estilos/responsive.css">
+    <script src="../scripts/account.js" defer></script>
 </head>
-<body>
+
+<body id="cuerpo-pagina">
 
     <header class="header">
         <div class="header-contenido">
 
             <a href="index.html" class="header-logo">
-    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-    <h1>InfoTek</h1>
-</a>
+                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </a>
 
-            <input type="text" class="buscador" placeholder="Buscar componentes...">
-            <div class="buscador-sugerencias"></div>
+            <input type="text" class="buscador" placeholder="Buscar componentes en la tienda...">
 
             <div class="header-usuario">
-
-                <!-- Botón carrito con contador -->
                 <button class="btn-icon" id="btn-carrito-nav">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
                     <span id="carrito-count" class="carrito-count">0</span>
                 </button>
 
-                <!-- Botón cuenta -->
-                <button class="btn-icon" id="btn-cuenta">
-                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
-                </button>
-
+                <button class="btn-icon" id="btn-cuenta" onclick="window.location.href='../paginas/account.html'">
+        <img src="../recursos/imagenes/usuario.png" alt="usuario">
+    </button>
             </div>
 
         </div>
     </header>
 
-    <main class="contenedor">
-        <h1 class="titulo-seccion">Tu carrito</h1>
+    <main class="contenedor-principal-cuenta">
+        <div class="contenedor" style="padding: 20px; width: 100%;">
+            <h1 class="titulo-seccion">Tu carrito</h1>
 
-        <table class="tabla-carrito">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="lista-carrito"></tbody>
-        </table>
+            <table class="tabla-carrito">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="lista-carrito"></tbody>
+            </table>
 
-        <div class="carrito-resumen">
-            <p>Total: <span id="total-carrito">0 €</span></p>
-            <button class="btn" id="btn-comprar">Ir a comprar</button>
+            <div class="carrito-resumen">
+                <p>Total: <span id="total-carrito">0 €</span></p>
+                <button class="btn" id="btn-comprar">Ir a comprar</button>
+            </div>
         </div>
     </main>
 
     <footer class="footer">
-        <!-- tu footer de siempre -->
+        <div class="footer-contenido">
+            <div class="footer-links">
+                <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
+                <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
+                <a href="legal.html?tipo=cookies">Política de Cookies</a>
+                <a href="legal.html?tipo=envio">Política de Envío</a>
+                <a href="legal.html?tipo=aviso">Aviso Legal sobre Pagos</a>
+            </div>
+
+            <div class="footer-redes">
+                <a href="#" class="red"><img src="../recursos/imagenes/facebook.png" alt="Facebook"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/twitter.png" alt="Twitter"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/instagram.png" alt="Instagram"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/youtube.png" alt="YouTube"></a>
+            </div>
+
+            <p class="footer-copy">© 2026 InfoTek. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
     <script src="../scripts/carrito.js"></script>
+    <script src="../scripts/buscador.js"></script> <script type="module" src="../scripts/navegacionCarrito.js"></script>
 </body>
 </html>

@@ -8,29 +8,34 @@
     <link rel="stylesheet" href="../estilos/index.css">
     <link rel="stylesheet" href="../estilos/checkout.css">
     <link rel="stylesheet" href="../estilos/responsive.css">
+    
+    <script src="../scripts/account.js" defer></script>
 </head>
 
-<body>
+<body id="cuerpo-pagina">
 
 <header class="header">
     <div class="header-contenido">
-        <div class="header-logo">
+        <a href="index.html" class="header-logo" style="text-decoration: none; color: inherit;">
             <img src="../recursos/imagenes/logo.png" alt="InfoTek">
             <h1>InfoTek</h1>
-        </div>
+        </a>
 
         <div class="header-usuario">
             <button class="btn-icon" id="btn-carrito-nav">
                 <img src="../recursos/imagenes/carrito.png" alt="carrito">
                 <span id="carrito-count" class="carrito-count">0</span>
             </button>
+            
+            <button class="btn-icon" id="btn-cuenta" onclick="window.location.href='account.html'">
+                <img src="../recursos/imagenes/usuario.png" alt="usuario">
+            </button>
         </div>
     </div>
 </header>
 
-<main class="checkout-layout">
+<main class="checkout-layout contenedor-principal-cuenta">
 
-    <!-- FORMULARIO -->
     <section class="checkout-box">
 
         <h2 class="box-title">📦 Dirección de envío</h2>
@@ -96,7 +101,6 @@
         </form>
 
 
-        <!-- ⭐⭐⭐ NUEVO: FORMULARIO DE PAGO ⭐⭐⭐ -->
         <section id="pago-section" class="pago-section oculto">
 
             <h2 class="box-title">💳 Método de pago</h2>
@@ -126,11 +130,8 @@
             <button id="btn-pagar" class="btn-finalizar">Pagar ahora</button>
 
         </section>
-        <!-- ⭐⭐⭐ FIN FORMULARIO DE PAGO ⭐⭐⭐ -->
+        </section>
 
-    </section>
-
-    <!-- RESUMEN -->
     <aside class="checkout-resumen">
         <h3>Resumen del pedido</h3>
 
@@ -148,7 +149,6 @@
     </aside>
 
 </main>
-
 
 <script src="../scripts/checkout.js"></script>
 

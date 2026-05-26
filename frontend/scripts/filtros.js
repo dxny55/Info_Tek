@@ -1,6 +1,6 @@
-// ===============================
-// CONFIGURACIÓN
-// ===============================
+// ==========================================================================
+// FILTROS.JS - CONFIGURACIÓN Y MIGRACIÓN DE DATOS (COMPLETO)
+// ==========================================================================
 
 // Marcas válidas según tu MongoDB (todas en minúsculas)
 const MARCAS_RELEVANTES = [
@@ -16,9 +16,9 @@ function norm(text) {
     return removeDiacritics((text || "").trim().toLowerCase());
 }
 
-// ===============================
+// ==========================================================================
 // MAPEO DE CATEGORÍAS DESDE MONGO
-// ===============================
+// ==========================================================================
 
 function mapCategoriaDBToFiltro(categoriaDB) {
     const c = norm(categoriaDB);
@@ -36,9 +36,9 @@ function mapCategoriaDBToFiltro(categoriaDB) {
     return c;
 }
 
-// ===============================
-// APLICAR FILTROS
-// ===============================
+// ==========================================================================
+// APLICAR FILTROS (MÓDULO EXPORTABLE)
+// ==========================================================================
 
 export function aplicarFiltros(productos) {
 
@@ -76,9 +76,9 @@ export function aplicarFiltros(productos) {
     });
 }
 
-// ===============================
-// CONTROL DEL PANEL DE FILTROS (FULLSCREEN EN MÓVIL)
-// ===============================
+// ==========================================================================
+// CONTROL DEL PANEL (MOBILE) Y LOGICA DE LIMPIEZA TOTAL
+// ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -86,51 +86,90 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("filtro-lateral");
     const overlay = document.getElementById("filtro-overlay");
     const btnCerrar = document.getElementById("cerrar-filtros");
+    
+    // Capturamos el botón de limpiar filtros
+    const btnLimpiar = document.getElementById("btn-limpiar-filtros");
 
-    if (!btnToggle || !sidebar) return;
-
-    // ABRIR FILTROS
+    // LÓGICA DE APERTURA / CIERRE PARA MÓVILES
     function abrirFiltros() {
-        sidebar.classList.add("abierto");
-        document.body.style.overflow = "hidden"; // bloquea scroll del body
+        if (sidebar) sidebar.classList.add("abierto");
+        document.body.style.overflow = "hidden"; 
     }
 
-    // CERRAR FILTROS
     function cerrarFiltros() {
-        sidebar.classList.remove("abierto");
-        document.body.style.overflow = ""; // restaura scroll
+        if (sidebar) sidebar.classList.remove("abierto");
+        document.body.style.overflow = ""; 
     }
 
-    // Botón "☰ Filtros"
-    btnToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        abrirFiltros();
-    });
+    if (btnToggle && sidebar) {
+        btnToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            abrirFiltros();
+        });
+    }
 
-    // Botón "← Volver"
     if (btnCerrar) {
         btnCerrar.addEventListener("click", () => {
             cerrarFiltros();
         });
     }
 
-    // Cerrar tocando el overlay (si lo usas)
     if (overlay) {
         overlay.addEventListener("click", () => {
             cerrarFiltros();
         });
     }
 
-    // Evitar que clic dentro del panel cierre el filtro
-    sidebar.addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
+    if (sidebar) {
+        sidebar.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+    }
 
-    // Reset al cambiar a modo escritorio
     window.addEventListener("resize", () => {
         if (window.innerWidth > 1100) {
             cerrarFiltros();
         }
     });
 
+    // ==========================================================================
+    // PROGRAMACIÓN ACCIÓN: BOTÓN "LIMPIAR FILTROS" (REFRESCO EN TIEMPO REAL)
+    // ==========================================================================
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener("click", () => {
+            
+            // 1. Limpiamos los campos numéricos del rango de precios
+            const pMin = document.getElementById("precio-min");
+            const pMax = document.getElementById("precio-max");
+            if (pMin) pMin.value = "";
+            if (pMax) pMax.value = "";
+
+            // 2. Desmarcamos todos los checkboxes de categorías
+            document.querySelectorAll(".filtro-categoria:checked").forEach(cb => {
+                cb.checked = false;
+            });
+
+            // 3. Desmarcamos todos los checkboxes de marcas
+            document.querySelectorAll(".filtro-marca:checked").forEach(cb => {
+                cb.checked = false;
+            });
+
+            // 4. Vaciamos la barra grande del buscador principal por si tuviera texto
+            const buscador = document.querySelector(".buscador");
+            if (buscador) buscador.value = "";
+
+            // 5. 🚀 DISPARADOR DE CAMBIO NATIVO:
+            // Forzamos un evento de cambio en los inputs para que 'cargarProductos.js'
+            // se de cuenta de que la selección ha cambiado a cero y refresque el DOM.
+            const eventoCambio = new Event("change", { bubbles: true });
+            const algunCheckbox = document.querySelector(".filtro-categoria, .filtro-marca");
+            
+            if (algunCheckbox) {
+                algunCheckbox.dispatchEvent(eventoCambio);
+            } else if (pMin) {
+                // Alternativa de seguridad por si no hay checkboxes cargados aún
+                pMin.dispatchEvent(new Event("input", { bubbles: true }));
+            }
+        });
+    }
 });

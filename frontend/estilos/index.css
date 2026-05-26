@@ -1,10 +1,11 @@
-/* ============================
+/* ==========================================================================
    ESTILOS GENERALES
-============================ */
+   ========================================================================== */
 :root {
     --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
     --color-texto: #000000;
 }
+
 body {
     background: var(--color-fondo);
     color: var(--color-texto);
@@ -22,12 +23,9 @@ body {
     padding: 10px;
 }
 
-/* ============================
-   HEADER
-============================ */
-/* ============================
-   HEADER ORIGINAL
-============================ */
+/* ==========================================================================
+   HEADER Y ELEMENTOS DE NAVEGACIÓN
+   ========================================================================== */
 .header {
     width: 100%;
     background: linear-gradient(135deg, #191970, #000000);
@@ -39,30 +37,21 @@ body {
 }
 
 .header-contenido {
-    width: 90%;          /* antes 92% */
-    padding: 0 20px;      /* añade padding lateral */
-    max-width: none;      /* elimina límite */
+    width: 100%;
+    padding: 0 50px;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 40px;
+    box-sizing: border-box;
 }
-
 
 .header-logo {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-
-.header-usuario {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-
 
 .header-logo img {
     width: 55px;
@@ -76,17 +65,32 @@ body {
     color: white;
 }
 
+.header-usuario {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+/* Buscador centrado expansivo */
 .buscador {
     flex: 1;
-    padding: 10px 14px;
+    width: 100%;
+    max-width: none;
+    margin-right: 10px;
+    padding: 12px 16px;
     border-radius: 6px;
     border: none;
     outline: none;
     font-size: 1rem;
+    box-sizing: border-box;
 }
 
-/* ICONOS DEL HEADER */
+.buscador:focus {
+    box-shadow: 0 0 5px #191970;
+}
 
+/* Botones de Iconos e Interactividad */
 .btn-icon {
     background: transparent;
     border: none;
@@ -94,10 +98,10 @@ body {
     padding: 0;
     width: 40px;
     height: 40px;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative; /* Esencial para el posicionamiento absoluto del contador */
 }
 
 .btn-icon img {
@@ -113,9 +117,29 @@ body {
     filter: brightness(0.8) invert(1);
 }
 
-/* ============================
-   LAYOUT PRINCIPAL
-============================ */
+/* 🌟 NUEVO: Burbuja flotante de notificación para el Carrito */
+.carrito-count {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background-color: #ff3b30;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 1px 5px;
+    min-width: 14px;
+    height: 14px;
+    display: none; /* Controlado dinámicamente mediante JS (flex/none) */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL Y FILTRO LATERAL
+   ========================================================================== */
 .layout-tienda {
     display: flex;
     align-items: flex-start;
@@ -123,9 +147,6 @@ body {
     max-width: fill;
 }
 
-/* ============================
-   FILTRO LATERAL
-============================ */
 .filtro-lateral {
     width: 250px;
     min-width: 240px;
@@ -142,12 +163,12 @@ body {
 .filtro-lateral::-webkit-scrollbar {
     width: 6px;
 }
+
 .filtro-lateral::-webkit-scrollbar-thumb {
     background: #bbb;
     border-radius: 3px;
 }
 
-/* Bloques */
 .filtro-bloque {
     margin-bottom: 20px;
     padding-bottom: 15px;
@@ -186,7 +207,6 @@ body {
     cursor: pointer;
 }
 
-/* Botón ver más */
 .btn-ver-mas {
     background: none;
     border: none;
@@ -196,7 +216,6 @@ body {
     text-decoration: underline;
 }
 
-/* Ofertas */
 .filtro-ofertas {
     background: #f0f2ff;
     padding: 15px;
@@ -212,7 +231,6 @@ body {
     font-size: 18px;
 }
 
-/* Botón limpiar */
 #btn-limpiar-filtros {
     width: 100%;
     padding: 12px;
@@ -229,9 +247,9 @@ body {
     background: linear-gradient(135deg, #191970, #000000);
 }
 
-/* ============================
-   PRODUCTOS
-============================ */
+/* ==========================================================================
+   ZONA DE EXHIBICIÓN DE PRODUCTOS (GRID)
+   ========================================================================== */
 .zona-productos {
     flex: 1;
 }
@@ -255,23 +273,34 @@ body {
     color: #191970;
 }
 
-/* GRID */
 .grid-productos {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 25px;
 }
 
-/* ============================
+/* Animación de vuelo hacia la cesta de la compra */
+.fly-img {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    z-index: 9999;
+    transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease-out;
+    pointer-events: none;
+}
+
+/* ==========================================================================
    FOOTER
-============================ */
+   ========================================================================== */
 .footer {
     margin-top: 60px;
     padding: 30px 20px;
     background: #adadad2a;
     color: white;
     text-align: center;
-    border-radius: 1%;/*FALTA MIIRAR---------------------------------------------------------------------------*/
+    border-radius: 1%;
 }
 
 .footer-links {

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Cuenta - InfoTek</title>
+    <link rel="icon" type="image/png" href="../recursos/imagenes/logo2.png">
     <link rel="stylesheet" href="../estilos/index.css">
     <link rel="stylesheet" href="../estilos/account.css">
 </head>
 <body id="cuerpo-pagina">
-
 <header class="header">
     <div class="header-contenido">
         <div class="header-logo">
@@ -18,16 +18,16 @@
             </a>
         </div>
         
-        <div class="header-busqueda">
-            <input type="text" class="buscador" placeholder="Buscar componentes...">
-        </div>
+        <input type="text" class="buscador" placeholder="Buscar componentes...">
 
         <div class="header-usuario">
             <button class="btn-icon"><img src="../recursos/imagenes/comparar.png" alt="Comparar"></button>
-            <div class="carrito-contenedor">
-                <button class="btn-icon"><img src="../recursos/imagenes/carrito.png" alt="Carrito"></button>
-                <span class="carrito-numero">17</span>
-            </div>
+            
+            <button class="btn-icon" id="btn-carrito-nav" onclick="window.location.href='../paginas/carrito.html'">
+        <img src="../recursos/imagenes/carrito.png" alt="carrito">
+        <span id="carrito-count" class="carrito-count">0</span>
+    </button>
+            
             <button class="btn-icon"><img src="../recursos/imagenes/usuario.png" alt="Usuario"></button>
         </div>
     </div>
@@ -109,5 +109,6 @@
 </div>
 
 <script src="../scripts/account.js"></script>
+<script src="../scripts/buscador.js"></script> <script type="module" src="../scripts/navegacionCarrito.js"></script>
 </body>
 </html>

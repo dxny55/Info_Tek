@@ -4,25 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoTek - Tienda</title>
-
-    <!-- CSS global -->
+    <link rel="icon" type="image/png" href="../recursos/imagenes/logo2.png">
     <link rel="stylesheet" href="../estilos/index.css">
 
-    <!-- CSS del componente ProductCard -->
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
     <script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
-    <!-- CSS del componente CompareModal -->
     <link rel="stylesheet" href="../src/components/compareModal/compareModal.css">
 </head>
 
 <body>
-    <!-- ENCABEZADO -->
     <header class="header">
         <div class="header-contenido">
+            
             <a href="index.html" class="header-logo">
-    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-    <h1>InfoTek</h1>
-</a>
+                <img src="../recursos/imagenes/Logo.png" alt="InfoTek">
+                <h1>InfoTek</h1>
+            </a>
 
             <input type="text" class="buscador" placeholder="Buscar componentes...">
 
@@ -31,13 +28,11 @@
                     <img src="../recursos/imagenes/comparar.png" alt="comparar">
                 </button>
 
-                <!-- Botón carrito -->
                 <button class="btn-icon" id="btn-carrito-nav">
-
-                <button class="btn-icon">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
                     <span id="carrito-count" class="carrito-count">0</span>
                 </button>
+                
                 <button class="btn-icon" id="btn-cuenta">
                     <img src="../recursos/imagenes/usuario.png" alt="usuario">
                 </button>
@@ -45,12 +40,9 @@
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
-        <!-- Layout principal: Filtros + Productos -->
         <div class="layout-tienda">
             
-            <!-- FILTRO LATERAL (Sticky) -->
             <aside class="filtro-lateral">
                 <div class="filtro-bloque">
                     <h3>Búsqueda de filtros</h3>
@@ -67,7 +59,6 @@
 
                 <div class="filtro-bloque">
                     <h3>Categorías</h3>
-                    <!-- Añadidas clases filtro-categoria para compatibilidad -->
                     <label><input type="checkbox" class="filtro-categoria" value="PC"> PC</label>
                     <label><input type="checkbox" class="filtro-categoria" value="Electrodomesticos"> Electrodomésticos</label>
                     <label><input type="checkbox" class="filtro-categoria" value="Consolas"> Consolas</label>
@@ -93,23 +84,19 @@
                     <label><input type="checkbox" class="filtro-marca" value="forgeon"> Forgeon</label>
                     <label><input type="checkbox" class="filtro-marca" value="msi"> MSI</label>
                     <label><input type="checkbox" class="filtro-marca" value="corsair"> Corsair</label>
-
                     <label><input type="checkbox" class="filtro-marca" value="sony"> Sony</label>
                     <label><input type="checkbox" class="filtro-marca" value="microsoft"> Microsoft</label>
                     <label><input type="checkbox" class="filtro-marca" value="nintendo"> Nintendo</label>
-
                 </div>
 
                 <button id="btn-limpiar-filtros">Limpiar filtros</button>
             </aside>
 
-            <!-- ZONA DE PRODUCTOS -->
             <div class="zona-productos">
                 <div class="productos-header">
                     <h2 class="titulo-seccion">Todos los productos</h2>
                     <p class="contador" id="contador-productos">0 productos</p>
                 </div>
-                <!-- Se mantienen id y clases; script buscará cualquiera -->
                 <section class="grid-productos productos-grid" id="lista-productos"></section>
             </div>
 
@@ -137,9 +124,9 @@
         </div>
     </footer>
 
-    <!-- SCRIPT PRINCIPAL COMO MÓDULO -->
     <script type="module" src="../scripts/cargarProductos.js"></script>
     <script src="../scripts/autenticacion.js"></script>
     <script src="../libs/apexcharts.js"></script>
+    <script src="../scripts/buscador.js"></script> <script type="module" src="../scripts/navegacionCarrito.js"></script>
 </body>
 </html>

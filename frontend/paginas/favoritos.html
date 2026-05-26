@@ -7,10 +7,16 @@
     <link rel="stylesheet" href="../estilos/index.css">
     <link rel="stylesheet" href="../estilos/account.css"> 
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
+    <style>
+        .header-contenido {
+            width: 100% !important;
+            padding: 0 40px !important;
+            max-width: none !important;
+        }
+    </style>
 </head>
 
 <body id="cuerpo-favoritos">
-
 <header class="header">
     <div class="header-contenido">
         <div class="header-logo">
@@ -20,21 +26,16 @@
             </a>
         </div>
         
-        <div class="header-busqueda">
-            <input type="text" class="buscador" placeholder="Buscar en favoritos...">
-        </div>
+        <input type="text" class="buscador" placeholder="Buscar en favoritos...">
 
         <div class="header-usuario">
-            <!-- Botón Comparar -->
             <button class="btn-icon"><img src="../recursos/imagenes/comparar.png" alt="Comparar"></button>
             
-            <!-- Contenedor Carrito con Número -->
-            <div class="carrito-contenedor">
-                <button class="btn-icon"><img src="../recursos/imagenes/carrito.png" alt="Carrito"></button>
-                <span class="carrito-numero">17</span>
-            </div>
+            <button class="btn-icon" id="btn-carrito-nav" onclick="window.location.href='../paginas/carrito.html'">
+        <img src="../recursos/imagenes/carrito.png" alt="carrito">
+        <span id="carrito-count" class="carrito-count">0</span>
+    </button>
 
-            <!-- Botón Usuario -->
             <button class="btn-icon" id="btn-cuenta-header">
                 <img src="../recursos/imagenes/usuario.png" alt="Usuario">
             </button>
@@ -49,10 +50,10 @@
     </div>
 
     <div id="lista-favoritos" class="grid-productos" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px;">
-        <!-- Los productos se cargan aquí -->
     </div>
 </main>
 
-<script type="module" src="../scripts/favoritos.js"></script>
+<script src="../scripts/buscador.js"></script> <script type="module" src="../scripts/favoritos.js"></script>
+<script type="module" src="../scripts/navegacionCarrito.js"></script>
 </body>
 </html>

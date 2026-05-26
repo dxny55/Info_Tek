@@ -31,24 +31,19 @@
             <div class="buscador-sugerencias"></div>
 
             <div class="header-usuario">
+    <button class="btn-icon" id="btn-comparar-final">
+        <img src="../recursos/imagenes/comparar.png" alt="comparar">
+    </button>
 
-                <!-- Botón comparar -->
-                <button class="btn-icon" id="btn-comparar-final">
-                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
-                </button>
+    <button class="btn-icon" id="btn-carrito-nav" onclick="window.location.href='../paginas/carrito.html'">
+        <img src="../recursos/imagenes/carrito.png" alt="carrito">
+        <span id="carrito-count" class="carrito-count">0</span>
+    </button>
 
-                <!-- Botón carrito con contador -->
-                <button class="btn-icon" id="btn-carrito-nav">
-                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
-                    <span id="carrito-count" class="carrito-count">0</span>
-                </button>
-
-                <!-- Botón cuenta -->
-                <button class="btn-icon" id="btn-cuenta">
-                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
-                </button>
-
-            </div>
+    <button class="btn-icon" id="btn-cuenta" onclick="window.location.href='../paginas/account.html'">
+        <img src="../recursos/imagenes/usuario.png" alt="usuario">
+    </button>
+</div>
 
         </div>
     </header>
@@ -74,9 +69,8 @@
                     <span id="producto-descuento" class="descuento">-0%</span>
                 </div>
 
-                <div class="producto-rating">
-                    ⭐ <span id="producto-rating">0.0</span> / 5
-                </div>
+                <div class="producto-rating" id="producto-rating">
+    </div>
 
                 <p id="producto-stock" class="producto-stock">Stock disponible: 0 unidades</p>
 

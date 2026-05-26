@@ -1,6 +1,6 @@
-// ===============================
-// CARRITO - PÁGINA CARRITO.HTML
-// ===============================
+// ==========================================================================
+// CARRITO - PÁGINA CARRITO.HTML (MANTENIENDO TU LÓGICA CON COLOR DINÁMICO)
+// ==========================================================================
 const tbody = document.getElementById("lista-carrito");
 const totalEl = document.getElementById("total-carrito");
 const btnComprar = document.getElementById("btn-comprar");
@@ -14,8 +14,22 @@ function guardarCarrito(carrito) {
 }
 
 function calcularTotal(carrito) {
-    
     return carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+}
+
+// AUXILIAR COLOR DINÁMICO
+function aplicarColorTema() {
+    const colorGuardado = localStorage.getItem("colorFondo");
+    if (colorGuardado) {
+        document.body.style.setProperty("background", colorGuardado, "important");
+        // ... (tu lógica existente)
+        
+        // FUERZA EL COLOR EN EL FOOTER
+        const footer = document.querySelector(".footer");
+        if (footer) {
+            footer.style.setProperty("background", colorGuardado, "important");
+        }
+    }
 }
 
 function renderCarrito() {
@@ -24,31 +38,30 @@ function renderCarrito() {
     tbody.innerHTML = "";
 
     if (carrito.length === 0) {
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="5">
-                <div class="carrito-vacio">
-                    <h3>🛒 Tu carrito está vacío</h3>
-                    <p>Parece que aún no has añadido ningún producto.</p>
-                    <a href="index.html" class="btn-seguir">Seguir comprando</a>
-                </div>
-            </td>
-        </tr>
-    `;
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="carrito-vacio">
+                        <h3>🛒 Tu carrito está vacío</h3>
+                        <p>Parece que aún no has añadido ningún producto.</p>
+                        <a href="index.html" class="btn-seguir">Seguir comprando</a>
+                    </div>
+                </td>
+            </tr>
+        `;
 
-    totalEl.textContent = "0 €";
+        totalEl.textContent = "0 €";
 
-    // 🔴 DESACTIVAR BOTÓN FINALIZAR COMPRA
-    btnComprar.disabled = true;
-    btnComprar.classList.add("btn-disabled");
+        // 🔴 DESACTIVAR BOTÓN FINALIZAR COMPRA
+        btnComprar.disabled = true;
+        btnComprar.classList.add("btn-disabled");
 
-    return;
-}
-
+        aplicarColorTema();
+        return;
+    }
 
     console.log("items carrito: " + carrito.length);
     carrito.forEach((item, index) => {
-        
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
@@ -72,10 +85,10 @@ function renderCarrito() {
     });
     
     totalEl.textContent = calcularTotal(carrito).toFixed(2) + " €";
+    
     // 🟢 ACTIVAR BOTÓN FINALIZAR COMPRA
     btnComprar.disabled = false;
     btnComprar.classList.remove("btn-disabled");
-
 
     // Eventos cantidad
     document.querySelectorAll(".input-cantidad").forEach(input => {
@@ -91,20 +104,34 @@ function renderCarrito() {
 
     // Eventos eliminar
     document.querySelectorAll(".btn-eliminar").forEach(btn => {
-        console.log("asdf");
         btn.addEventListener("click", (e) => {
             const idx = e.target.dataset.index;
             let carrito = cargarCarrito();
             carrito.splice(idx, 1);
             guardarCarrito(carrito);
+            
             renderCarrito();
+
+            // 🚀 ACTUALIZACIÓN INMEDIATA DEL HEADER DESPUÉS DE BORRAR UN ELEMENTO
+            if (typeof window.actualizarContadorCarritoGlobal === "function") {
+                window.actualizarContadorCarritoGlobal();
+            } else {
+                const badge = document.getElementById("carrito-count");
+                if (badge) {
+                    badge.textContent = carrito.length;
+                    if (carrito.length === 0) badge.style.display = "none";
+                }
+            }
         });
     });
+
+    aplicarColorTema();
 }
 
+// Evento ir a pagar
 btnComprar.addEventListener("click", () => {
     window.location.href = "./checkout.html";
 });
 
-
+// Inicialización de la página
 renderCarrito();

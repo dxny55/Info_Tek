@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // ==========================================================================
+    // SISTEMA DE COLOR DE FONDO
+    // ==========================================================================
+    function aplicarColorTema() {
+        const colorGuardado = localStorage.getItem("colorFondo");
+        if (colorGuardado) {
+            const bodyElement = document.getElementById("cuerpo-pagina") || document.body;
+            bodyElement.style.setProperty("background", colorGuardado, "important");
+            bodyElement.style.setProperty("background-color", colorGuardado, "important");
+            bodyElement.style.setProperty("background-image", "none", "important");
+            
+            const contenedorLayout = document.querySelector(".contenedor-principal-cuenta");
+            if (contenedorLayout) {
+                contenedorLayout.style.setProperty("background", colorGuardado, "important");
+            }
+        }
+    }
+    
+    aplicarColorTema();
+
     // ===============================
     // CARGAR CARRITO Y MOSTRAR TOTAL
     // ===============================
@@ -8,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("subtotal").textContent = subtotal.toFixed(2) + "€";
     document.getElementById("total").textContent = subtotal.toFixed(2) + "€";
-
 
     // ===============================
     // FORMULARIO DE ENVÍO
@@ -32,23 +51,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const datos = {};
 
         formEnvio.querySelectorAll("input, select").forEach(input => {
-            const label = input.labels[0].innerText.replace("*", "");
-            datos[label] = input.value;
+            if (input.labels && input.labels[0]) {
+                const label = input.labels[0].innerText.replace("*", "");
+                datos[label] = input.value;
+            }
         });
 
         localStorage.setItem("datosEnvio", JSON.stringify(datos));
     }
 
     function mostrarMensaje(texto, tipo = "ok") {
-    const div = document.createElement("div");
-    div.className = tipo === "ok" ? "msg-ok" : "msg-error";
-    div.textContent = texto;
+        const div = document.createElement("div");
+        div.className = tipo === "ok" ? "msg-ok" : "msg-error";
+        div.textContent = texto;
 
-    // Mostrar mensaje ANTES del botón
-    btnGuardarEnvio.insertAdjacentElement("beforebegin", div);
+        btnGuardarEnvio.insertAdjacentElement("beforebegin", div);
 
-    setTimeout(() => div.remove(), 2500);
-}
+        setTimeout(() => div.remove(), 2500);
+    }
 
     formEnvio.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -61,14 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
         guardarDatosEnvio();
         mostrarMensaje("Datos guardados correctamente");
 
-        // Mostrar sección de pago
         pagoSection.classList.remove("oculto");
 
-        // Cambiar botón
         btnGuardarEnvio.textContent = "Información guardada";
         btnGuardarEnvio.disabled = true;
+        
+        aplicarColorTema();
     });
-
 
     // ===============================
     // FORMULARIO DE TARJETA
