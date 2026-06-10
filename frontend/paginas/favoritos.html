@@ -4,147 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favoritos - InfoTek</title>
-
-    <!-- Estilos -->
     <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../estilos/account.css"> 
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
+    <style>
+        .header-contenido {
+            width: 100% !important;
+            padding: 0 40px !important;
+            max-width: none !important;
+        }
+    </style>
 </head>
 
-<body>
-
-    <!-- 🔥 HEADER IGUAL QUE INDEX -->
-    <header class="header">
-        <div class="header-contenido">
-
-            <div class="header-logo">
+<body id="cuerpo-favoritos">
+<header class="header">
+    <div class="header-contenido">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">
                 <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-                <h1>InfoTek</h1>
-            </div>
-
-            <input type="text" class="buscador" placeholder="Buscar componentes...">
-
-            <div class="header-usuario">
-
-                <button class="btn-icon" id="btn-comparar-final">
-                    <img src="../recursos/imagenes/comparar.png">
-                </button>
-
-                <button class="btn-icon">
-                    <img src="../recursos/imagenes/carrito.png">
-                </button>
-
-                <button class="btn-icon" id="btn-cuenta">
-                    <img src="../recursos/imagenes/usuario.png">
-                </button>
-
-            </div>
-
+                <span class="logo-texto">InfoTek</span>
+            </a>
         </div>
-    </header>
+        
+        <input type="text" class="buscador" placeholder="Buscar en favoritos...">
 
-    <main class="contenedor">
+        <div class="header-usuario">
+            <button class="btn-icon"><img src="../recursos/imagenes/comparar.png" alt="Comparar"></button>
+            
+            <button class="btn-icon" id="btn-carrito-nav" onclick="window.location.href='../paginas/carrito.html'">
+        <img src="../recursos/imagenes/carrito.png" alt="carrito">
+        <span id="carrito-count" class="carrito-count">0</span>
+    </button>
 
+            <button class="btn-icon" id="btn-cuenta-header">
+                <img src="../recursos/imagenes/usuario.png" alt="Usuario">
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="contenedor-principal-cuenta">
+    <div class="seccion-bienvenida" style="padding: 40px 0;">
         <h1 class="titulo-seccion">Mis favoritos</h1>
         <p id="contador-productos" class="contador"></p>
+    </div>
 
-        <div id="lista-favoritos" class="grid-productos"></div>
+    <div id="lista-favoritos" class="grid-productos" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px;">
+    </div>
+</main>
 
-    </main>
-
-    <!-- SCRIPT HEADER -->
-    <script>
-        document.getElementById("btn-cuenta").addEventListener("click", () => {
-            window.location.href = "account.html";
-        });
-    </script>
-
-    <!-- SCRIPT FAVORITOS -->
-    <script>
-        const contenedor = document.getElementById("lista-favoritos");
-        const contador = document.getElementById("contador-productos");
-
-        const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-        contenedor.innerHTML = "";
-
-        if (favoritos.length === 0) {
-            contenedor.innerHTML = "<p>No tienes favoritos aún</p>";
-        }
-
-        contador.textContent = `${favoritos.length} productos`;
-
-        favoritos.forEach(producto => {
-
-            const card = document.createElement("div");
-            card.classList.add("producto-card");
-
-            const imagen = producto.imagen || "../recursos/imagenes/default.jpg";
-
-            card.innerHTML = `
-                <img class="producto-img" src="${imagen}">
-                <h3 class="producto-nombre">${producto.nombre || "Producto"}</h3>
-                <p class="producto-precio">${producto.precio || 0} €</p>
-
-                <div class="botones-producto">
-                    <button class="btn-favorito activo">
-                        <img src="../recursos/imagenes/corazon.png">
-                    </button>
-                </div>
-            `;
-
-            // quitar favorito
-            card.querySelector(".btn-favorito").addEventListener("click", (e) => {
-                e.stopPropagation();
-
-                let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
-                favs = favs.filter(p => p._id !== producto._id);
-
-                localStorage.setItem("favoritos", JSON.stringify(favs));
-
-                location.reload();
-            });
-
-            // ir al producto
-            card.addEventListener("click", () => {
-                window.location.href = `producto.html?id=${producto._id}`;
-            });
-
-            contenedor.appendChild(card);
-        });
-    </script>
-<script>
-const COLOR_DEFECTO = "#f5f6fa";
-
-function esColorOscuro(hex) {
-    hex = hex.replace("#", "");
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    const luminosidad = (0.299 * r + 0.587 * g + 0.114 * b);
-    return luminosidad < 128;
-}
-
-function aplicarColor(color) {
-    document.documentElement.style.setProperty(
-        "--color-fondo",
-        `linear-gradient(to bottom right, ${color}, #000000)`
-    );
-
-    if (esColorOscuro(color)) {
-        document.documentElement.style.setProperty("--color-texto", "#ffffff");
-    } else {
-        document.documentElement.style.setProperty("--color-texto", "#000000");
-    }
-}
-
-const colorGuardado = localStorage.getItem("colorFondo");
-
-if (colorGuardado) {
-    aplicarColor(colorGuardado);
-} else {
-    aplicarColor(COLOR_DEFECTO);
-}
-</script>
+<script src="../scripts/buscador.js"></script> <script type="module" src="../scripts/favoritos.js"></script>
+<script type="module" src="../scripts/navegacionCarrito.js"></script>
 </body>
-
 </html>

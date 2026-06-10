@@ -1,191 +1,87 @@
-/* Fondo dinámico + color dinámico SOLO fuera de las cards */
-:root {
-    --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
-    --color-texto: #000000;
-}
-
-body {
-    background: var(--color-fondo);
-    color: var(--color-texto);
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Contenedor general */
-.cuenta-contenedor {
-    max-width: 90%;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-/* Encabezado de la sección */
-.cuenta-header h1 {
-    font-size: 2.4rem;
-    margin-bottom: 5px;
-}
-
-.cuenta-header p {
-    font-size: 1.1rem;
-}
-
-/* GRID PRINCIPAL */
-.cuenta-grid {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-}
-
-.logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    gap: 10px; /* Ajusta el valor a tu gusto */
+/* --- HEADER --- */
+.header {
+    background-color: #0a0a23;
+    padding: 15px 0;
 }
 
 
-.tema-card {
-    grid-column: 1 / span 2; /* La coloca centrada debajo de las 3 cards */
-    width: 75%;
-}
+.logo-texto { color: white; font-size: 24px; font-weight: bold; text-decoration: none; }
 
-/* 🔒 Todo el texto dentro de las cards SIEMPRE negro */
-.cuenta-card * {
-    color: #000000 !important;
-}
-
-/* Estilo de las cards */
-.cuenta-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-    display: flex;
-    flex-direction: column;
-    height: 260px;
-}
-
-.cuenta-card h2 {
-    margin-bottom: 15px;
-    font-size: 1.4rem;
-}
-
-/* Botones dentro de las cards */
-.btn {
-    margin-top: auto;
-    width: 90%;
-    align-self: center;
-    padding: 12px 18px;
-    background: #191970;
-    color: white !important; /* 🔒 Siempre blanco */
+.buscador {
+    width: 500px;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
-    border-radius: 10px;
+}
+
+.header-usuario { display: flex; align-items: center; gap: 25px; }
+
+/* ICONOS BLANCOS */
+.btn-icon {
+    background: none;
+    border: none;
     cursor: pointer;
 }
 
-.btn:hover {
-    background: #15155a;
+.btn-icon img {
+    height: 32px;
+    filter: brightness(0) invert(1);
 }
 
-.btn-secundario {
-    background: #444;
+.carrito-contenedor { display: flex; align-items: center; gap: 8px; }
+.carrito-numero { color: white; font-size: 16px; font-weight: bold; }
+
+/* --- CUERPO Y GRID --- */
+.contenedor-principal-cuenta {
+    background: linear-gradient(135deg, #00ffaa 0%, #007755 100%);
+    min-height: 100vh;
+    padding-bottom: 50px;
+    transition: background 0.3s ease;
 }
 
-.btn-secundario:hover {
-    background: #222;
-}
+.seccion-bienvenida { text-align: center; padding: 60px 0; color: white; }
+.seccion-bienvenida h1 { font-size: 3.5rem; margin: 0; }
 
-/* Botones de guardar/restablecer */
-.botones-tema {
-    display: flex;
-    gap: 10px;
-    margin-top: auto;
-}
-
-.btn-guardar {
-    flex: 3; /* 75% */
-}
-
-.btn-restablecer {
-    flex: 1; /* 25% */
-    background: #444;
-    color: white !important; /* 🔒 Siempre blanco */
-}
-
-.btn-restablecer:hover {
-    background: #222;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .tema-card {
-        grid-column: span 1;
-    }
-}
-.footer {
-    margin-top: 60px;
-    padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
-    backdrop-filter: blur(4px);
-    text-align: center;
-    color: white;
-}
-
-.footer-contenido {
-    max-width: 1200px;
-    margin: auto;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.layout-grid-cuenta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 25px;
-    margin-bottom: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.footer-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: 0.2s;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-.footer-redes {
+.tarjeta-info {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    min-height: 320px;
 }
 
-.footer-redes img {
-    width: 28px;
-    height: 28px;
-    filter: brightness(0) invert(1); /* iconos blancos */
-    transition: 0.2s;
+.tarjeta-sm { min-height: 220px; }
+.tarjeta-full { grid-column: span 2; min-height: auto; }
+
+/* SELECTOR DE COLOR LARGO */
+.control-color { display: flex; align-items: center; gap: 15px; width: 100%; }
+.input-color-largo { 
+    flex-grow: 1; 
+    height: 45px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    cursor: pointer; 
 }
 
-.footer-redes img:hover {
-    transform: scale(1.15);
-}
+/* BOTONES */
+.pie-tarjeta { display: flex; gap: 15px; margin-top: 20px; }
+.btn-accion { padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; flex: 1; }
+.primario, .secundario { background: #191970; color: white; }
+.secundario { flex: 3; }
+.peligro { background: #ff4757; color: white; }
 
-.footer-copy {
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .footer-links {
-        flex-direction: column;
-        gap: 10px;
-    }
+@media (max-width: 850px) {
+    .layout-grid-cuenta { grid-template-columns: 1fr; }
+    .tarjeta-full { grid-column: span 1; }
+    .buscador { width: 100%; }
 }

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - InfoTek</title>
+
+    <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../estilos/checkout.css">
+    <link rel="stylesheet" href="../estilos/responsive.css">
+    
+    <script src="../scripts/checkout.js" defer></script>
+</head>
+
+<body id="cuerpo-pagina">
+
+<header class="header">
+    <div class="header-contenido">
+        <a href="index.html" class="header-logo" style="text-decoration: none; color: inherit;">
+            <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+            <h1>InfoTek</h1>
+        </a>
+
+        <div class="header-usuario">
+            <button class="btn-icon" id="btn-carrito-nav">
+                <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                <span id="carrito-count" class="carrito-count">0</span>
+            </button>
+            
+            <button class="btn-icon" id="btn-cuenta" onclick="window.location.href='account.html'">
+                <img src="../recursos/imagenes/usuario.png" alt="usuario">
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="checkout-layout contenedor-principal-cuenta">
+
+    <section class="checkout-box">
+
+        <h2 class="box-title">📦 Dirección de envío</h2>
+
+        <form id="form-envio">
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Nombre*</label>
+                    <input type="text" id="nombre" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Apellidos*</label>
+                    <input type="text" id="apellidos" required>
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>País*</label>
+                    <select required>
+                        <option value="España">España</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Móvil*</label>
+                    <input type="tel" id="movil" placeholder="+34 600 000 000" required>
+                </div>
+            </div>
+
+            <div class="form-grupo">
+                <label>Dirección y número*</label>
+                <input type="text" id="direccion" placeholder="Ej. Calle de Cavanilles, 35" required>
+            </div>
+
+            <div class="form-grupo">
+                <label>Datos adicionales</label>
+                <input type="text" id="adicional" placeholder="Piso, puerta, barrio…">
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Código postal*</label>
+                    <input type="text" id="cp" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Población*</label>
+                    <input type="text" id="poblacion" required>
+                </div>
+            </div>
+
+            <div class="form-grupo">
+                <label>Provincia*</label>
+                <input type="text" id="provincia" required>
+            </div>
+
+            <button class="btn-finalizar" type="submit" id="btn-guardar-envio">
+                Guardar y continuar
+            </button>
+        </form>
+
+        <section id="pago-section" class="pago-section oculto">
+            <h2 class="box-title">💳 Método de pago</h2>
+
+            <div class="form-grupo">
+                <label>Número de tarjeta*</label>
+                <input type="text" id="card-number" maxlength="16" placeholder="1234 5678 9012 3456">
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-grupo">
+                    <label>Expiración (MM/AA)*</label>
+                    <input type="text" id="card-exp" maxlength="5" placeholder="08/28">
+                </div>
+
+                <div class="form-grupo">
+                    <label>CVV*</label>
+                    <input type="text" id="card-cvv" maxlength="3" placeholder="123">
+                </div>
+            </div>
+
+            <div class="form-grupo">
+                <label>Titular de la tarjeta*</label>
+                <input type="text" id="card-name" placeholder="Nombre del titular">
+            </div>
+
+            <div class="form-grupo">
+                <label>
+                    <input type="checkbox" id="guardar-datos-pago"> Guardar datos para futuras compras
+                </label>
+            </div>
+
+            <button id="btn-pagar" class="btn-finalizar">Pagar ahora</button>
+        </section>
+    </section>
+
+    <aside class="checkout-resumen">
+        <h3>Resumen del pedido</h3>
+        <div class="resumen-linea">
+            <span>Subtotal artículos</span>
+            <span id="subtotal">0€</span>
+        </div>
+        <div class="resumen-linea total">
+            <span>Total (IVA incluido)</span>
+            <span id="total">0€</span>
+        </div>
+        <button class="btn-pagar" disabled>Proceder al pago</button>
+    </aside>
+</main>
+
+</body>
+</html>

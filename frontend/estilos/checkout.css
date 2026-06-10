@@ -1,0 +1,198 @@
+/* ================================
+   LAYOUT GENERAL
+================================ */
+.checkout-layout {
+    width: 90%;
+    max-width: 1300px;
+    margin: 40px auto;
+    display: flex;
+    gap: 40px;
+}
+
+/* ================================
+   FORMULARIO (SIN CAJA, PERO CON BLOQUE VISUAL)
+================================ */
+.checkout-box {
+    flex: 2;
+    padding: 40px 30px; /* MÁS ESPACIO LATERAL Y VERTICAL */
+    background: #f3f5fa; /* Fondo suave estilo PcComponentes */
+    border-radius: 12px;
+}
+
+/* ================================
+   TÍTULO PRINCIPAL
+================================ */
+.box-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #0d1b4c;
+    margin-bottom: 30px; /* MÁS ESPACIO */
+}
+
+.box-title::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #d0d4dd;
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+/* ================================
+   SUBTÍTULOS DE BLOQUES (si los usas)
+================================ */
+.form-section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0d1b4c;
+    margin: 25px 0 10px;
+}
+
+.form-section-title::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #e0e3eb;
+    margin-top: 6px;
+}
+
+/* ================================
+   INPUTS PREMIUM
+================================ */
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px; /* MÁS ESPACIO ENTRE INPUTS */
+}
+
+.form-grupo label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #0d0d0d;
+}
+
+.form-grupo input,
+.form-grupo select {
+    padding: 16px 18px; /* MÁS ESPACIO INTERNO */
+    background: #eef1f6;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: 0.2s ease;
+}
+
+.form-grupo input:hover,
+.form-grupo select:hover {
+    background: #e6e9f0;
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus {
+    border-color: #0055ff;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(0,85,255,0.3);
+}
+
+/* ================================
+   GRID 2 COLUMNAS
+================================ */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px; /* MÁS ESPACIO ENTRE COLUMNAS */
+}
+
+/* ================================
+   BOTÓN PRINCIPAL
+================================ */
+.btn-finalizar {
+    width: 100%;
+    margin-top: 35px; /* MÁS ESPACIO ANTES DEL BOTÓN */
+    background: linear-gradient(90deg, #0d1b4c, #0055ff);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.btn-finalizar:hover {
+    opacity: 0.9;
+}
+
+/* ================================
+   CAJA DE RESUMEN (ÚNICA CAJA)
+================================ */
+.checkout-resumen {
+    flex: 1;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+    border: 1px solid #e2e4ea;
+    height: fit-content;
+}
+
+.checkout-resumen h3 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #0d1b4c;
+}
+
+.resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    font-size: 1.05rem;
+}
+
+.resumen-linea.total {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* BOTÓN DE PAGO */
+.btn-pagar {
+    width: 100%;
+    margin-top: 25px;
+    background: #ff6000;
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-pagar:hover {
+    background: #e25500;
+}
+
+.oculto {
+    display: none;
+}
+
+.msg-ok {
+    background: #d4ffe0;
+    color: #0d7a2e;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.msg-error {
+    background: #ffe0e0;
+    color: #b30000;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: 600;
+}

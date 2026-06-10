@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar contraseña - InfoTek</title>
+    <link rel="stylesheet" href="../estilos/login.css">
+</head>
+
+<body class="fondo-login">
+
+<div class="tarjeta-login">
+
+    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+    <h1>Recuperar contraseña</h1>
+
+    <!-- PASO 1 -->
+    <div id="paso1">
+        <p>Introduce tu email y te enviaremos un código de recuperación</p>
+
+        <input type="email" id="email" placeholder="tu@email.com" required>
+
+        <button class="btn" id="btn-enviar">
+            Enviar código
+        </button>
+    </div>
+
+    <!-- PASO 2 -->
+    <div id="paso2" style="display:none;">
+        <p>Introduce el código que hemos enviado</p>
+
+        <input type="text" id="codigo" placeholder="Código">
+
+        <button class="btn" id="btn-verificar">
+            Verificar código
+        </button>
+    </div>
+
+    <!-- PASO 3 -->
+    <div id="paso3" style="display:none;">
+        <p>Introduce tu nueva contraseña</p>
+
+        <input type="password" id="newPassword" placeholder="Nueva contraseña">
+
+        <button class="btn" id="btn-cambiar">
+            Cambiar contraseña
+        </button>
+    </div>
+
+</div>
+
+<script>
+let emailGuardado = "";
+
+// PASO 1
+document.getElementById("btn-enviar").addEventListener("click", () => {
+    const email = document.getElementById("email").value.trim();
+
+    if (!email) {
+        alert("Introduce un email");
+        return;
+    }
+
+    emailGuardado = email;
+
+    alert("Código enviado correctamente");
+
+    document.getElementById("paso1").style.display = "none";
+    document.getElementById("paso2").style.display = "block";
+});
+
+// PASO 2
+document.getElementById("btn-verificar").addEventListener("click", () => {
+    const codigo = document.getElementById("codigo").value.trim();
+
+    if (codigo === "1234") {
+        document.getElementById("paso2").style.display = "none";
+        document.getElementById("paso3").style.display = "block";
+    } else {
+        alert("Código incorrecto");
+    }
+});
+
+// PASO 3
+document.getElementById("btn-cambiar").addEventListener("click", async () => {
+    const newPassword = document.getElementById("newPassword").value.trim();
+
+    if (newPassword.length < 4) {
+        alert("La contraseña debe tener al menos 4 caracteres");
+        return;
+    }
+
+    try {
+
+        const res = await fetch("http://localhost:3000/api/auth/recover-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: emailGuardado,
+                newPassword
+            })
+        });
+
+        const data = await res.json();
+
+        alert(data.message);
+
+        if (res.ok) {
+            window.location.href = "login.html";
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al conectar con el servidor");
+    }
+});
+</script>
+
+</body>
+</html>

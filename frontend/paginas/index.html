@@ -4,82 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoTek - Tienda</title>
-
-    <!-- CSS global -->
+    <link rel="icon" type="image/png" href="../recursos/imagenes/logo2.png">
     <link rel="stylesheet" href="../estilos/index.css">
 
-    <!-- CSS del componente ProductCard -->
     <link rel="stylesheet" href="../src/components/productCard/productCard.css">
     <script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
-    <!-- CSS del componente CompareModal -->
     <link rel="stylesheet" href="../src/components/compareModal/compareModal.css">
-    
-
 </head>
 
 <body>
-    <!-- ENCABEZADO -->
     <header class="header">
         <div class="header-contenido">
-
-            <div class="header-logo">
-                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+            <a href="index.html" class="header-logo">
+                <img src="../recursos/imagenes/Logo.png" alt="InfoTek">
                 <h1>InfoTek</h1>
-            </div>
+            </a>
 
             <input type="text" class="buscador" placeholder="Buscar componentes...">
 
             <div class="header-usuario">
-
-                <!-- Botón comparar -->
                 <button class="btn-icon" id="btn-comparar-final">
                     <img src="../recursos/imagenes/comparar.png" alt="comparar">
                 </button>
 
-                <!-- Botón carrito -->
-                <button class="btn-icon">
+                <button class="btn-icon" id="btn-carrito-nav">
                     <img src="../recursos/imagenes/carrito.png" alt="carrito">
+                    <span id="carrito-count" class="carrito-count">0</span>
                 </button>
-
-                <!-- Botón cuenta -->
+                
                 <button class="btn-icon" id="btn-cuenta">
                     <img src="../recursos/imagenes/usuario.png" alt="usuario">
                 </button>
-
             </div>
-
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
+        
+        <section class="ofertas-container" style="margin: 20px 0; position: relative; padding: 0 40px;">
+            <button class="oferta-btn left" style="position: absolute; left: 0; top: 40%; z-index: 10; cursor: pointer;">◀</button>
+            <div id="ofertasCarrusel" style="display: flex; gap: 20px; overflow-x: hidden; scroll-behavior: smooth; padding: 10px 0;">
+                <img src="../recursos/imagenes/ofertas/oferta1.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta2.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta3.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta4.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta5.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta6.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+                <img src="../recursos/imagenes/ofertas/oferta7.jpg" style="min-width: 330px; height: 180px; object-fit: cover;">
+            </div>
+            <button class="oferta-btn right" style="position: absolute; right: 0; top: 40%; z-index: 10; cursor: pointer;">▶</button>
+        </section>
 
-        <!-- CATEGORÍAS -->
-        <h2 class="titulo-seccion">Categorías</h2>
+        <div class="layout-tienda">
+            <aside class="filtro-lateral">
+                <div class="filtro-bloque">
+                    <h3>Búsqueda de filtros</h3>
+                </div>
+                <div class="filtro-bloque">
+                    <h3>Precio</h3>
+                    <div class="filtro-rango-precio">
+                        <input type="number" placeholder="11€" class="input-precio" id="precio-min">
+                        <span>-</span>
+                        <input type="number" placeholder="11964€" class="input-precio" id="precio-max">
+                    </div>
+                </div>
+                <div class="filtro-bloque">
+                    <h3>Categorías</h3>
+                    <label><input type="checkbox" class="filtro-categoria" value="PC"> PC</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="Electrodomesticos"> Electrodomésticos</label>
+                    <label><input type="checkbox" class="filtro-categoria" value="Consolas"> Consolas</label>
+                    <details>
+                        <summary><strong>Componentes</strong></summary>
+                        <label><input type="checkbox" class="filtro-categoria" value="CPU"> CPU</label>
+                        <label><input type="checkbox" class="filtro-categoria" value="GPU"> GPU</label>
+                        <label><input type="checkbox" class="filtro-categoria" value="RAM"> RAM</label>
+                        <label><input type="checkbox" class="filtro-categoria" value="Placas Base"> Placas Base</label>
+                        <label><input type="checkbox" class="filtro-categoria" value="Almacenamiento"> Almacenamiento</label>
+                    </details>
+                </div>
+                <div class="filtro-bloque">
+                    <h3>Marcas</h3>
+                    <label><input type="checkbox" class="filtro-marca" value="ryzen"> AMD</label>
+                    <label><input type="checkbox" class="filtro-marca" value="intel"> Intel</label>
+                    <label><input type="checkbox" class="filtro-marca" value="nvidia"> NVIDIA</label>
+                    <label><input type="checkbox" class="filtro-marca" value="samsung"> Samsung</label>
+                    <label><input type="checkbox" class="filtro-marca" value="xiaomi"> Xiaomi</label>
+                    <label><input type="checkbox" class="filtro-marca" value="kingston"> Kingston</label>
+                    <label><input type="checkbox" class="filtro-marca" value="forgeon"> Forgeon</label>
+                    <label><input type="checkbox" class="filtro-marca" value="msi"> MSI</label>
+                    <label><input type="checkbox" class="filtro-marca" value="corsair"> Corsair</label>
+                    <label><input type="checkbox" class="filtro-marca" value="sony"> Sony</label>
+                    <label><input type="checkbox" class="filtro-marca" value="microsoft"> Microsoft</label>
+                    <label><input type="checkbox" class="filtro-marca" value="nintendo"> Nintendo</label>
+                </div>
+                <button id="btn-limpiar-filtros">Limpiar filtros</button>
+            </aside>
 
-        <div class="categorias">
-            <button class="categoria-btn activo" data-cat="Todos">Todos</button>
-            <button class="categoria-btn" data-cat="CPU">CPU</button>
-            <button class="categoria-btn" data-cat="GPU">GPU</button>
-            <button class="categoria-btn" data-cat="RAM">RAM</button>
-            <button class="categoria-btn" data-cat="Motherboard">Motherboard</button>
-            <button class="categoria-btn" data-cat="Storage">Storage</button>
-            <button class="categoria-btn" data-cat="PSU">PSU</button>
+            <div class="zona-productos">
+                <div class="productos-header">
+                    <h2 class="titulo-seccion">Todos los productos</h2>
+                    <p class="contador" id="contador-productos">0 productos</p>
+                </div>
+                <section class="grid-productos productos-grid" id="lista-productos"></section>
+            </div>
         </div>
-
-        <!-- LISTA DE PRODUCTOS -->
-        <div class="productos-header">
-            <h2 class="titulo-seccion">Todos los productos</h2>
-            <p class="contador" id="contador-productos">0 productos</p>
-        </div>
-
-        <section class="grid-productos" id="lista-productos"></section>
-
     </main>
 
     <footer class="footer">
         <div class="footer-contenido">
-
             <div class="footer-links">
                 <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
                 <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
@@ -87,24 +119,21 @@
                 <a href="legal.html?tipo=envio">Política de Envío</a>
                 <a href="legal.html?tipo=aviso">Aviso Legal sobre Pagos</a>
             </div>
-
             <div class="footer-redes">
                 <a href="#" class="red"><img src="../recursos/imagenes/facebook.png" alt="Facebook"></a>
                 <a href="#" class="red"><img src="../recursos/imagenes/twitter.png" alt="Twitter"></a>
                 <a href="#" class="red"><img src="../recursos/imagenes/instagram.png" alt="Instagram"></a>
                 <a href="#" class="red"><img src="../recursos/imagenes/youtube.png" alt="YouTube"></a>
             </div>
-
             <p class="footer-copy">© 2026 InfoTek. Todos los derechos reservados.</p>
-
         </div>
     </footer>
 
-    <!-- SCRIPT PRINCIPAL COMO MÓDULO -->
     <script type="module" src="../scripts/cargarProductos.js"></script>
     <script src="../scripts/autenticacion.js"></script>
     <script src="../libs/apexcharts.js"></script>
-
-
+    <script src="../scripts/buscador.js"></script> 
+    <script type="module" src="../scripts/navegacionCarrito.js"></script>
+    <script src="../scripts/ofertas.js"></script>
 </body>
 </html>

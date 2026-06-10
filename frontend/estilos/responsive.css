@@ -1,0 +1,133 @@
+/* ============================
+   BREAKPOINTS GLOBALES
+============================ */
+
+/* MÓVIL PEQUEÑO (≤ 480px) */
+@media (max-width: 480px) {
+    :root {
+        --font-base: 14px;
+    }
+
+    .layout-tienda {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .filtro-lateral {
+        width: 100%;
+        position: relative;
+        max-height: fit-content;
+    }
+
+    .grid-productos {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .header-contenido {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buscador {
+        width: 100%;
+    }
+}
+
+/* MÓVIL ESTÁNDAR (≤ 768px) */
+@media (max-width: 768px) {
+    :root {
+        --font-base: 15px;
+    }
+
+    .layout-tienda {
+        flex-direction: column;
+    }
+
+    .filtro-lateral {
+        width: 100%;
+        position: relative;
+        max-height: fit-content;
+    }
+
+    .grid-productos {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .producto-detalle {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-layout {
+        flex-direction: column;
+    }
+}
+
+/* TABLET (≤ 1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --font-base: 16px;
+    }
+
+    .header-contenido {
+        gap: 15px;
+    }
+
+    .grid-productos {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .producto-detalle {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filtro-lateral {
+        position: sticky;
+        top: 80px;
+    }
+}
+
+/* MEDIA VENTANA / BUSCADOR (≤ 1280px) */
+@media (max-width: 1280px) {
+    .header-contenido {
+        width: 95%;
+    }
+
+    .grid-productos {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .producto-card {
+        min-height: 360px;
+    }
+}
+
+/* ESCRITORIO ESTÁNDAR (≥ 1281px) */
+@media (min-width: 1281px) {
+    .grid-productos {
+        grid-template-columns: repeat(4, minmax(250px, 1fr));
+    }
+}
+
+/* TV / PANTALLAS GRANDES (≥ 1920px) */
+@media (min-width: 1920px) {
+    body {
+        font-size: 18px;
+    }
+
+    .contenedor,
+    .checkout-layout,
+    .producto-detalle {
+        max-width: 1800px;
+        margin: auto;
+    }
+
+    .grid-productos {
+        grid-template-columns: repeat(5, minmax(260px, 1fr));
+        gap: 50px;
+    }
+
+    .producto-card {
+        transform: scale(1.05);
+    }
+}

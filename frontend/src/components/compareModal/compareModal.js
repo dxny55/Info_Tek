@@ -27,36 +27,30 @@ function injectModalHTML() {
 }
 
 // ===============================
-// 2. GENERAR TABLA DE COMPARACIÓN
+// TABLA DE COMPARACIÓN
 // ===============================
+
 function generarTabla(productos) {
-    // Recolectamos todas las llaves de especificaciones de todos los productos
-    const todasLasKeys = new Set();
-    productos.forEach(p => {
-        if (p.especificaciones) {
-            Object.keys(p.especificaciones).forEach(k => todasLasKeys.add(k));
-        }
-    });
 
     let html = `
     <table class="comparativa-tabla">
         <thead>
             <tr>
                 <th>Característica</th>
-                ${productos.map(p => `<th>${p.nombreCorto || p.nombre}</th>`).join("")}
+                ${productos.map(p => `<th>${p.nombreCorto}</th>`).join("")}
             </tr>
         </thead>
         <tbody>
+
             <tr>
                 <td>Imagen</td>
-                ${productos.map(p => {
-                    const imgRuta = p.imagenes?.[0] ? "../" + p.imagenes[0].replace("frontend/", "") : "../recursos/imagenes/placeholder.png";
-                    return `<td><img class="comparativa-img" src="${imgRuta}"></td>`;
-                }).join("")}
+                ${productos.map(p => `
+                    <td><img class="comparativa-img" src="../${p.imagenes[0]}"></td>
+                `).join("")}
             </tr>
             <tr>
-                <td>Precio Actual</td>
-                ${productos.map(p => `<td class="precio-destacado">${p.precio} €</td>`).join("")}
+                <td>Precio</td>
+                ${productos.map(p => `<td>${p.precio} €</td>`).join("")}
             </tr>
             <tr>
                 <td>Stock</td>
@@ -68,12 +62,17 @@ function generarTabla(productos) {
             </tr>
     `;
 
-    // Filas de especificaciones dinámicas
-    todasLasKeys.forEach(key => {
+    // ESPECIFICACIONES REALES
+    const keys = new Set();
+    productos.forEach(p => {
+        Object.keys(p.especificaciones).forEach(k => keys.add(k));
+    });
+
+    keys.forEach(key => {
         html += `
         <tr>
-            <td class="spec-label">${key}</td>
-            ${productos.map(p => `<td>${p.especificaciones?.[key] || "-"}</td>`).join("")}
+            <td>${key}</td>
+            ${productos.map(p => `<td>${p.especificaciones[key] || "-"}</td>`).join("")}
         </tr>
         `;
     });
@@ -85,6 +84,7 @@ function generarTabla(productos) {
 // ===============================
 // 3. GRÁFICA COMPARATIVA (APEXCHARTS)
 // ===============================
+
 let grafica = null;
 
 function generarGraficaComparativa(productos) {
@@ -97,27 +97,31 @@ function generarGraficaComparativa(productos) {
     const categoriasX = productos[0]?.historialPrecios?.map(h => h.fecha) || ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
 
     const opciones = {
-        chart: {
-            type: "line",
-            height: 350,
-            fontFamily: 'Arial, sans-serif',
-            toolbar: { show: true }
-        },
-        colors: ['#191970', '#ce4646', '#2f7920', '#47463a'],
-        stroke: { curve: 'smooth', width: 3 },
-        series: productos.map(p => ({
-            name: p.nombreCorto || p.nombre,
-            data: p.historialPrecios ? p.historialPrecios.map(h => h.precio) : (p.precios || [])
-        })),
-        xaxis: {
-            categories: categoriasX,
-            title: { text: 'Historial de Tiempo' }
-        },
-        yaxis: {
-            title: { text: 'Precio (€)' }
-        },
-        tooltip: { shared: true, intersect: false }
-    };
+    chart: {
+        type: "line",
+        height: 300,
+        toolbar: {
+            show: true,
+            tools: {
+                download: false,
+                selection: false,
+                zoom: false,
+                zoomin: true,
+                zoomout: true,
+                pan: false,
+                reset: false
+            }
+        }
+    },
+    series: productos.map(p => ({
+        name: p.nombreCorto,
+        data: p.historialPrecios.map(h => h.precio || null)
+    })),
+    xaxis: {
+        categories: productos[0].historialPrecios.map(h => h.fecha)
+    }
+};
+
 
     grafica = new ApexCharts(contenedor, opciones);
     grafica.render();
@@ -127,6 +131,7 @@ function generarGraficaComparativa(productos) {
 // ===============================
 // 4. INICIALIZAR E INTERFAZ
 // ===============================
+
 export function initCompareModal() {
     injectModalHTML();
 
@@ -156,7 +161,8 @@ export function initCompareModal() {
             // 1. Generar la tabla
             tablaContenedor.innerHTML = generarTabla(productos);
 
-            // 2. Mostrar el modal (necesario antes de renderizar la gráfica para que tome el ancho)
+            generarGraficaComparativa(productos);
+
             modal.style.display = "flex";
 
             // 3. Generar la gráfica con ApexCharts

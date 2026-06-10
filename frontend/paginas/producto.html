@@ -10,39 +10,40 @@
 
     <!-- CSS de la página de producto -->
     <link rel="stylesheet" href="../estilos/producto.css">
+    <link rel="stylesheet" href="../estilos/responsive.css">
 
-    <!-- CHART.JS (DEBE IR ANTES QUE TU SCRIPT) -->
+    <!-- CHART.JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- NAVBAR COPIADA DEL INDEX -->
+    <!-- NAVBAR -->
     <header class="header">
         <div class="header-contenido">
 
-            <div class="header-logo">
-                <img src="../recursos/imagenes/logo.png" alt="InfoTek">
-                <h1>InfoTek</h1>
-            </div>
+            <a href="index.html" class="header-logo">
+    <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+    <h1>InfoTek</h1>
+</a>
 
             <input type="text" class="buscador" placeholder="Buscar componentes...">
+            <div class="buscador-sugerencias"></div>
 
             <div class="header-usuario">
+    <button class="btn-icon" id="btn-comparar-final">
+        <img src="../recursos/imagenes/comparar.png" alt="comparar">
+    </button>
 
-                <button class="btn-icon" id="btn-comparar-final">
-                    <img src="../recursos/imagenes/comparar.png" alt="comparar">
-                </button>
+    <button class="btn-icon" id="btn-carrito-nav" onclick="window.location.href='../paginas/carrito.html'">
+        <img src="../recursos/imagenes/carrito.png" alt="carrito">
+        <span id="carrito-count" class="carrito-count">0</span>
+    </button>
 
-                <button class="btn-icon">
-                    <img src="../recursos/imagenes/carrito.png" alt="carrito">
-                </button>
-
-                <button class="btn-icon" id="btn-cuenta">
-                    <img src="../recursos/imagenes/usuario.png" alt="usuario">
-                </button>
-
-            </div>
+    <button class="btn-icon" id="btn-cuenta" onclick="window.location.href='../paginas/account.html'">
+        <img src="../recursos/imagenes/usuario.png" alt="usuario">
+    </button>
+</div>
 
         </div>
     </header>
@@ -52,20 +53,14 @@
 
         <div class="producto-detalle">
 
-            <!-- GALERÍA DE IMÁGENES -->
+            <!-- GALERÍA -->
             <section class="producto-imagen">
-                <div class="galeria-columnas">
-
-                    <!-- Miniaturas (se llenan con JS) -->
-                    <div id="miniaturas" class="miniaturas-columna"></div>
-
-                    <!-- Imagen principal -->
-                    <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
-
-                </div>
+                <img id="producto-imagen" src="../recursos/imagenes/placeholder.png" alt="Producto">
+                <div id="miniaturas" class="miniaturas-fila"></div>
             </section>
 
-            <section class="producto-info">
+            <!-- INFORMACIÓN PRINCIPAL -->
+            <section class="producto-info"> 
                 <h1 id="producto-nombre" class="producto-titulo">Nombre del producto</h1>
 
                 <div class="producto-precio">
@@ -74,18 +69,15 @@
                     <span id="producto-descuento" class="descuento">-0%</span>
                 </div>
 
-                <div class="producto-rating">
-                    ⭐ <span id="producto-rating">0.0</span> / 5
-                </div>
+                <div class="producto-rating" id="producto-rating">
+    </div>
 
                 <p id="producto-stock" class="producto-stock">Stock disponible: 0 unidades</p>
-
-                <h3>Especificaciones</h3>
-                <ul id="producto-especificaciones" class="producto-especificaciones"></ul>
 
                 <button id="btn-carrito" class="btn">Añadir al carrito</button>
             </section>
 
+            <!-- CAJA DE COMPRA -->
             <section class="producto-extra">
                 <div class="extra-box">
                     <h3>Información de compra</h3>
@@ -97,7 +89,10 @@
                 </div>
             </section>
 
-        </div> <section class="grafica-precio">
+        </div>
+
+        <!-- GRÁFICA -->
+        <section class="grafica-precio">
             <h2>Tendencia de precio</h2>
 
             <div id="contenedor-grafica" class="grafica-placeholder">
@@ -111,22 +106,43 @@
             </div>
         </section>
 
-        <section class="especificaciones-box">
+
+        <!-- SECCIÓN ESPECIFICACIONES -->
+        <section class="contenedor especificaciones-box">
             <h2>Especificaciones del producto</h2>
-            <ul id="producto-especificaciones" class="producto-especificaciones">
-                </ul>
+            <ul id="producto-especificaciones" class="producto-especificaciones"></ul>
         </section>
 
     </main>
 
-    <script type="module">
-        import { cargarNav } from "../src/components/nav/navBar.js";
-        cargarNav();
-    </script>
+        <footer class="footer">
+        <div class="footer-contenido">
+            <div class="footer-links">
+                <a href="legal.html?tipo=terminos">Términos y Condiciones</a>
+                <a href="legal.html?tipo=privacidad">Política de Privacidad</a>
+                <a href="legal.html?tipo=cookies">Política de Cookies</a>
+                <a href="legal.html?tipo=envio">Política de Envío</a>
+                <a href="legal.html?tipo=aviso">Aviso Legal sobre Pagos</a>
+            </div>
 
-    <!-- SCRIPT PRINCIPAL DEL PRODUCTO (DEBE IR DESPUÉS DE CHART.JS) -->
+            <div class="footer-redes">
+                <a href="#" class="red"><img src="../recursos/imagenes/facebook.png" alt="Facebook"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/twitter.png" alt="Twitter"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/instagram.png" alt="Instagram"></a>
+                <a href="#" class="red"><img src="../recursos/imagenes/youtube.png" alt="YouTube"></a>
+            </div>
+
+        </section>
+
+    <script src="../scripts/productosGlobales.js"></script>
+    <script src="../scripts/buscador.js"></script>
+    <script type="module" src="../scripts/cargarProductos.js"></script>
+    <script src="../scripts/autenticacion.js"></script>
     <script src="../scripts/producto.js"></script>
     <script src="../libs/apexcharts.js"></script>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
 
 </body>
 </html>

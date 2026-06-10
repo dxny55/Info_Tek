@@ -1,12 +1,6 @@
-/* RESET GENERAL */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Color dinámico del usuario */
-/* Fondo dinámico + color dinámico SOLO fuera de las cards */
+/* ==========================================================================
+   ESTILOS GENERALES
+   ========================================================================== */
 :root {
     --color-fondo: linear-gradient(to bottom right, #f5f6fa, #000000);
     --color-texto: #000000;
@@ -16,115 +10,105 @@ body {
     background: var(--color-fondo);
     color: var(--color-texto);
     background-attachment: fixed;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-
-body {
-    background: var(--color-fondo);
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+.contenedor {
+    max-width: fill;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 10px;
 }
 
-
-
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* ------------------------------
-   HEADER
------------------------------- */
-
+/* ==========================================================================
+   HEADER Y ELEMENTOS DE NAVEGACIÓN
+   ========================================================================== */
 .header {
     width: 100%;
     background: linear-gradient(135deg, #191970, #000000);
     padding: 12px 0;
-    color: #F5F5F5;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
-/* Contenedor interno */
 .header-contenido {
-    width: 92%;
-    max-width: 1400px;
-    margin: 0 auto;
-
+    width: 100%;
+    padding: 0 50px;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px; 
-    padding-right: 20px;
+    gap: 40px;
+    box-sizing: border-box;
 }
 
-/* Logo */
 .header-logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-left: -15%;
-    margin-right: 5%;
 }
 
 .header-logo img {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
+    width: 55px;
+    height: 55px;
 }
 
-/* Buscador */
+.header-logo h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    color: white;
+}
+
+.header-usuario {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+/* Buscador centrado expansivo */
 .buscador {
     flex: 1;
-    padding: 10px 14px;
+    width: 100%;
+    max-width: none;
+    margin-right: 10px;
+    padding: 12px 16px;
     border-radius: 6px;
     border: none;
     outline: none;
     font-size: 1rem;
-    margin-right: 15%;
-    margin-left: 10%;
+    box-sizing: border-box;
 }
 
-/* Usuario + botones */
-.header-usuario {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    white-space: nowrap;
-    margin-right:-15%;
-    
+.buscador:focus {
+    box-shadow: 0 0 5px #191970;
 }
 
-/* ------------------------------
-   BOTONES DE ICONOS (UNIFICADOS)
------------------------------- */
-
+/* Botones de Iconos e Interactividad */
 .btn-icon {
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    margin-left: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 40px;
-    height: 40px;
+    position: relative; /* Esencial para el posicionamiento absoluto del contador */
 }
 
 .btn-icon img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: brightness(0) invert(1); /* Iconos blancos */
+    filter: brightness(0) invert(1);
     transition: 0.2s ease;
 }
 
@@ -133,48 +117,154 @@ html, body {
     filter: brightness(0.8) invert(1);
 }
 
+/* 🌟 NUEVO: Burbuja flotante de notificación para el Carrito */
+.carrito-count {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background-color: #ff3b30;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 1px 5px;
+    min-width: 14px;
+    height: 14px;
+    display: none; /* Controlado dinámicamente mediante JS (flex/none) */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL Y FILTRO LATERAL
+   ========================================================================== */
+.layout-tienda {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: fill;
+}
+
+.filtro-lateral {
+    width: 250px;
+    min-width: 240px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.filtro-lateral::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filtro-lateral::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 3px;
+}
+
+.filtro-bloque {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.filtro-bloque h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #191970;
+}
+
+.filtro-busqueda,
+.input-precio {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.filtro-rango-precio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filtro-bloque label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-ver-mas {
+    background: none;
+    border: none;
+    color: #191970;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.filtro-ofertas {
+    background: #f0f2ff;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.descuento-badge {
+    background: #ff4444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#btn-limpiar-filtros {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #5353b6, #3116c7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+#btn-limpiar-filtros:hover {
+    background: linear-gradient(135deg, #191970, #000000);
+}
+
+/* ==========================================================================
+   ZONA DE EXHIBICIÓN DE PRODUCTOS (GRID)
+   ========================================================================== */
+.zona-productos {
+    flex: 1;
+}
+
+.productos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .titulo-seccion {
     font-size: 1.8rem;
     font-weight: 800;
     color: #191970;
-    margin: 40px 40px 15px 40px;
-}
-
-/* ------------BOTONES DE CATEGORÍAS------------ */
-
-.categorias {
-    display: flex;
-    gap: 10px;
-    margin: 0 40px 40px 40px;
-}
-
-.categoria-btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: 2px solid #191970;
-    background: #F5F5F5;
-    color: #191970;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.25s ease;
-}
-
-.categoria-btn.activo,
-.categoria-btn:hover {
-    background: #191970;
-    color: #F5F5F5;
-    transform: translateY(-2px);
-}
-
-/* ------------PRODUCTOS------------ */
-
-
-.productos-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    margin-bottom: 20px;
 }
 
 .contador {
@@ -182,32 +272,42 @@ html, body {
     font-weight: bold;
     color: #191970;
 }
+
 .grid-productos {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 25px;
-    padding: 0 40px;
 }
 
+/* Animación de vuelo hacia la cesta de la compra */
+.fly-img {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    z-index: 9999;
+    transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease-out;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 .footer {
     margin-top: 60px;
     padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.4); /* semitransparente para que combine con el fondo */
-    backdrop-filter: blur(4px);
-    text-align: center;
+    background: #adadad2a;
     color: white;
-}
-
-.footer-contenido {
-    max-width: 1200px;
-    margin: auto;
+    text-align: center;
+    border-radius: 1%;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 25px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
@@ -215,24 +315,16 @@ html, body {
     color: white;
     text-decoration: none;
     font-size: 0.95rem;
-    transition: 0.2s;
 }
 
 .footer-links a:hover {
     text-decoration: underline;
 }
 
-.footer-redes {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
 .footer-redes img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) invert(1); /* iconos blancos */
+    filter: brightness(0) invert(1);
     transition: 0.2s;
 }
 
@@ -243,28 +335,4 @@ html, body {
 .footer-copy {
     font-size: 0.85rem;
     opacity: 0.8;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .footer-links {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex: 1;
 }

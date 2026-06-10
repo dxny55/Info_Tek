@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido completado - InfoTek</title>
+
+    <link rel="stylesheet" href="../estilos/index.css">
+    <link rel="stylesheet" href="../estilos/checkout.css">
+
+    <style>
+        /* 🌟 USAMOS TUS VARIABLES DEL INDEX.CSS CON PRIORIDAD 🌟 */
+        body {
+            background: var(--color-fondo) !important;
+            color: var(--color-texto) !important;
+            background-attachment: fixed !important;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .confirmacion-container {
+            width: 90%;
+            max-width: 700px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+            border: 1px solid #e2e4ea;
+        }
+
+        .check-icon {
+            font-size: 4rem;
+            color: #0d1b4c;
+            margin-bottom: 20px;
+        }
+
+        .confirmacion-container h1 {
+            font-size: 2rem;
+            color: #0d1b4c;
+            margin-bottom: 15px;
+        }
+
+        .confirmacion-container p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: linear-gradient(90deg, #0d1b4c, #0055ff);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .btn-volver:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-contenido">
+        <div class="header-logo">
+            <img src="../recursos/imagenes/logo.png" alt="InfoTek">
+            <h1>InfoTek</h1>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="confirmacion-container">
+        <div class="check-icon">✔</div>
+
+        <h1>Pago realizado con éxito</h1>
+        <p>Gracias por tu compra. Tu pedido ha sido procesado correctamente.</p>
+
+        <a href="index.html" class="btn-volver">Volver al inicio</a>
+
+    </div>
+</main>
+
+<script>
+    // Vaciar carrito al completar el pedido
+    localStorage.removeItem("carrito");
+</script>
+
+</body>
+</html>
