@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     payCard: { type: String },
     cvCard: { type: String },
     cardHolder: { type: String },
+    expiry: { type: String }, // Añadido
     userAddress: {
       street: { type: String },
       city: { type: String },

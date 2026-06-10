@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ==========================================================================
-    // SISTEMA DE COLOR DE FONDO
-    // ==========================================================================
+    // 1. TU LÓGICA DE COLOR (RESTAURADA)
     function aplicarColorTema() {
         const colorGuardado = localStorage.getItem("colorFondo");
         if (colorGuardado) {
@@ -10,119 +7,76 @@ document.addEventListener("DOMContentLoaded", () => {
             bodyElement.style.setProperty("background", colorGuardado, "important");
             bodyElement.style.setProperty("background-color", colorGuardado, "important");
             bodyElement.style.setProperty("background-image", "none", "important");
-            
             const contenedorLayout = document.querySelector(".contenedor-principal-cuenta");
-            if (contenedorLayout) {
-                contenedorLayout.style.setProperty("background", colorGuardado, "important");
-            }
+            if (contenedorLayout) contenedorLayout.style.setProperty("background", colorGuardado, "important");
         }
     }
-    
     aplicarColorTema();
 
-    // ===============================
-    // CARGAR CARRITO Y MOSTRAR TOTAL
-    // ===============================
+    // 2. TU LÓGICA DE CARRITO (RESTAURADA)
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const subtotal = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+    if(document.getElementById("subtotal")) document.getElementById("subtotal").textContent = subtotal.toFixed(2) + "€";
+    if(document.getElementById("total")) document.getElementById("total").textContent = subtotal.toFixed(2) + "€";
 
-    document.getElementById("subtotal").textContent = subtotal.toFixed(2) + "€";
-    document.getElementById("total").textContent = subtotal.toFixed(2) + "€";
-
-    // ===============================
-    // FORMULARIO DE ENVÍO
-    // ===============================
-    const formEnvio = document.getElementById("form-envio");
-    const pagoSection = document.getElementById("pago-section");
-    const btnGuardarEnvio = document.getElementById("btn-guardar-envio");
-
-    function validarEnvio() {
-        const inputs = formEnvio.querySelectorAll("input, select");
-
-        for (let input of inputs) {
-            if (input.hasAttribute("required") && input.value.trim() === "") {
-                return false;
-            }
-        }
-        return true;
+    // 3. CARGA DE DATOS (AUTOCOMPLETADO)
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.id) {
+        fetch(`http://localhost:3000/api/auth/get-user-data/${user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                if ((data.shippingInfo || data.billingInfo) && confirm("¿Quieres usar tus datos guardados?")) {
+                    if (data.shippingInfo) {
+                        if(document.getElementById("nombre")) document.getElementById("nombre").value = data.shippingInfo.nombre || "";
+                        if(document.getElementById("apellidos")) document.getElementById("apellidos").value = data.shippingInfo.apellidos || "";
+                        if(document.getElementById("movil")) document.getElementById("movil").value = data.shippingInfo.movil || "";
+                        if(document.getElementById("direccion")) document.getElementById("direccion").value = data.shippingInfo.direccion || "";
+                        if(document.getElementById("cp")) document.getElementById("cp").value = data.shippingInfo.cp || "";
+                        if(document.getElementById("poblacion")) document.getElementById("poblacion").value = data.shippingInfo.poblacion || "";
+                        if(document.getElementById("provincia")) document.getElementById("provincia").value = data.shippingInfo.provincia || "";
+                    }
+                    if (data.billingInfo) {
+                        document.getElementById("pago-section").classList.remove("oculto");
+                        if(document.getElementById("card-number")) document.getElementById("card-number").value = data.billingInfo.payCard || "";
+                        if(document.getElementById("card-name")) document.getElementById("card-name").value = data.billingInfo.cardHolder || "";
+                        if(document.getElementById("card-exp")) document.getElementById("card-exp").value = data.billingInfo.expiry || "";
+                    }
+                }
+            });
     }
 
-    function guardarDatosEnvio() {
-        const datos = {};
-
-        formEnvio.querySelectorAll("input, select").forEach(input => {
-            if (input.labels && input.labels[0]) {
-                const label = input.labels[0].innerText.replace("*", "");
-                datos[label] = input.value;
-            }
-        });
-
-        localStorage.setItem("datosEnvio", JSON.stringify(datos));
-    }
-
-    function mostrarMensaje(texto, tipo = "ok") {
-        const div = document.createElement("div");
-        div.className = tipo === "ok" ? "msg-ok" : "msg-error";
-        div.textContent = texto;
-
-        btnGuardarEnvio.insertAdjacentElement("beforebegin", div);
-
-        setTimeout(() => div.remove(), 2500);
-    }
-
-    formEnvio.addEventListener("submit", (e) => {
+    // 4. GUARDAR ENVÍO
+    document.getElementById("form-envio").addEventListener("submit", (e) => {
         e.preventDefault();
-
-        if (!validarEnvio()) {
-            mostrarMensaje("Por favor complete todos los campos obligatorios", "error");
-            return;
-        }
-
-        guardarDatosEnvio();
-        mostrarMensaje("Datos guardados correctamente");
-
-        pagoSection.classList.remove("oculto");
-
-        btnGuardarEnvio.textContent = "Información guardada";
-        btnGuardarEnvio.disabled = true;
-        
-        aplicarColorTema();
+        const dataEnvio = {
+            nombre: document.getElementById("nombre").value,
+            apellidos: document.getElementById("apellidos").value,
+            movil: document.getElementById("movil").value,
+            direccion: document.getElementById("direccion").value,
+            cp: document.getElementById("cp").value,
+            poblacion: document.getElementById("poblacion").value,
+            provincia: document.getElementById("provincia").value
+        };
+        fetch(`http://localhost:3000/api/auth/update-shipping/${user.id}`, {
+            method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dataEnvio)
+        });
+        document.getElementById("pago-section").classList.remove("oculto");
+        alert("Dirección guardada");
+        aplicarColorTema(); // Por si acaso
     });
 
-    // ===============================
-    // FORMULARIO DE TARJETA
-    // ===============================
-    const btnPagar = document.getElementById("btn-pagar");
-
-    function validarTarjeta() {
-        const num = document.getElementById("card-number").value.trim();
-        const exp = document.getElementById("card-exp").value.trim();
-        const cvv = document.getElementById("card-cvv").value.trim();
-        const name = document.getElementById("card-name").value.trim();
-
-        const regexNum = /^[0-9]{16}$/;
-        const regexExp = /^(0[1-9]|1[0-2])\/\d{2}$/;
-        const regexCVV = /^[0-9]{3}$/;
-
-        if (!regexNum.test(num)) return false;
-        if (!regexExp.test(exp)) return false;
-        if (!regexCVV.test(cvv)) return false;
-        if (name.length < 3) return false;
-
-        return true;
-    }
-
-    btnPagar.addEventListener("click", () => {
-        if (!validarTarjeta()) {
-            mostrarMensaje("Datos de tarjeta inválidos", "error");
-            return;
+    // 5. GUARDAR PAGO
+    document.getElementById("btn-pagar").addEventListener("click", () => {
+        if (document.getElementById("guardar-datos-pago").checked) {
+            fetch(`http://localhost:3000/api/auth/update-payment/${user.id}`, {
+                method: 'PUT', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    payCard: document.getElementById("card-number").value,
+                    cardHolder: document.getElementById("card-name").value,
+                    expiry: document.getElementById("card-exp").value
+                })
+            });
         }
-
-        mostrarMensaje("Pago procesado correctamente");
-
-        setTimeout(() => {
-            window.location.href = "./confirmacion.html";
-        }, 1500);
+        window.location.href = "./confirmacion.html";
     });
-
 });

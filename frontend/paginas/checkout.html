@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../estilos/checkout.css">
     <link rel="stylesheet" href="../estilos/responsive.css">
     
-    <script src="../scripts/account.js" defer></script>
+    <script src="../scripts/checkout.js" defer></script>
 </head>
 
 <body id="cuerpo-pagina">
@@ -41,16 +41,15 @@
         <h2 class="box-title">📦 Dirección de envío</h2>
 
         <form id="form-envio">
-
             <div class="form-grid-2">
                 <div class="form-grupo">
                     <label>Nombre*</label>
-                    <input type="text" required>
+                    <input type="text" id="nombre" required>
                 </div>
 
                 <div class="form-grupo">
                     <label>Apellidos*</label>
-                    <input type="text" required>
+                    <input type="text" id="apellidos" required>
                 </div>
             </div>
 
@@ -64,35 +63,35 @@
 
                 <div class="form-grupo">
                     <label>Móvil*</label>
-                    <input type="tel" placeholder="+34 600 000 000" required>
+                    <input type="tel" id="movil" placeholder="+34 600 000 000" required>
                 </div>
             </div>
 
             <div class="form-grupo">
                 <label>Dirección y número*</label>
-                <input type="text" placeholder="Ej. Calle de Cavanilles, 35" required>
+                <input type="text" id="direccion" placeholder="Ej. Calle de Cavanilles, 35" required>
             </div>
 
             <div class="form-grupo">
                 <label>Datos adicionales</label>
-                <input type="text" placeholder="Piso, puerta, barrio…">
+                <input type="text" id="adicional" placeholder="Piso, puerta, barrio…">
             </div>
 
             <div class="form-grid-2">
                 <div class="form-grupo">
                     <label>Código postal*</label>
-                    <input type="text" required>
+                    <input type="text" id="cp" required>
                 </div>
 
                 <div class="form-grupo">
                     <label>Población*</label>
-                    <input type="text" required>
+                    <input type="text" id="poblacion" required>
                 </div>
             </div>
 
             <div class="form-grupo">
                 <label>Provincia*</label>
-                <input type="text" required>
+                <input type="text" id="provincia" required>
             </div>
 
             <button class="btn-finalizar" type="submit" id="btn-guardar-envio">
@@ -100,9 +99,7 @@
             </button>
         </form>
 
-
         <section id="pago-section" class="pago-section oculto">
-
             <h2 class="box-title">💳 Método de pago</h2>
 
             <div class="form-grupo">
@@ -127,30 +124,29 @@
                 <input type="text" id="card-name" placeholder="Nombre del titular">
             </div>
 
-            <button id="btn-pagar" class="btn-finalizar">Pagar ahora</button>
+            <div class="form-grupo">
+                <label>
+                    <input type="checkbox" id="guardar-datos-pago"> Guardar datos para futuras compras
+                </label>
+            </div>
 
+            <button id="btn-pagar" class="btn-finalizar">Pagar ahora</button>
         </section>
-        </section>
+    </section>
 
     <aside class="checkout-resumen">
         <h3>Resumen del pedido</h3>
-
         <div class="resumen-linea">
             <span>Subtotal artículos</span>
             <span id="subtotal">0€</span>
         </div>
-
         <div class="resumen-linea total">
             <span>Total (IVA incluido)</span>
             <span id="total">0€</span>
         </div>
-
-        <button class="btn-pagar">Proceder al pago</button>
+        <button class="btn-pagar" disabled>Proceder al pago</button>
     </aside>
-
 </main>
-
-<script src="../scripts/checkout.js"></script>
 
 </body>
 </html>
